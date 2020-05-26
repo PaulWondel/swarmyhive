@@ -1,3 +1,8 @@
 
 worlds/.empty.wbproj
 worlds/empty.wbt
+communication/libraries
+communication/controllers
+communication/protos
+communication/plugins
+communication/worlds
