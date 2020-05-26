@@ -6,3 +6,4 @@ communication/controllers
 communication/protos
 communication/plugins
 communication/worlds
+controllers/GPS4wheeler/build/release
