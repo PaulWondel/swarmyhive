@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.1629149964739175 0.9758359418166577 0.14561221989482917 1.4830882839318156
-  position 3.1824005311111065 1.3235660301804129 2.000732597637854
+  orientation -0.6910320566481368 0.6829390627528465 0.23678879460588864 0.9300814746696191
+  position 2.2839735241119783 1.3879486481374523 3.1268765405437744
 }
 TexturedBackground {
 }
@@ -647,8 +647,9 @@ Wall {
   size 0.25 0.25 0.01
 }
 Robot {
-  translation 0.224465 0.05 1.8828
+  translation 0.224465 0.24 1.8828
   rotation 0 1 0 1.66201
+  scale 0.430866 0.430866 0.430866
   children [
     GPS {
       children [
@@ -664,6 +665,7 @@ Robot {
               geometry Cone {
                 bottomRadius 0.03
                 height 0.06
+                subdivision 36
               }
             }
           ]
@@ -791,6 +793,39 @@ Robot {
         }
       ]
       name "ds_right"
+    }
+    DEF DS_F_RIGHT DistanceSensor {
+      translation 0.05 0 0.001
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_f_right"
+    }
+    DEF DS_F_LEFT DistanceSensor {
+      translation -0.05 0 0.00100015
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_f_left"
     }
     DEF DS_LEFT DistanceSensor {
       translation 0.03 0 0.1
