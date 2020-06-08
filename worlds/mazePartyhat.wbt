@@ -2,14 +2,14 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.6910320566481368 0.6829390627528465 0.23678879460588864 0.9300814746696191
-  position 2.2839735241119783 1.3879486481374523 3.1268765405437744
+  orientation -0.9999995796400587 -0.0006708911482031918 -0.0006249998186647655 1.5000004193070353
+  position 1.411886696149049 1.1108477184636631 2.0690254373737074
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-RectangleArena {
+DEF _ RectangleArena {
   translation 0.05 0 0
   floorSize 4 4
 }
@@ -646,9 +646,9 @@ Wall {
   name "wall(4)"
   size 0.25 0.25 0.01
 }
-Robot {
-  translation 0.224465 0.24 1.8828
-  rotation 0 1 0 1.66201
+DEF _ Robot {
+  translation 1.32938 0.05 1.89537
+  rotation -4.34551e-09 1 2.71147e-10 1.5708
   scale 0.430866 0.430866 0.430866
   children [
     GPS {
@@ -685,6 +685,7 @@ Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
+        position 55.10334446585208
         anchor 0.06 0 0.05
       }
       device [
@@ -694,7 +695,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.05
-        rotation 1.4973541021880187e-21 -7.486770510940092e-23 1 1.5707999999999995
+        rotation 0.5516442805225987 -0.5516463068281886 -0.6255996642658341 4.259650187203109
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -716,6 +717,7 @@ Robot {
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
+        position 670.3356908421805
         anchor -0.06 0 0.05
       }
       device [
@@ -725,7 +727,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.06 0 0.05
-        rotation -7.48677051094009e-23 1.497354102188018e-22 1 1.5708
+        rotation 0.6395440009502682 -0.6395463501300375 -0.4265723114360225 3.947993312748066
         children [
           USE WHEEL
         ]
@@ -737,6 +739,7 @@ Robot {
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
+        position 138.55975087448275
         anchor 0.06 0 -0.05
       }
       device [
@@ -746,7 +749,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.05
-        rotation 1.1978832817504148e-21 -2.994708204376037e-22 1 1.5707999999999998
+        rotation 0.1619254864669676 -0.1619260812533726 0.9734269777658527 1.5977292102936977
         children [
           USE WHEEL
         ]
@@ -758,6 +761,7 @@ Robot {
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
+        position 650.3658468807245
         anchor -0.06 0 -0.05
       }
       device [
@@ -767,7 +771,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.06 0 -0.05
-        rotation 0 0 1 1.5707999999999998
+        rotation -0.7069660264933011 0.7069686233283674 0.019859582409156234 3.101878855161035
         children [
           USE WHEEL
         ]
@@ -777,9 +781,9 @@ Robot {
         }
       }
     }
-    DEF DS_RIGHT DistanceSensor {
-      translation -0.03 0 0.1
-      rotation 0 1 0 -1.87079
+    DEF DS_FRONT DistanceSensor {
+      translation 0 0 0.1
+      rotation 0 -1 0 1.5708
       children [
         Shape {
           appearance PBRAppearance {
@@ -792,44 +796,15 @@ Robot {
           }
         }
       ]
-      name "ds_right"
-    }
-    DEF DS_F_RIGHT DistanceSensor {
-      translation 0.05 0 0.001
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.184314 0.596078 0.847059
-            roughness 1
-            metalness 0
-          }
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
+      name "ds_front"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
       ]
-      name "ds_f_right"
-    }
-    DEF DS_F_LEFT DistanceSensor {
-      translation -0.05 0 0.00100015
-      rotation 0 1 0 3.14159
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.184314 0.596078 0.847059
-            roughness 1
-            metalness 0
-          }
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ds_f_left"
     }
     DEF DS_LEFT DistanceSensor {
-      translation 0.03 0 0.1
-      rotation 0 1 0 -1.27079
+      translation 0.05 0 0.001
+      rotation 0 1 0 0.26180030610042526
       children [
         Shape {
           appearance PBRAppearance {
@@ -843,6 +818,73 @@ Robot {
         }
       ]
       name "ds_left"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+    DEF DS_LEFT_2 DistanceSensor {
+      translation 0.05 0 0.001
+      rotation 0 1 0 -0.2618
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_left_2"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+    DEF DS_RIGHT DistanceSensor {
+      translation -0.05 0 0.00100015
+      rotation 0 1 0 -2.7489003061004254
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+    DEF DS_RIGHT_2 DistanceSensor {
+      translation -0.05 0 0.00100015
+      rotation 0 1 0 2.7488996938995744
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right_2"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
     }
   ]
   boundingObject USE BODY
