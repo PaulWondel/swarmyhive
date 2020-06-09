@@ -2,14 +2,14 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.5894774958446571 0.6664083653007786 0.4565262013837278 4.562689078502056
-  position -0.9264094377039864 3.067287728197542 0.9951762514519722
+  orientation 0.5633847298031712 0.6122035974892958 0.5548012269685171 4.2540023886078275
+  position 0.03578703366251086 1.057742537615021 0.21107950008402143
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF _ RectangleArena {
+RectangleArena {
   translation 1 0 1
   floorSize 2 2
   floorTileSize 0.25 0.25
@@ -655,8 +655,8 @@ DEF WALLS Solid {
   ]
 }
 DEF botJr Robot {
-  translation 0.0625 0.01 0.0625
-  rotation 0 1 0 1.5708
+  translation 0.06849223377490232 0.010599364393730356 0.06865292587049904
+  rotation 0.999999999977496 -4.425050185693275e-06 -5.0424974932201436e-06 0.0009378785046469776
   children [
     DEF DS_FRONT DistanceSensor {
       translation 3.30588e-07 0.004 0.015
@@ -674,10 +674,6 @@ DEF botJr Robot {
         }
       ]
       name "ds_front"
-      lookupTable [
-        0 0 0
-        0.2 1000 0
-      ]
     }
     DEF DS_LEFT1 DistanceSensor {
       translation 0.012 0.004 0
@@ -695,10 +691,6 @@ DEF botJr Robot {
         }
       ]
       name "ds_left1"
-      lookupTable [
-        0 0 0
-        0.2 1000 0
-      ]
     }
     DEF DS_RIGHT1 DistanceSensor {
       translation -0.012 0.004 0
@@ -716,10 +708,6 @@ DEF botJr Robot {
         }
       ]
       name "ds_right1"
-      lookupTable [
-        0 0 0
-        0.2 1000 0
-      ]
     }
     DEF DS_RIGHT2 DistanceSensor {
       translation -0.012 0.004 0
@@ -737,10 +725,6 @@ DEF botJr Robot {
         }
       ]
       name "ds_right2"
-      lookupTable [
-        0 0 0
-        0.2 1000 0
-      ]
     }
     DEF DS_LEFT2 DistanceSensor {
       translation 0.012 0.004 0
@@ -758,10 +742,6 @@ DEF botJr Robot {
         }
       ]
       name "ds_left2"
-      lookupTable [
-        0 0 0
-        0.2 1000 0
-      ]
     }
     GPS {
       translation 0 -0.003 0.006
@@ -788,6 +768,7 @@ DEF botJr Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.111999848412745
         anchor 0.0141 -0.0048 0.007
       }
       device [
@@ -797,7 +778,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation 0.0141 -0.0048 0.007
-        rotation -5.102791118932087e-15 -2.2766298838312388e-15 1 1.5707999999998428
+        rotation 0.08517726411988308 -0.08517757699399818 -0.9927182954164203 4.705077026734609
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -816,18 +797,19 @@ DEF botJr Robot {
         }
       }
     }
-    DEF WHEEL4 HingeJoint {
+    DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
+        position -8.767999848935666
         anchor -0.0141 -0.0048 0.007
       }
       device [
         RotationalMotor {
-          name "wheel4"
+          name "wheel2"
         }
       ]
       endPoint Solid {
         translation -0.0141 -0.0048 0.007
-        rotation 2.8261612351008653e-15 -5.4168090339433255e-15 1 1.5707999999998308
+        rotation 0.6874350404271589 -0.6874375655215783 -0.23422779233617008 3.60175110303614
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -847,18 +829,19 @@ DEF botJr Robot {
         }
       }
     }
-    DEF WHEEL2 HingeJoint {
+    DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
+        position -8.767999859122922
         anchor 0.0141 -0.0048 -0.0075
       }
       device [
         RotationalMotor {
-          name "wheel2"
+          name "wheel3"
         }
       ]
       endPoint Solid {
         translation 0.0141 -0.0048 -0.0075
-        rotation -4.945782161426501e-15 1.0205582237864208e-15 1 1.5707999999998359
+        rotation 0.6874350410564198 -0.6874375661508448 -0.23422778864251179 3.601751096033052
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -878,18 +861,19 @@ DEF botJr Robot {
         }
       }
     }
-    DEF WHEEL3 HingeJoint {
+    DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.1119998586915
         anchor -0.0141 -0.0048 -0.0075
       }
       device [
         RotationalMotor {
-          name "wheel3"
+          name "wheel4"
         }
       ]
       endPoint Solid {
         translation -0.0141 -0.0048 -0.0075
-        rotation -7.850447875280236e-17 2.7476567563480824e-15 1 1.570799999999817
+        rotation 0.08517725905496022 -0.08517757192906451 -0.9927182962855844 4.705077027610153
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -926,4 +910,6 @@ DEF botJr Robot {
     mass 1
   }
   controller "GPS4wheeler"
+  linearVelocity 1.247280921226212e-10 6.530395978643495e-09 0.01200263337451529
+  angularVelocity 0.00024299892645510062 1.879036547615266e-08 -1.6206842045437584e-08
 }
