@@ -44,11 +44,12 @@ void adjustLeft() {
 int main(int argc, char **argv) {
   Robot *robot = new Robot();
   GPS *gp;
+  
   gp = robot->getGPS("global");
   gp->enable(TIME_STEP);
   
   DistanceSensor *ds[5];
-  char dsNames[5][11] = {"ds_front", "ds_right","ds_right_2", "ds_left", "ds_left_2" };
+  char dsNames[5][11] = {"ds_front", "ds_right1","ds_right2", "ds_left1", "ds_left2" };
   for (int i = 0; i < 5; i++) {
     ds[i] = robot->getDistanceSensor(dsNames[i]);
     ds[i]->enable(TIME_STEP);
@@ -97,10 +98,7 @@ int main(int argc, char **argv) {
     wheels[3]->setVelocity(rightSpeed2);
     
     //GPS PRINT COORDINATES
-    /*std::cout<<"X : "<<gp->getValues()[0]<<std::endl;
-    std::cout<<"Y : "<<gp->getValues()[1]<<std::endl;
-    std::cout<<"Z : "<<gp->getValues()[2]<<std::endl;
-    std::cout<<"##########################"<<std::endl;*/
+    std::cout<<"X : "<<fabs(round((gp->getValues()[0]-0.0624)/0.125))<<"  ||  Z : "<<fabs(round((gp->getValues()[2]-0.0624)/0.125))<<std::endl; 
   }
   delete robot;
   return 0;  // EXIT_SUCCESS

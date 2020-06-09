@@ -7,3 +7,4 @@ communication/protos
 communication/plugins
 communication/worlds
 controllers/GPS4wheeler/build/release
+controllers/my_controller/build/release/my_controller.d
