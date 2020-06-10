@@ -23,25 +23,46 @@ struct CoordinateWalls {
     
 };
 
-void botMovement(bool status){
-  if(!status){
-    wheels[0]->setVelocity(0.0);
-    wheels[1]->setVelocity(0.0);
-    wheels[2]->setVelocity(0.0);
-    wheels[3]->setVelocity(0.0);
+// void botMovement(bool status){
+  // if(!status){
+    // wheels[0]->setVelocity(0.0);
+    // wheels[1]->setVelocity(0.0);
+    // wheels[2]->setVelocity(0.0);
+    // wheels[3]->setVelocity(0.0);
+  // }
+   // else {
+    // wheels[0]->setVelocity(5.0);
+    // wheels[1]->setVelocity(5.0);
+    // wheels[2]->setVelocity(5.0);
+    // wheels[3]->setVelocity(5.0);
+  // }
+// }
+
+void botOrientation(double incomingAngle){
+
+  double UP = 1.5708;
+  double RIGHT = 0;
+  double DOWN = -1.5708;
+  double LEFT = 3.1415;
+  double margin = 0.157;
+  
+  //check if facing right
+  if(incomingAngle <= (RIGHT+margin) || incomingAngle >= (RIGHT-margin)) {
+  
+  rotation_field->setSFRotation(0,1,0,RIGHT);
+  //cout<<" new values: "<<endl;
+  
   }
-   else {
-    wheels[0]->setVelocity(5.0);
-    wheels[1]->setVelocity(5.0);
-    wheels[2]->setVelocity(5.0);
-    wheels[3]->setVelocity(5.0);
-  }
+  
+  
+
 }
 
 double leftSpeed1;
 double rightSpeed1;
 double leftSpeed2;
 double rightSpeed2;
+bool status = true;
 
 int main() {
   Supervisor *supervisor = new Supervisor();
@@ -68,6 +89,19 @@ int main() {
   Coordinates previousCoord = {0,0};
 
   while (supervisor->step(TIME_STEP) != -1) {
+  
+    if(!status){
+    wheels[0]->setVelocity(0.0);
+    wheels[1]->setVelocity(0.0);
+    wheels[2]->setVelocity(0.0);
+    wheels[3]->setVelocity(0.0);
+  }
+   else {
+    wheels[0]->setVelocity(5.0);
+    wheels[1]->setVelocity(5.0);
+    wheels[2]->setVelocity(5.0);
+    wheels[3]->setVelocity(5.0);
+  }
     // this is done repeatedly
     const double *trans_values = trans_field->getSFVec3f();
     const double *rotationValues = rotation_field->getSFRotation();
@@ -81,7 +115,11 @@ int main() {
     if((previousCoord.xCoordinate != currentCoord.xCoordinate ) || (previousCoord.zCoordinate != currentCoord.zCoordinate)){
      cout<<"we loopin "<<endl;
      previousCoord = currentCoord;
-     botMovement(false);
+     status = false;
+     cout<<"old angle: "<<botAngle<<endl;
+     botOrientation(botAngle);
+     cout<<"new angle: "<<botAngle<<endl;
+     
      //in here check all sensors for walls, add them to the struct, check which direction we are facing before saving
     }
     
