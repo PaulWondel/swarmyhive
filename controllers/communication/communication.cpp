@@ -1,15 +1,18 @@
 #include <webots/Supervisor.hpp>
 #include <webots/Emitter.hpp>
+#include <webots/Motor.hpp>
 
 #define TIME_STEP 32
 
 using namespace webots;
 
 int main() {
+
+  // Initialize Supervisor
   Supervisor *supervisor = new Supervisor();
   
   // Channel initialization
-  setChannel();
+  
 
   // do this once only
   Node *robot_node = supervisor->getFromDef("Testy");

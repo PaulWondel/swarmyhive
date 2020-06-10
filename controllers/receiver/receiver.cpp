@@ -1,4 +1,4 @@
-// File:          reciever.cpp
+// File:          receiver.cpp
 // Date:
 // Description:
 // Author:
