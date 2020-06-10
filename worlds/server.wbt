@@ -1,0 +1,18 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.2998645691374661 0.9126248821053868 0.2778435976194706 1.5637909135259338
+  position 1.2447204160622212 0.8174801141103155 -0.04552188229067705
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  name "Server"
+  description "Central System to connect with the Swarm "
+  supervisor TRUE
+}
