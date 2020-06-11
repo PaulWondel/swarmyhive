@@ -10,6 +10,13 @@ using namespace webots;
 using namespace std;
 
 //double pos[]; // value[x,y]
+const int distanceValue=40;
+
+struct Coordinates {
+  //current coordinate of the bot
+  double xCoordinate;
+  double zCoordinate;
+}slave;
 
 int main() {
 
@@ -46,23 +53,37 @@ int main() {
     double rightSpeed = 1.0;
     
     const double *values = trans_field->getSFVec3f();
-    //cout << "Slave is at position: " << values[0] << ' ' << ' ' << values[2] <<endl;
-    //double pos[]={values[0],values[2]};
-    cout << "E Channel "<<emitter->getChannel()<<endl;
-    
+    double position[2]={values[0],values[2]};
+    slave.xCoordinate=values[0];
+    slave.zCoordinate=values[2];
               
     if (avoidObstacleCounter > 0) {
       avoidObstacleCounter--;
       leftSpeed = 1.0;
       rightSpeed = -1.0;  
-      emitter->send(message,10);
-      //cout<<"Sending message: "<<message<<endl;
     } else { // read sensors
       for (int i = 0; i < 2; i++) {
         if (ds[i]->getValue() < 950.0)
-          avoidObstacleCounter = 100;
+          avoidObstacleCounter = distanceValue;
       }
     }
+    if(avoidObstacleCounter == distanceValue){
+      //emitter->send(message,sizeof(message));
+      //cout<<message<<endl;
+      
+      // Position X
+      //emitter->send(position,sizeof(position));
+      
+      // Position Y
+      //emitter->send(position+1,sizeof(position));
+      cout<<"X: "<<position[0]<<" "<<"Z: "<<position[1]<<endl;
+      
+      //cout << "Slave is at position: " << values[0] << ' ' << ' ' << values[2] <<endl;
+      
+      // Struct sending
+      emitter->send(&slave,sizeof(slave));
+    }
+    
     wheels[0]->setVelocity(leftSpeed);
     wheels[1]->setVelocity(rightSpeed);
     wheels[2]->setVelocity(leftSpeed);

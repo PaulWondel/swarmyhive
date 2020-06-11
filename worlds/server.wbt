@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.0689678331824937 -0.7350281888052973 -0.6745198289507256 3.300651786036268
-  position 0.055846785339083604 3.9994452174303596 -0.6485605158986225
+  orientation -0.0007613755617982603 -0.920205176209846 -0.3914356319803558 3.1535714931475964
+  position 0.05342055596942458 2.8892786578281 -2.6540991246902323
 }
 TexturedBackground {
 }
@@ -15,9 +15,12 @@ RectangleArena {
 }
 DEF Slave Robot {
   translation 0.018028492965251622 0.03972097669225482 0.03506532165475088
-  rotation 2.125067740211327e-08 0.9999999999999994 -2.240640775422252e-08 -1.4327542578207382
+  rotation -1.58971e-08 -1 2.18936e-08 1.69456
   children [
     DEF emitter Emitter {
+      type "serial"
+      channel 1
+      byteSize 128
     }
     GPS {
       children [
@@ -62,7 +65,7 @@ DEF Slave Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.05
-        rotation 0.5547376777768114 -0.5547397154466909 0.6201047951442684 2.031453102016718
+        rotation 0.5547376777768158 -0.5547397154466893 0.6201047951442656 2.031453102016706
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -80,8 +83,6 @@ DEF Slave Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.039619495537734126 2.2751397274470724e-08 0.005504159764049355
-        angularVelocity 0.13760402515686823 4.327734870122628e-09 0.9904873343766315
       }
     }
     DEF WHEEL2 HingeJoint {
@@ -96,7 +97,7 @@ DEF Slave Robot {
       ]
       endPoint Solid {
         translation -0.06 0 0.05
-        rotation -0.707104930154511 0.7071075275007089 -0.0012499212048650366 3.144092485515283
+        rotation -0.7071049301545164 0.7071075275007036 -0.0012499212048645242 3.1440924855152823
         children [
           USE WHEEL
         ]
@@ -104,8 +105,6 @@ DEF Slave Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.03961949342008725 1.6782282794010794e-08 0.0055041589957585775
-        angularVelocity 0.1376040250009504 4.413284995395073e-09 0.9904873342209283
       }
     }
     DEF WHEEL3 HingeJoint {
@@ -120,7 +119,7 @@ DEF Slave Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.05
-        rotation 0.5547493437054535 -0.5547513814181855 0.6200839221210172 2.0314832540321293
+        rotation 0.554749343705455 -0.5547513814181854 0.6200839221210158 2.0314832540321173
         children [
           USE WHEEL
         ]
@@ -128,8 +127,6 @@ DEF Slave Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.03961949331796997 2.409837893211328e-08 0.0055041630101563994
-        angularVelocity 0.13760402514798573 4.282071976708386e-09 0.9904873342368137
       }
     }
     DEF WHEEL4 HingeJoint {
@@ -144,7 +141,7 @@ DEF Slave Robot {
       ]
       endPoint Solid {
         translation -0.06 0 -0.05
-        rotation -0.707104949773253 0.7071075471195247 -0.0012275230239561638 3.144047689386755
+        rotation -0.7071049497732584 0.7071075471195192 -0.0012275230239567753 3.144047689386755
         children [
           USE WHEEL
         ]
@@ -152,8 +149,6 @@ DEF Slave Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.03961949120032313 1.812926494536162e-08 0.005504162241865742
-        angularVelocity 0.13760402499207214 4.3676322719600124e-09 0.9904873340811104
       }
     }
     DEF DS_RIGHT DistanceSensor {
@@ -198,15 +193,15 @@ DEF Slave Robot {
   }
   controller "communication"
   supervisor TRUE
-  linearVelocity -0.039619493370071694 2.0397605113420046e-08 0.005504161003158522
-  angularVelocity -4.8293896237779276e-08 -3.57136034578332e-08 2.0331096916620068e-08
 }
 DEF Central Robot {
   translation 0.8947100002160249 0.03972097929847811 0.8503569999802296
   rotation -4.5171866596594275e-08 0.9999999999999989 2.0616569517161785e-09 -3.0503753071793835
   children [
     DEF receiver Receiver {
+      type "serial"
       channel 1
+      byteSize 128
     }
     GPS {
       children [
@@ -251,7 +246,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.05
-        rotation -3.4773970576215906e-10 3.477409830838133e-10 1 1.570799999999999
+        rotation -1.129067205873733e-09 1.1290713531768162e-09 1 1.570799999999999
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -269,8 +264,6 @@ DEF Central Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 3.1898179022094317e-14 -9.612343401978893e-15 2.4068816544583796e-12
-        angularVelocity 6.413753944627992e-11 1.2067891651628253e-11 -5.859462806457177e-12
       }
     }
     DEF WHEEL2 HingeJoint {
@@ -285,7 +278,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation -0.06 0 0.05
-        rotation -2.7302437874553906e-10 2.73025381621936e-10 1 1.570799999999999
+        rotation -1.0543579365127604e-09 1.0543618093928354e-09 1 1.570799999999999
         children [
           USE WHEEL
         ]
@@ -293,8 +286,6 @@ DEF Central Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -9.518915154240088e-15 -9.6123459492011e-15 1.9581974696021647e-12
-        angularVelocity 6.409296594665066e-11 1.2067718440253537e-11 -5.840083481104037e-12
       }
     }
     DEF WHEEL3 HingeJoint {
@@ -309,7 +300,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.05
-        rotation -4.990844178460459e-10 4.9908625108884e-10 1 1.5707999999999975
+        rotation -5.150749682063924e-10 5.150768601858675e-10 1 1.5707999999999975
         children [
           USE WHEEL
         ]
@@ -317,8 +308,6 @@ DEF Central Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 4.0564862160460625e-13 9.82437957604344e-15 2.3728182119010737e-12
-        angularVelocity 6.413031111026374e-11 1.2067718174572886e-11 -5.885321289244722e-12
       }
     }
     DEF WHEEL4 HingeJoint {
@@ -333,7 +322,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation -0.06 0 -0.05
-        rotation -2.7936544361209414e-10 2.793664697805013e-10 1 1.5707999999999995
+        rotation 4.6402803485207455e-10 -4.6402973932539996e-10 1 1.5707999999999995
         children [
           USE WHEEL
         ]
@@ -341,8 +330,6 @@ DEF Central Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 4.004011916580913e-14 1.0460491323774242e-14 -1.6224742045372986e-12
-        angularVelocity -6.446575126563892e-11 1.2067792848657351e-11 5.879993000863272e-12
       }
     }
     DEF DS_RIGHT DistanceSensor {
@@ -390,6 +377,4 @@ DEF Central Robot {
   }
   controller "receiver"
   supervisor TRUE
-  linearVelocity 1.1752823630594966e-13 0 1.2789293388601908e-12
-  angularVelocity -2.0013896439880004e-13 1.2070386429751475e-11 1.4126795588074968e-14
 }

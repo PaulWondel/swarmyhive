@@ -8,4 +8,4 @@ projectionMode: PERSPECTIVE
 selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
-textFiles: 0 "controllers/communication/communication.cpp" "controllers/receiver/receiver.cpp"
+textFiles: 1 "controllers/communication/communication.cpp" "controllers/receiver/receiver.cpp"
