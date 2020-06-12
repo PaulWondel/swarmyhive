@@ -3,6 +3,7 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Robot.hpp>
+#include "communication.hpp"
 
 #define TIME_STEP 96
 
@@ -11,12 +12,12 @@ using namespace std;
 
 //double pos[]; // value[x,y]
 const int distanceValue=40;
+struct Coordinates slave;
 
-struct Coordinates {
-  //current coordinate of the bot
-  double xCoordinate;
-  double zCoordinate;
-}slave;
+void sendCoordinates(Coordinates message, Emitter *device){
+  device->send(&message,sizeof(message));
+  return;
+}
 
 int main() {
 
@@ -39,7 +40,7 @@ int main() {
   // Emitter Setup
   Emitter *emitter;
   emitter=robot->getEmitter("emitter");
-  char message[10] = "Turn";
+  //char message[10] = "Turn";
   emitter->setChannel(1);
   
   // Supervisor Setup
@@ -76,12 +77,14 @@ int main() {
       
       // Position Y
       //emitter->send(position+1,sizeof(position));
-      cout<<"X: "<<position[0]<<" "<<"Z: "<<position[1]<<endl;
+      cout<<"X: "<<position[0]<<endl;
+      cout<<"Z: "<<position[1]<<endl;
       
       //cout << "Slave is at position: " << values[0] << ' ' << ' ' << values[2] <<endl;
       
       // Struct sending
-      emitter->send(&slave,sizeof(slave));
+      //emitter->send(&slave,sizeof(slave));
+      sendCoordinates(slave,emitter);
     }
     
     wheels[0]->setVelocity(leftSpeed);
@@ -89,7 +92,7 @@ int main() {
     wheels[2]->setVelocity(leftSpeed);
     wheels[3]->setVelocity(rightSpeed);
   }
-  delete emitter;
+  //delete emitter;
   delete robot;
   return 0;  // EXIT_SUCCESS
 }
