@@ -1,10 +1,13 @@
 
 worlds/.empty.wbproj
 worlds/empty.wbt
+worlds/mazePartyhat.wbproj
 communication/libraries
 communication/controllers
 communication/protos
 communication/plugins
 communication/worlds
+controllers/communication/build/
+controllers/receiver/build
 controllers/GPS4wheeler/build/release
 controllers/my_controller/build/release/my_controller.d
