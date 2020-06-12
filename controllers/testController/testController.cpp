@@ -462,6 +462,9 @@ void turnLogic(double incomingAngle)
 
 void backTracking()
 {
+
+bool cellVisited[][] = true;
+
 }
 
 void updateValues(double botAngle)
@@ -476,14 +479,13 @@ void updateValues(double botAngle)
   cout << "cx:" << currentCoord.xCoordinate << " z: " << currentCoord.zCoordinate << endl;
   cout << "" << endl;
 
-  if ((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate))
+  if ((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate)) //missing pathFound condition, disable if and use other if when found
   {
     previousCoord = currentCoord;
     cout << "x:" << previousCoord.xCoordinate << " z: " << previousCoord.zCoordinate << endl;
     wallDetection(currentCoord, botAngle);
     backTracking();
     //botMovement(true);
-
     // cout << " currentcoords x: " << currentCoord.xCoordinate << "   || z: " << currentCoord.zCoordinate << endl;
 
     // cout << " previouscoords x: " << previousCoord.xCoordinate << "   || z: " << previousCoord.zCoordinate << endl;
@@ -518,6 +520,7 @@ int main()
 
   supervisor = new Supervisor();
   setup();
+  cout<<"test"<<endl;
 
   while (supervisor->step(TIME_STEP) != -1)
   {
