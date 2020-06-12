@@ -4,23 +4,23 @@
 #include <cmath>
 #include <stack>
 
-
-
 #define _USE_MATH_DEFINES
-#define TIME_STEP 96
+#define TIME_STEP 512
 
 using namespace webots;
 using namespace std;
 
 //structs
 
-struct Coordinates {
+struct Coordinates
+{
   //current coordinate of the bot
   double xCoordinate;
   double zCoordinate;
 };
 
-struct CoordinateWalls {
+struct CoordinateWalls
+{
   //what walls are available at said coordinate true=wall
   Coordinates ptnPair;
   bool up;
@@ -51,27 +51,33 @@ double leftSpeed2;
 double rightSpeed2;
 bool status = true;
 Coordinates previousCoord = {0, 0};
-stack <CoordinateWalls> coordStack;
-double UP = 1.5708; // 90 degrees
-double RIGHT = 0.0; // 0 degrees
-double DOWN = -1.5708; // 270/-90 degrees
-double LEFT = 3.1415; // 180 degrees
+Coordinates currentCoord = {0, 0};
+stack<CoordinateWalls> coordStack;
+double UP = 1.5708;     // 90 degrees
+double RIGHT = 0.0;     // 0 degrees
+double DOWN = -1.5708;  // 270/-90 degrees
+double LEFT = 3.1415;   // 180 degrees
 double margin = 0.7854; // 45 degrees
 double _botDirection;
-double directionValue [] = {0, 1, 0, 0};
-
-
+double directionValue[] = {0, 1, 0, 0};
+double trans_center_values[] = {0.0625, 0.01, 0.0625}; // center of (0,0)
+// int frontSensorData = ds[0]->getValue();
+// int rightSensorData = ds[1]->getValue();
+// int leftSensorData = ds[2]->getValue();
 
 //methods
 
-void botMovement(bool status) {
-  if (!status) {
+void botMovement(bool status)
+{
+  if (!status)
+  {
     wheels[0]->setVelocity(0.0);
     wheels[1]->setVelocity(0.0);
     wheels[2]->setVelocity(0.0);
     wheels[3]->setVelocity(0.0);
   }
-  else {
+  else
+  {
     wheels[0]->setVelocity(5.0);
     wheels[1]->setVelocity(5.0);
     wheels[2]->setVelocity(5.0);
@@ -79,51 +85,79 @@ void botMovement(bool status) {
   }
 }
 
-void setRotationXYZ() {
+void setRotationXYZ()
+{
 
-    directionValue[0] = 0;
-    directionValue[1] = 1;
-    directionValue[2] = 0;
-
+  directionValue[0] = 0;
+  directionValue[1] = 1;
+  directionValue[2] = 0;
 }
-void botOrientation(double incomingAngle) {
 
+void centerBot()
+{
+
+  trans_center_values[0] = 0.0625 + (0.125 * currentCoord.xCoordinate);
+  trans_center_values[1] = 0.01;
+  trans_center_values[2] = 0.0625 + (0.125 * currentCoord.zCoordinate);
+
+  cout << "X: " << previousCoord.xCoordinate << "    ||    "
+       << "Z: " << previousCoord.zCoordinate << "    ||    "
+       << "Value[0]: " << trans_center_values[0] << "    ||    "
+       << "Value[2]: " << trans_center_values[2] << endl;
+
+  trans_field->setSFVec3f(trans_center_values);
+}
+void botOrientation(double incomingAngle)
+{
 
   //check if facing right
-  if (incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) {
+  cout << "************************" << incomingAngle << endl;
+  if (incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin))
+  {
 
     setRotationXYZ();
+    centerBot();
     directionValue[3] = RIGHT;
-    rotation_field->setSFRotation(directionValue);
     _botDirection = RIGHT;
-
-  } else if (incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin)) {
+    rotation_field->setSFRotation(directionValue);
+  }
+  else if (incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin))
+  {
 
     setRotationXYZ();
+    centerBot();
     directionValue[3] = DOWN;
     rotation_field->setSFRotation(directionValue);
-    _botDirection = DOWN;
 
-  } else if (incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) {
+    _botDirection = DOWN;
+  }
+  else if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) || (incomingAngle <= (-LEFT + margin) && incomingAngle >= (-LEFT - margin)))
+  {
 
     setRotationXYZ();
+    centerBot();
     directionValue[3] = LEFT;
     rotation_field->setSFRotation(directionValue);
-    _botDirection = LEFT;
 
-  } else if (incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) {
+    _botDirection = LEFT;
+  }
+  else if (incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin))
+  {
 
     setRotationXYZ();
+    centerBot();
     directionValue[3] = UP;
-    rotation_field->setSFRotation(directionValue);
     _botDirection = UP;
+    rotation_field->setSFRotation(directionValue);
 
+    cout << "botDir" << _botDirection << endl;
   }
 }
 
+void wallDetection(Coordinates xzCoords, double currentDirection)
+{
 
-void wallDetection(Coordinates xzCoords, double currentDirection) {
-
+  //botMovement(false);
   botOrientation(currentDirection);
 
   int frontSensorData = ds[0]->getValue();
@@ -135,48 +169,61 @@ void wallDetection(Coordinates xzCoords, double currentDirection) {
   bool _LEFT = false;
   double _margin = 0.157;
 
-  if (currentDirection <= (RIGHT + _margin) && currentDirection >= (RIGHT - _margin)) {
+  if (currentDirection <= (RIGHT + _margin) && currentDirection >= (RIGHT - _margin))
+  {
     //GOING RIGHT
 
-
-    if (frontSensorData < 1000) _RIGHT = true;
-    if (rightSensorData < 1000) _DOWN = true;
-    if (leftSensorData < 1000) _UP = true;
+    if (frontSensorData < 1000)
+      _RIGHT = true;
+    if (rightSensorData < 1000)
+      _DOWN = true;
+    if (leftSensorData < 1000)
+      _UP = true;
     _LEFT = true;
   }
 
-  if (currentDirection <= (DOWN + _margin) && currentDirection >= (DOWN - _margin)) {
+  if (currentDirection <= (DOWN + _margin) && currentDirection >= (DOWN - _margin))
+  {
     //GOING DOWN
-    
 
-    if (frontSensorData < 1000) _DOWN = true;
-    if (rightSensorData < 1000) _LEFT = true;
-    if (leftSensorData < 1000) _RIGHT = true;
+    if (frontSensorData < 1000)
+      _DOWN = true;
+    if (rightSensorData < 1000)
+      _LEFT = true;
+    if (leftSensorData < 1000)
+      _RIGHT = true;
     _UP = true;
   }
 
-  if (currentDirection <= (LEFT + _margin) && currentDirection >= (LEFT - _margin)) {
+  if ((currentDirection <= (LEFT + _margin) && currentDirection >= (LEFT - _margin)) || (currentDirection <= (-LEFT + margin) && currentDirection >= (-LEFT - margin)))
+  {
     //GOING LEFT
 
-    if (frontSensorData < 1000) _LEFT = true;
-    if (rightSensorData < 1000) _UP = true;
-    if (leftSensorData < 1000) _DOWN = true;
+    if (frontSensorData < 1000)
+      _LEFT = true;
+    if (rightSensorData < 1000)
+      _UP = true;
+    if (leftSensorData < 1000)
+      _DOWN = true;
     _RIGHT = true;
   }
 
-  if (currentDirection <= (UP + _margin) && currentDirection >= (UP - _margin)) {
+  if (currentDirection <= (UP + _margin) && currentDirection >= (UP - _margin))
+  {
     //GOING UP
 
-    if (frontSensorData < 1000) _UP = true;
-    if (rightSensorData < 1000) _RIGHT = true;
-    if (leftSensorData < 1000) _LEFT = true;
+    if (frontSensorData < 1000)
+      _UP = true;
+    if (rightSensorData < 1000)
+      _RIGHT = true;
+    if (leftSensorData < 1000)
+      _LEFT = true;
     _DOWN = true;
-
   }
-  cout<<"bot dir: " <<_botDirection<<endl;
+  //cout << "bot dir: " << _botDirection << endl;
   CoordinateWalls currentWalls = {xzCoords, _UP, _RIGHT, _DOWN, _LEFT, _botDirection};
   coordStack.push(currentWalls);
-  
+
   _UP = false;
   _RIGHT = false;
   _DOWN = false;
@@ -187,83 +234,275 @@ void wallDetection(Coordinates xzCoords, double currentDirection) {
   //cout<<"============================================="<<endl;
 }
 
-void onlyPositives() {
+void onlyPositives(double incomingAngle)
+{
+  // checks if it is out of bounds or not (0.0625 sets it to the middle of a square and *8 rounds it to a whole number)
+  double scaledTransValueX = ((trans_values[0] - 0.0625) * 8);
+  double scaledTransValueZ = ((trans_values[2] - 0.0625) * 8);
 
-  if (trans_values[0] - 0.0625 >= 0) {
+  cout << "Scaled X: " << scaledTransValueX << endl;
+  cout << "Scaled Z: " << scaledTransValueZ << endl;
+  cout << "==========================" << endl;
 
-    xValue = floor((trans_values[0] - 0.0625) / 0.125);
+  if (scaledTransValueX >= 0)
+  {
+
+    if (incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) //checks if its going right
+    {
+
+      //checks currentCoord with realtime location
+      if (scaledTransValueX >= (currentCoord.xCoordinate + 0.5))
+      {
+
+        xValue = currentCoord.xCoordinate + 1;
+      }
+      else
+      {
+        xValue = currentCoord.xCoordinate;
+      }
+    }
+    if (incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin))
+    {
+      if (scaledTransValueX <= (currentCoord.xCoordinate - 0.5))
+      {
+
+        xValue = currentCoord.xCoordinate - 1;
+      }
+      else
+      {
+        xValue = currentCoord.xCoordinate;
+      }
+    }
   }
 
-  if (trans_values[2] - 0.0625 >= 0) {
+  if (scaledTransValueZ >= 0)
+  {
+    cout << "CCCCCCCCCCCC" << endl;
 
-    zValue = floor((trans_values[2] - 0.0625) / 0.125);
+    if (incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) //checks if its going right
+    {
+      cout << "DDDDDDDDD" << endl;
+
+      //checks currentCoord with realtime location
+      //currentCoord.zCoordinate + 0.5) >= scaledTransValueZ
+      if (scaledTransValueZ >= (currentCoord.zCoordinate + 0.5))
+      {
+
+        zValue = currentCoord.zCoordinate + 1;
+      }
+      else
+      {
+        zValue = currentCoord.zCoordinate;
+      }
+    }
+
+    cout << "EEEEAngle: " << incomingAngle << endl;
+
+    if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) || (incomingAngle <= (-LEFT + margin) && incomingAngle >= (-LEFT - margin)))
+    {
+      cout << "EEEEEEEEEEE" << endl;
+      cout << "scaledZZZZZ: " << scaledTransValueZ << endl;
+      cout << "currentCoordZ: " << currentCoord.zCoordinate << endl;
+      cout << "+++++++++++++++++++++++++++++++++++++++" << endl;
+      if (scaledTransValueZ <= (currentCoord.zCoordinate - 0.5))
+      {
+
+        zValue = currentCoord.zCoordinate - 1;
+      }
+      else
+      {
+        zValue = currentCoord.zCoordinate;
+      }
+    }
+  }
+  botMovement(true);
+}
+
+void rotateBot(double changeDirection)
+{
+
+  if (changeDirection == UP)
+  {
+
+    setRotationXYZ();
+    directionValue[3] = UP;
+    rotation_field->setSFRotation(directionValue);
+  }
+  else if (changeDirection == RIGHT)
+  {
+
+    setRotationXYZ();
+    directionValue[3] = RIGHT;
+    rotation_field->setSFRotation(directionValue);
+  }
+  else if (changeDirection == DOWN)
+  {
+
+    setRotationXYZ();
+    directionValue[3] = DOWN;
+    rotation_field->setSFRotation(directionValue);
+  }
+  else if (changeDirection == LEFT)
+  {
+
+    setRotationXYZ();
+    directionValue[3] = LEFT;
+    rotation_field->setSFRotation(directionValue);
   }
 }
 
-void turnLogic() {
+void turnLogic(double incomingAngle)
+{
 
-//cout << "x : " << temp.ptnPair.xCoordinate<<"   || z: "  << temp.ptnPair.zCoordinate<< "  ||  up: "<<temp.up<< "  ||  right: "<<temp.right<< "  ||  down: "<<temp.down<< "  ||  left: "<<temp.left<< endl;
-  
-  CoordinateWalls  currentLocationValues = coordStack.top();
-  cout<<"direction value: " <<currentLocationValues.direction<<endl;
-  
-  //turn right
-  
-  //turn down
-  
+  botMovement(false);
+  int frontSensorData = ds[0]->getValue();
+  int rightSensorData = ds[1]->getValue();
+  int leftSensorData = ds[2]->getValue();
+
   //turn up
+
+  if ((incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) && frontSensorData < 1000)
+  {
+
+    //can't go forward check for available turn(s)
+
+    if (rightSensorData < 1000)
+    {
+
+      if (leftSensorData < 1000)
+      {
+        //pop stack since this is a deadend, and recursive the function
+        rotateBot(DOWN);
+      }
+      else
+      {
+        rotateBot(LEFT);
+      }
+    }
+    else
+    {
+      rotateBot(RIGHT);
+    }
+  }
+
+  //turn right
+
+  if ((incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) && frontSensorData < 1000)
+  {
+
+    if (rightSensorData < 1000)
+    {
+
+      if (leftSensorData < 1000)
+      {
+        //pop stack since this is a deadend, and recursive the function
+        rotateBot(LEFT);
+      }
+      else
+      {
+        rotateBot(UP);
+      }
+    }
+    else
+    {
+      rotateBot(DOWN);
+    }
+  }
+  //turn down
+  //turn left
+
+  if ((incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin)) && frontSensorData < 1000)
+  {
+
+    if (rightSensorData < 1000)
+    {
+
+      if (leftSensorData < 1000)
+      {
+        //pop stack since this is a deadend, and recursive the function
+        rotateBot(RIGHT);
+      }
+      else
+      {
+        rotateBot(UP);
+      }
+    }
+    else
+    {
+      rotateBot(LEFT);
+    }
+  }
+  if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) && frontSensorData < 1000)
+  {
+    //cout<<"wtf: #################"<<endl;
+
+    if (rightSensorData < 1000)
+    {
+
+      if (leftSensorData < 1000)
+      {
+        //pop stack since this is a deadend, and recursive the function
+        rotateBot(RIGHT);
+        //180 turn
+      }
+      else
+      {
+        rotateBot(LEFT);
+      }
+    }
+    else
+    {
+      rotateBot(RIGHT);
+    }
+  }
   
-  ///turn left  
-  
-  //cout<<"howdy : " << tempstack.top()<<endl;
-  // CoordinateWalls temp = coordStack.top();
-  // cout<< coordStack.size()<<endl;
+  //botMovement(true);
+}
+//}
 
-  // cout << "x : " << temp.ptnPair.xCoordinate<<"   || z: "  << temp.ptnPair.zCoordinate<< "  ||  up: "<<temp.up<< "  ||  right: "<<temp.right<< "  ||  down: "<<temp.down<< "  ||  left: "<<temp.left<< endl;
-  // //cout<<"howdy "<< coordStack.top()<<endl;
-  //cout<<coordStack.top()<<endl;
-
-
-
+void backTracking()
+{
 }
 
+void updateValues(double botAngle)
+{ //updates angling, wall info when in new square
 
-void backTracking(){
+  turnLogic(botAngle);
+  onlyPositives(botAngle);
+  currentCoord = {xValue, zValue};
 
-}
 
-void updateValues(double botAngle) { //updates angling, wall info when in new square
+  cout << "px:" << previousCoord.xCoordinate << " z: " << previousCoord.zCoordinate << endl;
+  cout << "cx:" << currentCoord.xCoordinate << " z: " << currentCoord.zCoordinate << endl;
+  cout << "" << endl;
 
-  Coordinates currentCoord = {xValue, zValue};
-
-  if ((previousCoord.xCoordinate != currentCoord.xCoordinate ) || (previousCoord.zCoordinate != currentCoord.zCoordinate)) {
+  if ((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate))
+  {
     previousCoord = currentCoord;
-    botMovement(false);
+    cout << "x:" << previousCoord.xCoordinate << " z: " << previousCoord.zCoordinate << endl;
     wallDetection(currentCoord, botAngle);
     backTracking();
-    botMovement(true);
+    //botMovement(true);
 
     // cout << " currentcoords x: " << currentCoord.xCoordinate << "   || z: " << currentCoord.zCoordinate << endl;
-    
+
     // cout << " previouscoords x: " << previousCoord.xCoordinate << "   || z: " << previousCoord.zCoordinate << endl;
-    
 
     //in here check all sensors for walls, add them to the struct, check which direction we are facing before saving
   }
-
 }
 
+void setup()
+{
 
-
-void setup() {
-
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++)
+  {
     ds[i] = supervisor->getDistanceSensor(dsNames[i]);
     ds[i]->enable(TIME_STEP);
-
   }
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 4; i++)
+  {
     wheels[i] = supervisor->getMotor(wheels_names[i]);
     wheels[i]->setPosition(INFINITY);
     wheels[i]->setVelocity(5.0);
@@ -272,40 +511,26 @@ void setup() {
   robot_node = supervisor->getFromDef("botJr");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
-
 }
 
-int main() {
+int main()
+{
 
   supervisor = new Supervisor();
   setup();
 
-  while (supervisor->step(TIME_STEP) != -1) {
+  while (supervisor->step(TIME_STEP) != -1)
+  {
 
     // this is done repeatedly
 
     trans_values = trans_field->getSFVec3f();
     rotationValues = rotation_field->getSFRotation();
     botAngle = rotationValues[3];
-    onlyPositives();
     updateValues(botAngle);
-    
-    //CoordinateWalls temp = coordStack.top();
-    //cout<<"it works "<< coordStack.size()<<endl;
-      CoordinateWalls  temp = coordStack.top();
-      
-      if(!coordStack.empty()){
-      
-      cout << "x : " << temp.ptnPair.xCoordinate<<"   || z: "  << temp.ptnPair.zCoordinate<< "  ||  up: "<<temp.up<< "  ||  right: "<<temp.right<< "  ||  down: "<<temp.down<< "  ||  left: "<<temp.left<< "  ||  direction: "<<temp.direction<< endl;
-    
-      }
-      //cout<<"direction value: " <<currentLocationValues.direction<<endl;
-      //cout << "x : " << temp.ptnPair.xCoordinate<<"   || z: "  << temp.ptnPair.zCoordinate<< "  ||  up: "<<temp.up<< "  ||  right: "<<temp.right<< "  ||  down: "<<temp.down<< "  ||  left: "<<temp.left<< endl;
-    //cout << " currentcoords x: " << currentCoord.xCoordinate << "   || z: " << currentCoord.zCoordinate << endl;
-    
-    //cout << " previouscoords x: " << previousCoord.xCoordinate << "   || z: " << previousCoord.zCoordinate << endl;
-
   }
+  
+
 
   delete supervisor;
   return 0;
