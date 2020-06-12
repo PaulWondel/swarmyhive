@@ -3,7 +3,7 @@
 #include "extra.hpp"
 #include <vector> 
 
-#define TIME_STEP 192
+#define TIME_STEP 512
 
 using namespace webots;
 using namespace std;
@@ -24,9 +24,9 @@ int main(int argc, char **argv) {
     if(receiver->getQueueLength()>0){
 
       // Receive the Coordinate struct and keep the coordinates
-      struct Coordinates *incomming = (struct Coordinates*)receiver->getData();
-      double xcoord = incomming->xCoordinate;
-      double zcoord = incomming->zCoordinate;
+      struct Coordinates *incoming = (struct Coordinates*)receiver->getData();
+      double xcoord = incoming->xCoordinate;
+      double zcoord = incoming->zCoordinate;
       cout << "Received X: "<<xcoord<<endl;
       cout << "Received Z: "<<zcoord<<endl;
       receiver->nextPacket();

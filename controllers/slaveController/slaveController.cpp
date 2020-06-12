@@ -1,6 +1,8 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
+//#include <webots/Robot.hpp>
+//#include <webots/Emitter.hpp>
 #include <cmath>
 #include <stack>
 
@@ -30,7 +32,7 @@ struct CoordinateWalls
   double direction;
 };
 
-//initializers
+//initializers && variables
 
 Supervisor *supervisor;
 DistanceSensor *ds[3];
@@ -60,7 +62,9 @@ double LEFT = 3.1415;   // 180 degrees
 double margin = 0.7854; // 45 degrees
 double _botDirection;
 double directionValue[] = {0, 1, 0, 0};
-double trans_center_values[] = {0.0625, 0.01, 0.0625}; // center of (0,0)
+double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
+// struct Coordinates slave;
+// struct CoordinateWalls test;
 
 //methods
 
@@ -70,6 +74,12 @@ Coordinates structTransport(double xCoord, double zCoord)
   Coordinates transport = {(double)xCoord, (double)zCoord};
   return transport;
 }
+
+//used to send coordinates to the receiver
+// void sendCoordinates(Coordinates message, Emitter *device){
+  // device->send(&message,sizeof(message));
+  // return;
+// }
 
 //stops to bot when called or restarts movement
 void botMovement(bool status)
@@ -105,7 +115,7 @@ void centerBot()
 
   //scales incoming values from decimals to big numbers (1+)
   trans_center_values[0] = 0.0625 + (0.125 * currentCoord.xCoordinate);
-  trans_center_values[1] = 0.01;
+  trans_center_values[1] = 0.05;
   trans_center_values[2] = 0.0625 + (0.125 * currentCoord.zCoordinate);
 
   // up for cleaning when program is done
@@ -372,9 +382,10 @@ void turnLogic(double incomingAngle)
   int frontSensorData = ds[0]->getValue();
   int rightSensorData = ds[1]->getValue();
   int leftSensorData = ds[2]->getValue();
+  int frontSensorCompare = 1000;
 
   // if going up and sensor seeing a wall
-  if ((incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) && frontSensorData < 1000)
+  if ((incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) && frontSensorData < frontSensorCompare)
   {
 
     //if can't go forward check for available turn(s)
@@ -399,7 +410,7 @@ void turnLogic(double incomingAngle)
     }
   }
 
-  if ((incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) && frontSensorData < 1000)
+  if ((incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) && frontSensorData < frontSensorCompare)
   {
 
     if (rightSensorData < 1000)
@@ -421,7 +432,7 @@ void turnLogic(double incomingAngle)
     }
   }
 
-  if ((incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin)) && frontSensorData < 1000)
+  if ((incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin)) && frontSensorData < frontSensorCompare)
   {
 
     if (rightSensorData < 1000)
@@ -439,10 +450,11 @@ void turnLogic(double incomingAngle)
     }
     else
     {
+    cout << "bot turns left?? " << endl;
       rotateBot(LEFT);
     }
   }
-  if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) && frontSensorData < 1000)
+  if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) && frontSensorData < frontSensorCompare)
   {
 
     if (rightSensorData < 1000)
@@ -509,6 +521,12 @@ void setup()
     wheels[i]->setPosition(INFINITY);
     wheels[i]->setVelocity(5.0);
   }
+
+  // Emitter Setup
+  // Emitter *emitter;
+  // emitter=supervisor->getEmitter("emitter");
+  
+  // emitter->setChannel(1);
 
   robot_node = supervisor->getFromDef("botJr");
   trans_field = robot_node->getField("translation");

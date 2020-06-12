@@ -434,7 +434,7 @@ void turnLogic(double incomingAngle)
       rotateBot(LEFT);
     }
   }
-  if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) && frontSensorData < 1000)
+  if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin) || (incomingAngle <= (-LEFT + margin) && incomingAngle >= (-LEFT - margin))) && frontSensorData < 1000)
   {
     //cout<<"wtf: #################"<<endl;
 
