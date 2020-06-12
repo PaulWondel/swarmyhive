@@ -10,9 +10,9 @@
 using namespace webots;
 using namespace std;
 
-//double pos[]; // value[x,y]
 const int distanceValue=40;
 struct Coordinates slave;
+struct CoordinateWalls test;
 
 void sendCoordinates(Coordinates message, Emitter *device){
   device->send(&message,sizeof(message));
@@ -55,8 +55,11 @@ int main() {
     
     const double *values = trans_field->getSFVec3f();
     double position[2]={values[0],values[2]};
-    slave.xCoordinate=values[0];
-    slave.zCoordinate=values[2];
+    test.ptnPair = slave;
+  
+
+    // slave.xCoordinate=values[0];
+    // slave.zCoordinate=values[2];
               
     if (avoidObstacleCounter > 0) {
       avoidObstacleCounter--;
@@ -69,6 +72,13 @@ int main() {
       }
     }
     if(avoidObstacleCounter == distanceValue){
+
+      sendCoordinates(slave,emitter);
+
+      // Debug position
+      cout<<"Debug X: "<<position[0]<<endl;
+      cout<<"Debug Z: "<<position[1]<<endl;
+
       //emitter->send(message,sizeof(message));
       //cout<<message<<endl;
       
@@ -76,15 +86,12 @@ int main() {
       //emitter->send(position,sizeof(position));
       
       // Position Y
-      //emitter->send(position+1,sizeof(position));
-      cout<<"X: "<<position[0]<<endl;
-      cout<<"Z: "<<position[1]<<endl;
+      //emitter->send(position+1,sizeof(position));      
       
       //cout << "Slave is at position: " << values[0] << ' ' << ' ' << values[2] <<endl;
       
       // Struct sending
       //emitter->send(&slave,sizeof(slave));
-      sendCoordinates(slave,emitter);
     }
     
     wheels[0]->setVelocity(leftSpeed);
