@@ -1,0 +1,896 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.9996897197083668 0.02034510862522741 0.01437152964839256 1.2302924962431925
+  position 1.4156216325490147 11.595812431810202 3.79101146349216
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF _ RectangleArena {
+  translation 0.05 0 0
+  floorSize 4 4
+}
+Wall {
+  translation -0.451882 -5.10703e-15 1.49554
+  name "wall(2)"
+  size 1 0.25 0.01
+}
+Wall {
+  translation 0.540191 6.66134e-16 -1.25335
+  name "wall(7)"
+  size 1 0.25 0.01
+}
+Wall {
+  translation -0.705703 6.66134e-16 0.25362
+  name "wall(56)"
+  size 1 0.25 0.01
+}
+Wall {
+  translation -0.95 6.66134e-16 1.74552
+  name "wall(30)"
+  size 1 0.25 0.01
+}
+Wall {
+  translation 1.17556 -1.11022e-15 -1.74536
+  name "wall(3)"
+  size 1.25 0.25 0.01
+}
+Wall {
+  translation 0.676351 -1.11022e-15 -1.49408
+  name "wall(61)"
+  size 1.25 0.25 0.01
+}
+Wall {
+  translation 0.675 6.66134e-16 1.74774
+  name "wall(59)"
+  size 1.25 0.25 0.01
+}
+Wall {
+  translation 1.54535 -8.43767e-15 1.50194
+  rotation 0 -1 0 0.00654498
+  name "wall(1)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 0.0470803 -1.55431e-14 0.754673
+  name "wall(20)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation -0.698732 -1.55431e-14 -1.74234
+  name "wall(53)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation -1.44475 -1.55431e-14 -1.2538
+  name "wall(63)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation -1.19278 -1.55431e-14 -0.994413
+  name "wall(54)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 1.55471 3.19745e-14 0.500988
+  name "wall(22)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 0.787918 3.19745e-14 -0.250063
+  name "wall(37)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 1.0516 3.19745e-14 -0.507495
+  name "wall(39)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 1.5463 3.19745e-14 -0.758553
+  name "wall(47)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 1.04981 3.19745e-14 -1.003
+  name "wall(49)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 1.8037 -1.0214e-14 0.750636
+  name "wall(26)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation -0.693679 -8.88176e-15 1.24634
+  name "wall(10)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation 0.0471296 -8.88176e-15 1.24509
+  name "wall(12)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation -1.44731 -8.88176e-15 1.24369
+  name "wall(11)"
+  size 0.5 0.25 0.01
+}
+Wall {
+  translation -1.82675 -3.5083e-14 0.9992
+  name "wall(6)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.07544 -3.5083e-14 1.00737
+  name "wall(15)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.178602 -3.5083e-14 -0.24558
+  name "wall(31)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.57254 -3.5083e-14 -0.753763
+  name "wall(36)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.165463 -3.5083e-14 -0.75026
+  name "wall(43)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.662972 -3.5083e-14 -0.74917
+  name "wall(46)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.0748418 -3.5083e-14 -1.75045
+  name "wall(50)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.32609 -3.5083e-14 -1.7427
+  name "wall(62)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.825916 -3.5083e-14 -1.49694
+  name "wall(64)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.573272 -3.5083e-14 -0.999635
+  name "wall(60)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.068194 -3.5083e-14 -0.992639
+  name "wall(52)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.422632 -3.5083e-14 -0.98637
+  name "wall(51)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.66993 -3.5083e-14 -1.25024
+  name "wall(57)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.92139 -3.5083e-14 -1.49715
+  name "wall(58)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.327271 -3.5083e-14 -0.756781
+  name "wall(45)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.82423 -3.5083e-14 -0.756158
+  name "wall(42)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.8296 -3.5083e-14 -0.508818
+  name "wall(44)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.173135 -3.5083e-14 -0.0055552
+  name "wall(32)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.675258 -3.46389e-14 -0.00273165
+  name "wall(33)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.411018 -3.4861e-14 -0.498775
+  name "wall(40)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.17329 -3.5083e-14 -0.0122896
+  name "wall(34)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.67974 -3.5083e-14 -0.501602
+  name "wall(38)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.92545 -3.5083e-14 -1.003
+  name "wall(48)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.576584 -3.5083e-14 0.505214
+  name "wall(24)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.67674 -3.5083e-14 0.985414
+  name "wall(16)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.42825 -3.59712e-14 0.243899
+  name "wall(21)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.923619 -3.59712e-14 0.248442
+  name "wall(29)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 1.1764 -3.59712e-14 0.746777
+  name "wall(28)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.924069 -3.5083e-14 0.99732
+  name "wall(19)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.421936 -3.5083e-14 0.998703
+  name "wall(18)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -0.319375 -3.5083e-14 0.995391
+  name "wall(17)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.45307 -1.03917e-13 0.49853
+  name "wall(23)"
+  size 0.01 0.25 1
+}
+Wall {
+  translation 0.548484 -1.7053e-13 0.499202
+  name "wall(103)"
+  size 0.01 0.25 1
+}
+Wall {
+  translation 1.54787 -1.7053e-13 -1.25389
+  name "wall(121)"
+  size 0.01 0.25 1
+}
+Wall {
+  translation -1.69706 -4.26326e-14 -1.25395
+  name "wall(70)"
+  size 0.01 0.25 1
+}
+Wall {
+  translation -1.70112 -4.26326e-14 0.116906
+  name "wall(66)"
+  size 0.01 0.25 1.25
+}
+Wall {
+  translation -1.19999 -6.97221e-14 -1.37856
+  name "wall(67)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.944728 -6.75017e-14 -1.86554
+  name "wall(76)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -1.45498 -5.63994e-14 -0.635162
+  name "wall(75)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.695261 -2.66461e-15 -0.877797
+  name "wall(83)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.455064 -5.77323e-15 -1.37999
+  name "wall(84)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.455209 -5.77323e-15 0.631251
+  name "wall(85)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.056638 -5.77323e-15 0.877696
+  name "wall(96)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.0514139 -5.77323e-15 1.87108
+  name "wall(97)"
+  size 0.01 0.25 0.25
+  appearance Roughcast {
+    colorOverride 0 1 0
+    textureTransform TextureTransform {
+      scale 1 2.4
+    }
+  }
+}
+Wall {
+  translation -0.450379 -5.77323e-15 0.121735
+  name "wall(87)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.202235 -5.77323e-15 -0.874139
+  name "wall(91)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.0381682 -5.77323e-15 -1.87547
+  name "wall(93)"
+  size 0.01 0.25 0.25
+  appearance Roughcast {
+    colorOverride 1 0 0
+    textureTransform TextureTransform {
+      scale 1 2.4
+    }
+  }
+}
+Wall {
+  translation 0.290749 -5.77323e-15 -1.621
+  name "wall(98)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.299614 -5.77323e-15 -0.125236
+  name "wall(99)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.538938 7.10536e-15 -0.376557
+  name "wall(104)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.547961 3.10856e-15 -0.870048
+  name "wall(105)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.802149 3.10856e-15 -1.12189
+  name "wall(106)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.793424 4.44083e-15 -0.627358
+  name "wall(107)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.806638 4.44083e-15 -0.133105
+  name "wall(108)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.30454 -2.93099e-14 0.373863
+  name "wall(115)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.04521 -6.03962e-14 -0.876898
+  name "wall(112)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.297876 -4.88505e-15 1.11716
+  name "wall(101)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.05236 -9.32594e-15 1.36498
+  name "wall(110)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.55104 -1.50991e-14 0.87272
+  name "wall(117)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.55232 -1.68755e-14 1.87794
+  name "wall(119)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.79074 7.9935e-15 1.62578
+  name "wall(122)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.29171 7.10536e-15 1.62211
+  name "wall(118)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 1.29171 7.10536e-15 1.62211
+  name "wall(81)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation 0.289211 -5.77323e-15 -0.628211
+  name "wall(100)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.444995 -5.77323e-15 -0.376604
+  name "wall(86)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -1.70468 -4.30767e-14 1.12565
+  name "wall(69)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.94857 1.15463e-14 1.61765
+  name "wall(71)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -1.45345 -4.39649e-14 1.62668
+  name "wall(80)"
+  size 0.01 0.25 0.25
+}
+Wall {
+  translation -0.946467 -2.93101e-14 -0.380742
+  name "wall(72)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation 0.0499821 -2.93101e-14 -0.874377
+  name "wall(94)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation -1.19362 -2.70896e-14 1.12551
+  name "wall(78)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation -0.196492 -2.70896e-14 0.876381
+  name "wall(89)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation 0.790146 -2.48692e-14 0.87059
+  name "wall(109)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation 1.05552 -2.84219e-14 0.366292
+  name "wall(111)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation 1.5467 -2.62015e-14 -0.131538
+  name "wall(120)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation 1.30162 -2.53133e-14 -0.386317
+  name "wall(114)"
+  size 0.01 0.25 0.75
+}
+Wall {
+  translation -1.19942 -4.35208e-14 0.250513
+  name "wall(68)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation 1.30111 5.68434e-14 0.991297
+  name "wall(116)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation 0.546657 4.9738e-14 1.49901
+  name "wall(124)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation 1.80114 5.5067e-14 -0.250686
+  name "wall(123)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.199761 5.77315e-14 1.74619
+  name "wall(102)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation 0.0531844 5.77315e-14 0.241739
+  name "wall(90)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.19799 5.77315e-14 0.000621478
+  name "wall(95)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.20145 5.77315e-14 -1.5062
+  name "wall(92)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation 1.29672 5.59551e-14 -1.2479
+  name "wall(113)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.704552 5.77315e-14 0.992991
+  name "wall(88)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.700044 5.77315e-14 -0.254185
+  name "wall(82)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -1.44613 -4.30767e-14 -1.75197
+  name "wall(74)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.94806 -1.86518e-14 0.501321
+  name "wall(73)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -0.949671 -1.55432e-14 -1.25158
+  name "wall(79)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -1.20505 -4.48531e-14 -0.749702
+  name "wall(77)"
+  size 0.01 0.25 0.5
+}
+Wall {
+  translation -1.3235 -3.86357e-14 -0.255808
+  name "wall(65)"
+  size 0.75 0.25 0.01
+}
+Wall {
+  translation -0.826441 -3.86357e-14 0.74692
+  name "wall(35)"
+  size 0.75 0.25 0.01
+}
+Wall {
+  translation 1.67321 -3.86357e-14 0.242985
+  name "wall(25)"
+  size 0.75 0.25 0.01
+}
+Wall {
+  translation 0.424789 -3.86357e-14 0.494215
+  name "wall(27)"
+  size 0.75 0.25 0.01
+}
+Wall {
+  translation -0.33389 -3.86357e-14 -0.499579
+  name "wall(41)"
+  size 0.75 0.25 0.01
+}
+Wall {
+  translation -0.575078 -3.86357e-14 -1.25352
+  name "wall(55)"
+  size 0.75 0.25 0.01
+}
+Wall {
+  translation 1.5546 4.13004e-14 1.24504
+  name "wall(5)"
+  size 1 0.25 0.01
+}
+Wall {
+  translation 0.673703 1.68755e-14 1.24967
+  name "wall(14)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.419283 1.55432e-14 1.49549
+  name "wall(13)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation 0.91977 1.90959e-14 1.49272
+  name "wall(9)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.57367 1.77636e-14 1.49864
+  name "wall(8)"
+  size 0.25 0.25 0.01
+}
+Wall {
+  translation -1.825 0 1.75
+  name "wall(4)"
+  size 0.25 0.25 0.01
+}
+DEF _ Robot {
+  translation -0.000438602 1.14 0.176887
+  rotation -4.345510000000001e-09 1 2.71147e-10 1.5708
+  scale 0.430866 0.430866 0.430866
+  children [
+    GPS {
+      children [
+        Solid {
+          translation 0 0.03 0.07
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 1 0.0980392
+                roughness 1
+                metalness 0
+              }
+              geometry Cone {
+                bottomRadius 0.03
+                height 0.06
+                subdivision 36
+              }
+            }
+          ]
+        }
+      ]
+      name "global"
+    }
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.917647 0.145098 0.145098
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.05 0.2
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 55.10334446585208
+        anchor 0.06 0 0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 0.05
+        rotation 0.5516442805226042 -0.551646306828186 -0.6255996642658317 4.2596501872031185
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0.305882 0.898039 0.25098
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+              subdivision 24
+            }
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 670.3356908421805
+        anchor -0.06 0 0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.06 0 0.05
+        rotation 0.6395440009502692 -0.639546350130036 -0.4265723114360229 3.9479933127480664
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 138.55975087448275
+        anchor 0.06 0 -0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 -0.05
+        rotation 0.16192548646696667 -0.16192608125337424 0.9734269777658527 1.597729210293684
+        children [
+          USE WHEEL
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 650.3658468807245
+        anchor -0.06 0 -0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+        }
+      ]
+      endPoint Solid {
+        translation -0.06 0 -0.05
+        rotation -0.7069660264933044 0.706968623328364 0.019859582409155186 3.1018788551610372
+        children [
+          USE WHEEL
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF DS_FRONT DistanceSensor {
+      translation 0 0 0.1
+      rotation 0 -1 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_front"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+    }
+    DEF DS_LEFT DistanceSensor {
+      translation 0.05 0 0.001
+      rotation 0 1 0 0.26180030610042526
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_left"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+    DEF DS_LEFT_2 DistanceSensor {
+      translation 0.05 0 0.001
+      rotation 0 1 0 -0.2618
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_left_2"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+    DEF DS_RIGHT DistanceSensor {
+      translation -0.05 0 0.00100015
+      rotation 0 1 0 -2.7489003061004254
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+    DEF DS_RIGHT_2 DistanceSensor {
+      translation -0.05 0 0.00100015
+      rotation 0 1 0 2.7488996938995744
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right_2"
+      lookupTable [
+        0 0 0
+        0.3 1000 0
+      ]
+    }
+  ]
+  boundingObject USE BODY
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "GPS4wheeler"
+}

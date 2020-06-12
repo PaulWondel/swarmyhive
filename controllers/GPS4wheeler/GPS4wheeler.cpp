@@ -12,6 +12,7 @@ double leftSpeed1;
 double rightSpeed1;
 double leftSpeed2;
 double rightSpeed2;
+int counter;
 
 void turnRight(){
       leftSpeed1 = 5;
@@ -30,25 +31,33 @@ void turnLeft() {
 void adjustRight() {
   
       leftSpeed1 = 1;
-      rightSpeed1 = -2;
+      rightSpeed1 = -1;
       leftSpeed2 = 1;
-      rightSpeed2 = -2;
+      rightSpeed2 = -1;
 }
 
 void adjustLeft() {
-      leftSpeed1 = -2;
+      leftSpeed1 = -1;
       rightSpeed1 = 1;
-      leftSpeed2 = -2;
+      leftSpeed2 = -1;
       rightSpeed2 = 1;
+}
+
+void goForward() {
+      leftSpeed1 = 6.00;
+      rightSpeed1 = 6.00;
+      leftSpeed2 = 6.00;
+      rightSpeed2 = 6.00;
 }
 int main(int argc, char **argv) {
   Robot *robot = new Robot();
   GPS *gp;
+  
   gp = robot->getGPS("global");
   gp->enable(TIME_STEP);
   
   DistanceSensor *ds[5];
-  char dsNames[5][11] = {"ds_front", "ds_right","ds_right_2", "ds_left", "ds_left_2" };
+  char dsNames[5][11] = {"ds_front", "ds_right1","ds_right2", "ds_left2", "ds_left1" };
   for (int i = 0; i < 5; i++) {
     ds[i] = robot->getDistanceSensor(dsNames[i]);
     ds[i]->enable(TIME_STEP);
@@ -64,32 +73,69 @@ int main(int argc, char **argv) {
   while (robot->step(TIME_STEP) != -1) {
     
     if(!isTurning){ 
-      leftSpeed1 = 2.00;
-      rightSpeed1 = 2.00;
-      leftSpeed2 = 2.00;
-      rightSpeed2 = 2.00;
+      goForward();
+      counter++;
     }
     
+    // if(ds[0]->getValue() < 500) {
     
-    if(ds[0]->getValue() < 800) {
-      if(ds[1]->getValue() < 1000 && ds[2]->getValue() <1000) {
+    // printf("dolo");
+    // }
+    if(ds[0]->getValue() < 500) {
+      if(ds[1]->getValue() < 600 && ds[2]->getValue() <600) {
           isTurning = true;
+          cout<<"turning left"<<endl;
           turnLeft();
       } else {
           isTurning = true;
+          cout<<"turning right"<<endl;
           turnRight();
       }
    }else {
       isTurning = false;
     }
     
-    if(ds[1]->getValue() <800 && ds[2]->getValue() > 800) {
-      adjustLeft();
+    
+        if((ds[1]->getValue() > 300 && ds[1]->getValue() < 500) && (ds[2]->getValue() > 300 && ds[2]->getValue() < 500)) {
+      goForward();
+      
+      
+    }else if(counter > 2 && (ds[1]->getValue() <300 && ds[1]->getValue() >= ds[2]->getValue())){
+    /*
+    how to fix this, keep adjusting left until ds1 is bigger than ds2. need to fix if loops
+    
+    */
+    cout<<"adjusting left"<<endl;
+    adjustLeft();
+    counter = 0;
     }
     
-    if(ds[3]->getValue() <800 && ds[4]->getValue() > 800) {
+    if(counter > 2 && (ds[3]->getValue() <300 && ds[4]->getValue() < 300)) {
       adjustRight();
-    }    
+      cout<<"adjusting right"<<endl;
+      counter = 0;
+    }  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // if(counter > 2 && (ds[1]->getValue() <300 && ds[2]->getValue() < 300)) {
+      // adjustLeft();
+      // cout<<"adjusting left"<<endl;
+      // counter = 0;
+    // }
+    
+    // if(counter > 2 && (ds[3]->getValue() <300 && ds[4]->getValue() < 300)) {
+      // adjustRight();
+      // cout<<"adjusting right"<<endl;
+      // counter = 0;
+    // }    
     
     wheels[0]->setVelocity(leftSpeed1);
     wheels[1]->setVelocity(rightSpeed1);
@@ -97,10 +143,7 @@ int main(int argc, char **argv) {
     wheels[3]->setVelocity(rightSpeed2);
     
     //GPS PRINT COORDINATES
-    /*std::cout<<"X : "<<gp->getValues()[0]<<std::endl;
-    std::cout<<"Y : "<<gp->getValues()[1]<<std::endl;
-    std::cout<<"Z : "<<gp->getValues()[2]<<std::endl;
-    std::cout<<"##########################"<<std::endl;*/
+    cout<<"X : "<<fabs(round((gp->getValues()[0]-0.0624)/0.125))<<"  ||  Z : "<<fabs(round((gp->getValues()[2]-0.0624)/0.125))<<std::endl; 
   }
   delete robot;
   return 0;  // EXIT_SUCCESS
