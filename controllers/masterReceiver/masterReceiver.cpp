@@ -1,5 +1,3 @@
-//last edit before making it into master
-
 #include <webots/Supervisor.hpp>
 #include <webots/Receiver.hpp>
 #include "extra.hpp"
