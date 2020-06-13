@@ -1,6 +1,7 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
+#include <webots/Compass.hpp>
 //#include <webots/Robot.hpp>
 //#include <webots/Emitter.hpp>
 #include <cmath>
@@ -32,8 +33,17 @@ struct CoordinateWalls
   double direction;
 };
 
-//initializers && variables
+enum movementDirection
+{
+  NORTH,// 0
+  EAST, // 1
+  SOUTH, // 2
+  WEST // 3
 
+};
+
+//initializers && variables
+Compass *compass;
 Supervisor *supervisor;
 DistanceSensor *ds[3];
 char dsNames[3][11] = {"ds_front", "ds_right", "ds_left"};
@@ -44,6 +54,7 @@ Field *trans_field;
 Field *rotation_field;
 const double *trans_values;
 const double *rotationValues;
+const double *compassDirection;
 double xValue;
 double zValue;
 double botAngle;
@@ -77,8 +88,8 @@ Coordinates structTransport(double xCoord, double zCoord)
 
 //used to send coordinates to the receiver
 // void sendCoordinates(Coordinates message, Emitter *device){
-  // device->send(&message,sizeof(message));
-  // return;
+// device->send(&message,sizeof(message));
+// return;
 // }
 
 //stops to bot when called or restarts movement
@@ -93,10 +104,10 @@ void botMovement(bool status)
   }
   else
   {
-    wheels[0]->setVelocity(5.0);
-    wheels[1]->setVelocity(5.0);
-    wheels[2]->setVelocity(5.0);
-    wheels[3]->setVelocity(5.0);
+    wheels[0]->setVelocity(10.0);
+    wheels[1]->setVelocity(10.0);
+    wheels[2]->setVelocity(10.0);
+    wheels[3]->setVelocity(10.0);
   }
 }
 
@@ -372,113 +383,73 @@ void rotateBot(double changeDirection)
   }
 }
 
-void testLogic(){
-  
-  
-}
-
-// turn logic for the bot
-void turnLogic(double incomingAngle)
+void testTurn()
 {
 
-  botMovement(false);
-
-  //local variables for sensor data
   int frontSensorData = ds[0]->getValue();
   int rightSensorData = ds[1]->getValue();
   int leftSensorData = ds[2]->getValue();
-  int frontSensorCompare = 1000;
 
-  // if going up and sensor seeing a wall
-  if ((incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) && frontSensorData < frontSensorCompare)
+  botMovement(false);
+  if (frontSensorData < 500)
   {
-
-    //if can't go forward check for available turn(s)
-
-    //checks sensors
-    if (rightSensorData < 1000)
+    //cout<<"sees wall: " <<endl;
+    if (rightSensorData > 600)
     {
-      if (leftSensorData < 1000)
-      {
-        //pop stack since this is a deadend, and recursive the function
-        //if all sensors are true meaning a deadend turn the bot 180 degrees
-        rotateBot(DOWN);
-      }
-      else
-      {
-        rotateBot(LEFT);
-      }
+      //cout<<"turn right: " <<rightSensorData<<endl;
+      setRotationXYZ();
+      directionValue[3] -= 1.5708;
+      rotation_field->setSFRotation(directionValue);
+    }
+    else if (leftSensorData > 600)
+    {
+      //cout<<"turn left: " <<leftSensorData<<endl;
+      setRotationXYZ();
+      directionValue[3] += 1.5708;
+      rotation_field->setSFRotation(directionValue);
     }
     else
     {
-      rotateBot(RIGHT);
+      //cout<<"180: " <<endl;
+      setRotationXYZ();
+      directionValue[3] += 3.1415;
+      rotation_field->setSFRotation(directionValue);
     }
   }
-
-  if ((incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) && frontSensorData < frontSensorCompare)
+  else
   {
-
-    if (rightSensorData < 1000)
-    {
-
-      if (leftSensorData < 1000)
-      {
-
-        rotateBot(LEFT);
-      }
-      else
-      {
-        rotateBot(UP);
-      }
-    }
-    else
-    {
-      rotateBot(DOWN);
-    }
+    //cout<<"restart bot: " <<endl;
+    botMovement(true);
   }
+}
 
-  if ((incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin)) && frontSensorData < frontSensorCompare)
+movementDirection setTrueDirection()
+{
+
+  // [0] == z , [2] == x
+
+  double x = round(compassDirection[0]);
+  double y = round(compassDirection[2]);
+  //cout<< "x: "<<x<<"  y: "<<y<<endl;
+  if (x == 1)
   {
-
-    if (rightSensorData < 1000)
-    {
-
-      if (leftSensorData < 1000)
-      {
-
-        rotateBot(RIGHT);
-      }
-      else
-      {
-        rotateBot(UP);
-      }
-    }
-    else
-    {
-    cout << "bot turns left?? " << endl;
-      rotateBot(LEFT);
-    }
+    cout<<"EAST"<<endl;
+    return EAST;
   }
-  if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) && frontSensorData < frontSensorCompare)
+  else if (x == -1)
   {
-
-    if (rightSensorData < 1000)
-    {
-
-      if (leftSensorData < 1000)
-      {
-
-        rotateBot(RIGHT);
-      }
-      else
-      {
-        rotateBot(LEFT);
-      }
-    }
-    else
-    {
-      rotateBot(RIGHT);
-    }
+  cout<<"WEST"<<endl;
+    return WEST;
+  }
+  else if (y == 1)
+  {
+  cout<<"NORTH"<<endl;
+    return NORTH;
+  }
+  else
+  {
+  cout<<"SOUTH"<<endl;
+    return SOUTH;
   }
 }
 
@@ -491,10 +462,11 @@ void backTracking()
 
 //function that calls all other functions that needs to update per cycle
 void updateValues(double botAngle)
-{ 
+{
 
   //turnLogic(botAngle);
-  onlyPositives(botAngle);
+  testTurn();
+  //onlyPositives(botAngle);
   //sets struct to values coming from onlyPositives(botAngle);
   currentCoord = {xValue, zValue};
 
@@ -505,11 +477,8 @@ void updateValues(double botAngle)
     previousCoord = currentCoord;
     wallDetection(currentCoord, botAngle);
     backTracking();
-
   }
 }
-
-
 
 void setup()
 {
@@ -530,29 +499,35 @@ void setup()
   // Emitter Setup
   // Emitter *emitter;
   // emitter=supervisor->getEmitter("emitter");
-  
+
   // emitter->setChannel(1);
 
   robot_node = supervisor->getFromDef("botJr");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
+  compass = supervisor->getCompass("compass");
+  compass->enable(TIME_STEP);
 }
 
 int main()
 {
 
   supervisor = new Supervisor();
+
   setup();
 
   while (supervisor->step(TIME_STEP) != -1)
   {
 
     // this is done repeatedly
-
     trans_values = trans_field->getSFVec3f();
     rotationValues = rotation_field->getSFRotation();
+    compassDirection = compass->getValues();
     botAngle = rotationValues[3];
     updateValues(botAngle);
+    setTrueDirection();
+    //cout << "compass points to: " << setTrueDirection() << endl;
+    
   }
 
   delete supervisor;

@@ -658,6 +658,8 @@ DEF botJr Robot {
   translation 0.0625 0.01 0.0625
   rotation 0.7071067811865475 0 0.7071067811865475 0
   children [
+    DEF compass Compass {
+    }
     DEF emitter Emitter {
     }
     DEF DS_FRONT DistanceSensor {
@@ -876,6 +878,6 @@ DEF botJr Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "slaveController"
+  controller "slaveController_test"
   supervisor TRUE
 }
