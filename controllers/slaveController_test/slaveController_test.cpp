@@ -14,6 +14,14 @@ using namespace webots;
 using namespace std;
 
 //structs
+enum movementDirection
+{
+  NORTH, // 0
+  EAST,  // 1
+  SOUTH, // 2
+  WEST   // 3
+
+};
 
 struct Coordinates
 {
@@ -30,16 +38,7 @@ struct CoordinateWalls
   bool right;
   bool down;
   bool left;
-  double direction;
-};
-
-enum movementDirection
-{
-  NORTH,// 0
-  EAST, // 1
-  SOUTH, // 2
-  WEST // 3
-
+  movementDirection direction;
 };
 
 //initializers && variables
@@ -63,8 +62,10 @@ double rightSpeed1;
 double leftSpeed2;
 double rightSpeed2;
 bool status = true;
-Coordinates previousCoord = {0, 0};
-Coordinates currentCoord = {0, 0};
+bool setStartCoordsOnce = true;
+bool isBackTracking = false;
+Coordinates previousCoord; //= {0, 0};
+Coordinates currentCoord; // {0,0};
 stack<CoordinateWalls> coordStack;
 double UP = 1.5708;     // 90 degrees
 double RIGHT = 0.0;     // 0 degrees
@@ -76,6 +77,8 @@ double directionValue[] = {0, 1, 0, 0};
 double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 // struct Coordinates slave;
 // struct CoordinateWalls test;
+
+// where we've been, where we haven't been too and correctpath
 
 //methods
 
@@ -120,75 +123,9 @@ void setRotationXYZ()
   directionValue[2] = 0;
 }
 
-//centers bot to the middle of a square
-void centerBot()
-{
-
-  //scales incoming values from decimals to big numbers (1+)
-  trans_center_values[0] = 0.0625 + (0.125 * currentCoord.xCoordinate);
-  trans_center_values[1] = 0.05;
-  trans_center_values[2] = 0.0625 + (0.125 * currentCoord.zCoordinate);
-
-  // up for cleaning when program is done
-  // cout << "X: " << previousCoord.xCoordinate << "    ||    "
-  //      << "Z: " << previousCoord.zCoordinate << "    ||    "
-  //      << "Value[0]: " << trans_center_values[0] << "    ||    "
-  //      << "Value[2]: " << trans_center_values[2] << endl;
-
-  //sets the values
-  trans_field->setSFVec3f(trans_center_values);
-}
-
-//orientate the bot based on the incoming angle
-void botOrientation(double incomingAngle)
-{
-  //cout << "************************" << incomingAngle << endl;
-
-  //check if facing right
-  if (incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin))
-  {
-
-    setRotationXYZ();
-    centerBot();
-    directionValue[3] = RIGHT;                     // set angle field to the correct angle
-    _botDirection = RIGHT;                         //sets value to be filled into struct
-    rotation_field->setSFRotation(directionValue); // sets
-  }
-  else if (incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin))
-  {
-
-    setRotationXYZ();
-    centerBot();
-    directionValue[3] = DOWN;
-    _botDirection = DOWN;
-    rotation_field->setSFRotation(directionValue);
-  }
-  else if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) || (incomingAngle <= (-LEFT + margin) && incomingAngle >= (-LEFT - margin)))
-  {
-
-    setRotationXYZ();
-    centerBot();
-    directionValue[3] = LEFT;
-    _botDirection = LEFT;
-    rotation_field->setSFRotation(directionValue);
-  }
-  else if (incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin))
-  {
-
-    setRotationXYZ();
-    centerBot();
-    directionValue[3] = UP;
-    _botDirection = UP;
-    rotation_field->setSFRotation(directionValue);
-  }
-}
-
 //function for detecting walls and saving them based on the current direction
-void wallDetection(Coordinates xzCoords, double currentDirection)
+void wallDetection(Coordinates xzCoords, movementDirection direction)
 {
-
-  //botMovement(false);
-  botOrientation(currentDirection);
 
   //local variables
   int frontSensorData = ds[0]->getValue();
@@ -198,10 +135,10 @@ void wallDetection(Coordinates xzCoords, double currentDirection)
   bool _RIGHT = false;
   bool _DOWN = false;
   bool _LEFT = false;
-  double _margin = 0.157;
 
   //cycles through all 4 directions and update the walls values based on current angle
-  if (currentDirection <= (RIGHT + _margin) && currentDirection >= (RIGHT - _margin))
+  //NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3
+  if (direction == EAST)
   {
     //GOING RIGHT
 
@@ -214,7 +151,7 @@ void wallDetection(Coordinates xzCoords, double currentDirection)
     _LEFT = true;
   }
 
-  if (currentDirection <= (DOWN + _margin) && currentDirection >= (DOWN - _margin))
+  if (direction == SOUTH)
   {
     //GOING DOWN
 
@@ -227,7 +164,7 @@ void wallDetection(Coordinates xzCoords, double currentDirection)
     _UP = true;
   }
 
-  if ((currentDirection <= (LEFT + _margin) && currentDirection >= (LEFT - _margin)) || (currentDirection <= (-LEFT + margin) && currentDirection >= (-LEFT - margin)))
+  if (direction == WEST)
   {
     //GOING LEFT
 
@@ -240,7 +177,7 @@ void wallDetection(Coordinates xzCoords, double currentDirection)
     _RIGHT = true;
   }
 
-  if (currentDirection <= (UP + _margin) && currentDirection >= (UP - _margin))
+  if (direction == NORTH)
   {
     //GOING UP
 
@@ -252,13 +189,25 @@ void wallDetection(Coordinates xzCoords, double currentDirection)
       _LEFT = true;
     _DOWN = true;
   }
-  //cout << "bot dir: " << _botDirection << endl;
 
   //fills struct with coordinate pair, detected walls and current direction
-  CoordinateWalls currentWalls = {xzCoords, _UP, _RIGHT, _DOWN, _LEFT, _botDirection};
+
+  CoordinateWalls currentWalls = {xzCoords, _UP, _RIGHT, _DOWN, _LEFT, direction};
 
   //push the struct to the stack
   coordStack.push(currentWalls);
+
+  if (!coordStack.empty())
+  {
+    cout << " xCoord: " << coordStack.top().ptnPair.xCoordinate << endl;
+    cout << " zCoord: " << coordStack.top().ptnPair.zCoordinate << endl;
+    cout << " UP: " << coordStack.top().up << endl;
+    cout << " RIGHT: " << coordStack.top().right << endl;
+    cout << " DOWN: " << coordStack.top().down << endl;
+    cout << " LEFT: " << coordStack.top().left << endl;
+    cout << " DIRECTION: " << coordStack.top().direction << endl;
+    cout << "===================" << endl;
+  }
 
   //send to stack to master
 
@@ -269,49 +218,85 @@ void wallDetection(Coordinates xzCoords, double currentDirection)
   _LEFT = false;
 }
 
-void onlyPositives(double incomingAngle)
+void getStartingCoordinates(double x, double z, bool state, movementDirection direction)
+{
+
+  Coordinates startCoord = {x, z};
+
+  if (state)
+  {
+    //startCoord = {x,z};
+    previousCoord = startCoord;
+    currentCoord = startCoord;
+    wallDetection(startCoord, direction);
+    state = false;
+  }
+}
+
+/*
+
+  TO FIX INSTEAD OF CHECKING FOR THE CURRENT COORD +1 CHANGE IT TO ACTUAL VALUE ROUNDED
+
+*/
+void onlyPositives(movementDirection direction) //double incomingAngle)
 {
   // checks if it is out of bounds or not (0.0625 sets it to the middle of a square and *8 scales it up)
   double scaledTransValueX = ((trans_values[0] - 0.0625) * 8);
   double scaledTransValueZ = ((trans_values[2] - 0.0625) * 8);
 
+        if (setStartCoordsOnce)
+    {
+      double tempx = round(((trans_values[0] - 0.0625) * 8));
+      double tempz =  round(((trans_values[2] - 0.0625) * 8));
+      getStartingCoordinates(tempx, tempz, setStartCoordsOnce, direction);
+      setStartCoordsOnce = false;
+    }
   //delete when done
   // cout << "Scaled X: " << scaledTransValueX << endl;
   // cout << "Scaled Z: " << scaledTransValueZ << endl;
   // cout << "==========================" << endl;
 
+  //NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3
+
   //check if it is not out of bounds  X-AXIS
   if (scaledTransValueX >= 0)
   {
 
-    if (incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) //checks if its going right, also takes into account slight deviation possibility
+    //if (incomingAngle <= (UP + margin) && incomingAngle >= (UP - margin)) //checks if its going RIGHT?? ((I THINK UP INSTEAD)), also takes into account slight deviation possibility
+    if (direction == NORTH)
     {
 
       //checks currentCoord with realtime location
       //if bot passed the connecter/threshold between two squares
       if (scaledTransValueX >= (currentCoord.xCoordinate + 0.5))
       {
+
         //move it to the center of the new square
-        xValue = currentCoord.xCoordinate + 1;
+        xValue = round(scaledTransValueX);
+        zValue = round(scaledTransValueZ);
       }
       else
       {
         //sets currentCoord back to what it was
         xValue = currentCoord.xCoordinate;
+        zValue = currentCoord.zCoordinate;
       }
     }
     //same as UP but for down instead
-    if (incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin))
+    //if (incomingAngle <= (DOWN + margin) && incomingAngle >= (DOWN - margin))
+    if (direction == SOUTH)
     {
       //if bot passed the connecter/threshold between two squares
       if (scaledTransValueX <= (currentCoord.xCoordinate - 0.5))
       {
 
-        xValue = currentCoord.xCoordinate - 1;
+        xValue = round(scaledTransValueX);
+        zValue = round(scaledTransValueZ);
       }
       else
       {
         xValue = currentCoord.xCoordinate;
+        zValue = currentCoord.zCoordinate;
       }
     }
   }
@@ -319,98 +304,113 @@ void onlyPositives(double incomingAngle)
   if (scaledTransValueZ >= 0)
   {
 
-    if (incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) //checks if its going right
+    //if (incomingAngle <= (RIGHT + margin) && incomingAngle >= (RIGHT - margin)) //checks if its going right
+    if (direction == EAST)
     {
+      
       if (scaledTransValueZ >= (currentCoord.zCoordinate + 0.5))
       {
-
-        zValue = currentCoord.zCoordinate + 1;
+        xValue = round(scaledTransValueX);
+        zValue = round(scaledTransValueZ);
       }
       else
       {
+        xValue = currentCoord.xCoordinate;
         zValue = currentCoord.zCoordinate;
       }
     }
 
-    if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) || (incomingAngle <= (-LEFT + margin) && incomingAngle >= (-LEFT - margin)))
+    //if ((incomingAngle <= (LEFT + margin) && incomingAngle >= (LEFT - margin)) || (incomingAngle <= (-LEFT + margin) && incomingAngle >= (-LEFT - margin)))
+    if (direction == WEST)
     {
+      //cout<<"POSITIVE WEST:"<<endl;
       if (scaledTransValueZ <= (currentCoord.zCoordinate - 0.5))
       {
-
-        zValue = currentCoord.zCoordinate - 1;
+        xValue = round(scaledTransValueX);
+        zValue = round(scaledTransValueZ);
       }
       else
       {
+        xValue = currentCoord.xCoordinate;
         zValue = currentCoord.zCoordinate;
       }
     }
   }
-
   botMovement(true);
 }
 
-//rotateBot depending on wall/sensor conditions
-void rotateBot(double changeDirection)
+void testTurn(movementDirection direction)
 {
-
-  if (changeDirection == UP)
-  {
-
-    setRotationXYZ();
-    directionValue[3] = UP;
-    rotation_field->setSFRotation(directionValue);
-  }
-  else if (changeDirection == RIGHT)
-  {
-
-    setRotationXYZ();
-    directionValue[3] = RIGHT;
-    rotation_field->setSFRotation(directionValue);
-  }
-  else if (changeDirection == DOWN)
-  {
-
-    setRotationXYZ();
-    directionValue[3] = DOWN;
-    rotation_field->setSFRotation(directionValue);
-  }
-  else if (changeDirection == LEFT)
-  {
-
-    setRotationXYZ();
-    directionValue[3] = LEFT;
-    rotation_field->setSFRotation(directionValue);
-  }
-}
-
-void testTurn()
-{
-
   int frontSensorData = ds[0]->getValue();
   int rightSensorData = ds[1]->getValue();
   int leftSensorData = ds[2]->getValue();
 
-  botMovement(false);
+
   if (frontSensorData < 500)
   {
-    //cout<<"sees wall: " <<endl;
+
+    cout << "sees wall: " << endl;
+    botMovement(false);
     if (rightSensorData > 600)
     {
-      //cout<<"turn right: " <<rightSensorData<<endl;
+      cout << "turn right: " << rightSensorData << endl;
       setRotationXYZ();
-      directionValue[3] -= 1.5708;
+
+      switch (direction)
+      {
+
+      case EAST:
+        directionValue[3] = -1.5708;
+        break;
+
+      case WEST:
+        directionValue[3] = 1.5708;
+        break;
+
+      case NORTH:
+        directionValue[3] = 0;
+        break;
+
+      case SOUTH:
+        directionValue[3] = 3.1415;
+        break;
+      }
       rotation_field->setSFRotation(directionValue);
     }
     else if (leftSensorData > 600)
     {
-      //cout<<"turn left: " <<leftSensorData<<endl;
+      cout << "turn left: " << leftSensorData << endl;
       setRotationXYZ();
-      directionValue[3] += 1.5708;
+
+      switch (direction)
+      {
+
+      case EAST:
+        directionValue[3] = 1.5708;
+        break;
+
+      case WEST:
+        directionValue[3] = -1.5708;
+        break;
+
+      case NORTH:
+        directionValue[3] = 3.1415;
+        break;
+
+      case SOUTH:
+        directionValue[3] = 0;
+        break;
+      }
       rotation_field->setSFRotation(directionValue);
     }
     else
     {
-      //cout<<"180: " <<endl;
+      cout << "180: " << endl;
+
+      //call backtracking
+      //return isBackTracking = true;
+      
+
       setRotationXYZ();
       directionValue[3] += 3.1415;
       rotation_field->setSFRotation(directionValue);
@@ -433,22 +433,22 @@ movementDirection setTrueDirection()
   //cout<< "x: "<<x<<"  y: "<<y<<endl;
   if (x == 1)
   {
-    cout<<"EAST"<<endl;
+    //cout<<"EAST"<<endl;
     return EAST;
   }
   else if (x == -1)
   {
-  cout<<"WEST"<<endl;
+    //cout<<"WEST"<<endl;
     return WEST;
   }
   else if (y == 1)
   {
-  cout<<"NORTH"<<endl;
+    //cout<<"NORTH"<<endl;
     return NORTH;
   }
   else
   {
-  cout<<"SOUTH"<<endl;
+    //cout<<"SOUTH"<<endl;
     return SOUTH;
   }
 }
@@ -456,8 +456,28 @@ movementDirection setTrueDirection()
 //work in progress
 void backTracking()
 {
+  //also fills visited array
 
-  //bool cellVisited[][] = true;
+
+  //check if the stack is empty
+  //not empty
+  // current stack top = stack.top()
+  // stack top you want direction
+  //go the opposite direction that you were going
+  //pop here
+  //if stack.top coords == current real time location
+  //call me again
+  // keep calling until the walls have 2 or more that is false;
+
+
+
+  if(!coordStack.empty()) {
+    backTrackingStack = coordStack.top();
+  }
+
+
+
+//return isBackTracking = false;
 }
 
 //function that calls all other functions that needs to update per cycle
@@ -465,17 +485,23 @@ void updateValues(double botAngle)
 {
 
   //turnLogic(botAngle);
-  testTurn();
-  //onlyPositives(botAngle);
+  testTurn(setTrueDirection());
+  onlyPositives(setTrueDirection());
+
   //sets struct to values coming from onlyPositives(botAngle);
   currentCoord = {xValue, zValue};
+  //cout << "x coord: " << xValue << endl;
 
   // only run the functions inside if the last location is different than the current location else ignore this and keeps moving
-  if ((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate)) //missing pathFound condition, disable if and use other if when found
+  if (!isBackTracking && ((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate))) //missing pathFound condition, disable if and use other if when found
   {
     //saves the currentCoord in another struct to be compared later
     previousCoord = currentCoord;
-    wallDetection(currentCoord, botAngle);
+    wallDetection(currentCoord, setTrueDirection());
+    //if deadend, isbacktracking = true;
+    //backTracking();
+  }
+  else{
     backTracking();
   }
 }
@@ -483,13 +509,13 @@ void updateValues(double botAngle)
 void setup()
 {
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; i++) //SENSOR INITIALIZERS
   {
     ds[i] = supervisor->getDistanceSensor(dsNames[i]);
     ds[i]->enable(TIME_STEP);
   }
 
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; i++) //WHEEL INITIALIZERS
   {
     wheels[i] = supervisor->getMotor(wheels_names[i]);
     wheels[i]->setPosition(INFINITY);
@@ -527,7 +553,6 @@ int main()
     updateValues(botAngle);
     setTrueDirection();
     //cout << "compass points to: " << setTrueDirection() << endl;
-    
   }
 
   delete supervisor;
