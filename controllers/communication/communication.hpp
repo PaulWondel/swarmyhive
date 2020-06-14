@@ -14,7 +14,12 @@ struct CoordinateWalls {
   double direction;
 };
 
-CoordinateWalls createStruct(Coordinates structure, bool wall_up, bool wall_right, bool wall_down, bool wall_left){
-  CoordinateWalls currentWalls = {xzCoords, _UP, _RIGHT, _DOWN, _LEFT, _botDirection};
-  coordStack.push(currentWalls);
-}
+struct exitSignal {
+  int tag;
+  char messageContent[];
+};
+
+// CoordinateWalls createStruct(Coordinates structure, bool wall_up, bool wall_right, bool wall_down, bool wall_left){
+//   CoordinateWalls currentWalls = {xzCoords, _UP, _RIGHT, _DOWN, _LEFT, _botDirection};
+//   coordStack.push(currentWalls);
+// }

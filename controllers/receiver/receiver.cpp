@@ -5,7 +5,7 @@
 #include "extra.hpp"
 #include <vector> 
 
-#define TIME_STEP 192
+#define TIME_STEP 256
 
 using namespace webots;
 using namespace std;

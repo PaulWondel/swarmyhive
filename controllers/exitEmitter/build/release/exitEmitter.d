@@ -1,4 +1,4 @@
-build/release/communication.o: communication.cpp \
+build/release/exitEmitter.o: exitEmitter.cpp \
  /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Supervisor.hpp \
  /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Node.hpp \
  /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Field.hpp \
@@ -6,7 +6,4 @@ build/release/communication.o: communication.cpp \
  /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Robot.hpp \
  /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Emitter.hpp \
  /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Device.hpp \
- /snap/webots/14/usr/share/webots/include/controller/cpp/webots/DistanceSensor.hpp \
- /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Motor.hpp \
- communication.hpp \
- /snap/webots/14/usr/share/webots/include/controller/cpp/webots/Receiver.hpp
+ structs.hpp
