@@ -763,7 +763,7 @@ void setup()    //RUN SETUP ONCE FOR INITIALIZATION
 
   // emitter->setChannel(1);
 
-  robot_node = supervisor->getFromDef("botJr");
+  robot_node = supervisor->getFromDef("botJr3");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
   compass = supervisor->getCompass("compass");
