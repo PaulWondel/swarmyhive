@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.5944809869685324 0.6723321517160302 0.4410916388935665 4.613981491322508
-  position -0.34241336386643184 1.3496501082370074 0.2933629069444471
+  orientation -0.5001449482841468 -0.7094572171046267 -0.49651333094289285 1.9006161551725067
+  position -0.20820283186828795 1.1303565867885925 0.42593532630275416
 }
 TexturedBackground {
 }
@@ -655,7 +655,8 @@ DEF WALLS Solid {
   ]
 }
 DEF botJr Robot {
-  translation 0.0625 0.01 0.0625
+  translation 0.0625 0.02 0.0625
+  rotation 0.9999937711417106 0.0034404079228925093 0.0007882075260579595 1.0710506277811135e-05
   children [
     DEF compass Compass {
     }
@@ -677,6 +678,23 @@ DEF botJr Robot {
         }
       ]
       name "ds_front"
+    }
+    DEF DS_BACK DistanceSensor {
+      translation -3.33883e-06 0.004 -0.015
+      rotation 0 -1 0 -1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.002 0.002 0.002
+          }
+        }
+      ]
+      name "ds_back"
     }
     DEF DS_LEFT DistanceSensor {
       translation 0.012 0.004 0
@@ -738,7 +756,7 @@ DEF botJr Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1162.6047065489645
+        position 1191.0847065489477
         anchor 0.0141 -0.0048 0.007
       }
       device [
@@ -747,8 +765,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.0047999998991884825 0.007000010650572228
-        rotation -0.09606427374588176 0.09606462661029982 -0.9907286423758526 4.7030708378576955
+        translation 0.014100000000000001 -0.004799997923634691 0.006999989553299141
+        rotation -0.6999880617855664 0.6999906329898905 0.14152677161617974 2.860407575578675
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -769,7 +787,7 @@ DEF botJr Robot {
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1147.72470722147
+        position 1176.2047072214611
         anchor -0.0141 -0.0048 0.007
       }
       device [
@@ -778,8 +796,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799999899188498 0.007000010650572228
-        rotation 0.6574058092020663 -0.6574082239927619 -0.3682825397083862 3.8473271179867212
+        translation -0.014100000000000001 -0.004799997923634675 0.006999989553299144
+        rotation -0.4989343586354089 0.4989361913269237 -0.7086093301370343 4.374550585269972
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -801,7 +819,7 @@ DEF botJr Robot {
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1147.724708267137
+        position 1176.2047082671197
         anchor 0.0141 -0.0048 -0.0075
       }
       device [
@@ -810,8 +828,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.00479999989918908 -0.0074999893494277665
-        rotation 0.6574056998688651 -0.6574081146591599 -0.36828293004185864 3.8473278054141984
+        translation 0.014100000000000001 -0.004799997923634105 -0.007500010446700743
+        rotation -0.4989346368899142 0.49893646958245275 -0.7086089382953955 4.374550063554849
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -833,7 +851,7 @@ DEF botJr Robot {
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1162.6047080398673
+        position 1191.0847080398587
         anchor -0.0141 -0.0048 -0.0075
       }
       device [
@@ -842,8 +860,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.0047999998991891035 -0.0074999893494277665
-        rotation -0.09606500546766258 0.096065358334758 -0.9907285004745309 4.703070694634672
+        translation -0.014100000000000001 -0.004799997923634082 -0.007500010446700737
+        rotation -0.6999880079779278 0.699990579182041 0.14152730387979232 2.860406531958793
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
