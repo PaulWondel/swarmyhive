@@ -214,7 +214,7 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
   {
     visitedWalls[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate] = {_UP, _RIGHT, _DOWN, _LEFT};
   }
-  //visitedWalls[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate] = {_UP, _RIGHT, _DOWN, _LEFT};
+  visitedWalls[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate] = {_UP, _RIGHT, _DOWN, _LEFT};
 
   //reset local variables for the next coordinate pair
   _UP = false;
@@ -223,13 +223,13 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
   _LEFT = false;
 }
 
-bool intersectionCheck(double x, double y)
+bool intersectionCheck(double x, double z)
 {
 
   //PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
 
   int pathsFound = 0;
-  Walls currentSpotWalls = visitedWalls[(int)x][(int)y];
+  Walls currentSpotWalls = visitedWalls[(int)x][(int)z];
 
   if (currentSpotWalls.up == false)
   {
@@ -473,15 +473,6 @@ void testTurnAfterBacktracking(movementDirection direction)
 
   setRotationXYZ();
   rotation_field->setSFRotation(directionValue);
-  cout << "" << endl;
-  cout << "" << endl;
-  cout << "" << endl;
-  cout << "" << endl;
-  cout << "X: " << tempx << "Y:" << tempz << endl;
-  cout << "" << endl;
-  cout << "" << endl;
-  cout << "" << endl;
-  cout << "" << endl;
   // might be here
   cout << " SETS isBackTracking to FALSE in testTurnAfterBacktracking " << endl;
   isBackTracking = false;
