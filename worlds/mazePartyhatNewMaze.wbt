@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 1 -2.1766060587688444e-14 -1.4829829703369683e-14 4.812388980384704
-  position 1.5969887791256812 5.607064673240465 1.5494031463998992
+  orientation 0.5795716693978532 0.5733479850462981 0.5791103246141751 4.183463745022809
+  position 0.5758622573026643 2.127191580664375 1.5935958023723304
 }
 TexturedBackground {
 }
@@ -233,8 +233,8 @@ Solid {
   ]
 }
 DEF botJr Robot {
-  translation 0.1774088525086539 0.010797435182212763 0.058193892821533276
-  rotation 4.8860033095066345e-06 0.9999999999739027 -5.321812258437297e-06 1.6545397612196366
+  translation 0.06665 0.01 0.06665
+  rotation 0 1 0 1.5708
   children [
     DEF compass Compass {
     }
@@ -344,7 +344,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991243424082 0.007000006063598761
-        rotation 0.34866890267418627 -0.3486701834088682 -0.8699764936534808 4.573544485364312
+        rotation 0.3486689026741864 -0.3486701834088682 -0.8699764936534808 4.573544485364312
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -361,8 +361,6 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 0.05978967423855117 3.6350648036540893e-09 -0.005018625133145638
-        angularVelocity -0.8364582965544756 -9.862404408130876e-07 -9.964957993853332
       }
     }
     DEF WHEEL2 HingeJoint {
@@ -377,7 +375,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991243424095 0.00700000606359878
-        rotation 0.7069152115813142 -0.706917808230528 -0.02319689723847956 3.187977958991352
+        rotation 0.7069152115813142 -0.706917808230528 -0.023196897238479588 3.187977958991352
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -395,8 +393,6 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 0.05978967944621325 -1.699685601155085e-09 -0.005018812167498122
-        angularVelocity -0.8364582982380728 -9.876295922102061e-07 -9.964957993962836
       }
     }
     DEF WHEEL3 HingeJoint {
@@ -410,7 +406,7 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.004799991243424448 -0.007499993936400708
+        translation 0.014100000000000001 -0.004799991243424445 -0.007499993936400708
         rotation 0.7069152054917062 -0.7069178021408962 -0.023197268393139046 3.187978700898721
         children [
           DEF WHEEL Shape {
@@ -429,8 +425,6 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 0.05978981339073762 4.4310122289105914e-08 -0.005018692563566285
-        angularVelocity -0.8364582971858207 -9.867692201295105e-07 -9.964957995538093
       }
     }
     DEF WHEEL4 HingeJoint {
@@ -445,7 +439,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.00479999124342447 -0.007499993936400679
-        rotation 0.34866833071433995 -0.3486696114469206 -0.8699769521144392 4.573545007273715
+        rotation 0.3486683307143401 -0.3486696114469206 -0.8699769521144389 4.573545007273715
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -463,8 +457,6 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 0.05978982479849521 3.872579566537577e-08 -0.005018869279561637
-        angularVelocity -0.8364582986539488 -9.87754465064877e-07 -9.964957995729382
       }
     }
     DEF BODY Shape {
@@ -483,11 +475,9 @@ DEF botJr Robot {
   }
   controller "slaveController_test"
   supervisor TRUE
-  linearVelocity 0.059789350314625414 -2.520820221736196e-07 -0.005018718549414851
-  angularVelocity -2.0251556184026963e-07 -1.6298992378299071e-06 -2.507912363513519e-06
 }
 DEF botJr2 Robot {
-  translation 1.9358000000863598 0.01079746881578836 0.18913230071291218
+  translation -0.602899 0.0107975 1.65705
   rotation -0.9999941785238499 0.003279671187880661 -0.0009416343825017016 -1.0710551799245132e-05
   children [
     DEF compass Compass {
@@ -598,7 +588,7 @@ DEF botJr2 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
-        rotation 0.3366694927226209 -0.33667072938092996 -0.879378458144163 4.584197930603932
+        rotation 0.33666949272262103 -0.33667072938092996 -0.879378458144163 4.584197930603933
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -615,8 +605,6 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -1.8659063745315547e-09 -1.82451668536398e-09 0.06000000130141403
-        angularVelocity 9.999999998232662 -3.0692397581267114e-08 1.985555163253101e-07
       }
     }
     DEF WHEEL2 HingeJoint {
@@ -649,8 +637,6 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -1.86575093314907e-09 1.884716045103738e-09 0.05999999867674237
-        angularVelocity 9.999999998201222 -3.0825969009979856e-08 1.9848801530167388e-07
       }
     }
     DEF WHEEL3 HingeJoint {
@@ -665,7 +651,7 @@ DEF botJr2 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
-        rotation 0.7066920002682439 -0.7066945960975537 -0.034193049050705374 3.209951867934184
+        rotation 0.7066920002682436 -0.7066945960975539 -0.03419304905070544 3.209951867934184
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -683,8 +669,6 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -5.163209071974962e-10 -1.8498785003880203e-09 0.0600000013012606
-        angularVelocity 9.999999998232695 -3.0835857748809924e-08 1.984823791133849e-07
       }
     }
     DEF WHEEL4 HingeJoint {
@@ -717,8 +701,6 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -5.164779008262682e-10 1.8593557025646275e-09 0.05999999867698861
-        angularVelocity 9.999999998201156 -3.070233085926786e-08 1.985502578159685e-07
       }
     }
     DEF BODY Shape {
@@ -736,13 +718,10 @@ DEF botJr2 Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "slaveController_test2"
   supervisor TRUE
-  linearVelocity -5.817068320542627e-10 2.381403581984352e-08 0.05999988784896178
-  angularVelocity -1.7830902478900196e-09 -1.38302767415648e-07 -1.341638121288931e-07
 }
 DEF botJr3 Robot {
-  translation 0.05652302544625241 0.010797468808597898 1.8257497869876724
+  translation -0.669519 0.0107975 1.69904
   rotation 5.023028775693389e-09 0.9999999999856607 -5.355240782985266e-06 -3.141585339366282
   children [
     DEF compass Compass {
@@ -853,7 +832,7 @@ DEF botJr3 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
-        rotation 0.3366694927226209 -0.33667072938092996 -0.879378458144163 4.584197930603932
+        rotation 0.33666949272262103 -0.33667072938092996 -0.879378458144163 4.584197930603933
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -870,8 +849,6 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -4.390951371136139e-07 -1.7687791006639368e-09 -0.06000000130017752
-        angularVelocity -9.999999998025967 -3.06924543968278e-08 7.329494995660137e-05
       }
     }
     DEF WHEEL2 HingeJoint {
@@ -886,7 +863,7 @@ DEF botJr3 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
-        rotation 0.7066920092189678 -0.7066946050483119 -0.0341926790653895 3.209951128830391
+        rotation 0.7066920092189679 -0.7066946050483118 -0.03419267906538958 3.209951128830391
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -904,8 +881,6 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -4.390952751782941e-07 1.940451175686947e-09 -0.059999998675505296
-        angularVelocity -9.999999997994408 -3.082609621400304e-08 7.329501810751483e-05
       }
     }
     DEF WHEEL3 HingeJoint {
@@ -938,8 +913,6 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -4.4044472300375037e-07 -1.793244666793205e-09 -0.06000000130001693
-        angularVelocity -9.999999998025915 -3.083617472612476e-08 7.329502341349628e-05
       }
     }
     DEF WHEEL4 HingeJoint {
@@ -972,8 +945,6 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -4.4044454721760025e-07 1.9159862640200548e-09 -0.05999999867574469
-        angularVelocity -9.999999997994472 -3.070245872444687e-08 7.329495551271136e-05
       }
     }
     DEF BODY Shape {
@@ -991,13 +962,10 @@ DEF botJr3 Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "slaveController_test3"
   supervisor TRUE
-  linearVelocity -4.4037850089299617e-07 2.3870183972642424e-08 -0.0599998878480099
-  angularVelocity 1.7221448202232765e-09 -1.383027932182124e-07 1.3416364642730474e-07
 }
 DEF botJr4 Robot {
-  translation 1.8119498933317195 0.010797468815225648 1.9410300121138446
+  translation -0.562903 0.0107975 1.72835
   rotation -5.350207347680799e-06 0.9999999999713214 -5.360283398890025e-06 -1.5707953476134546
   children [
     DEF compass Compass {
@@ -1108,7 +1076,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
-        rotation 0.3366694927223551 -0.3366707293806641 -0.8793784581443668 4.584197930604162
+        rotation 0.33666949272235513 -0.33667072938066445 -0.8793784581443667 4.584197930604162
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1125,8 +1093,6 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.06000000130156549 -1.8199047174613234e-09 5.8994098146328704e-08
-        angularVelocity 9.944776361227727e-06 -3.073899350538282e-08 9.999999998258623
       }
     }
     DEF WHEEL2 HingeJoint {
@@ -1141,7 +1107,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
-        rotation 0.7066920092189852 -0.7066946050483297 -0.03419267906466558 3.209951128828945
+        rotation 0.706692009218985 -0.7066946050483298 -0.03419267906466559 3.209951128828945
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1159,8 +1125,6 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.05999999867688996 1.88846121368577e-09 5.8994227634399654e-08
-        angularVelocity 9.944844178021045e-06 -3.0872629907465716e-08 9.9999999982271
       }
     }
     DEF WHEEL3 HingeJoint {
@@ -1175,7 +1139,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
-        rotation 0.7066920002682379 -0.7066945960975479 -0.034193049050946674 3.2099518679346657
+        rotation 0.7066920002682379 -0.706694596097548 -0.03419304905094668 3.2099518679346657
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1193,8 +1157,6 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.06000000130142581 -1.8448175899981091e-09 6.034368370538318e-08
-        angularVelocity 9.944849481361393e-06 -3.08825890952281e-08 9.99999999825866
       }
     }
     DEF WHEEL4 HingeJoint {
@@ -1209,7 +1171,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.00479999143612891 -0.007499993667152008
-        rotation 0.3366689114127206 -0.33667014806889434 -0.8793789032535648 4.584198432614299
+        rotation 0.3366689114127204 -0.33667014806889434 -0.8793789032535648 4.584198432614299
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1227,8 +1189,6 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.0599999986771477 1.863543596506004e-09 6.034350006051422e-08
-        angularVelocity 9.944781482629703e-06 -3.0748963429163574e-08 9.999999998227128
       }
     }
     DEF BODY Shape {
@@ -1246,8 +1206,5 @@ DEF botJr4 Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "slaveController_test4"
   supervisor TRUE
-  linearVelocity -0.05999988784926274 2.3818419039557583e-08 6.027801954529395e-08
-  angularVelocity 1.3413296687336054e-07 -1.3830140515881728e-07 -1.7523070479698124e-09
 }
