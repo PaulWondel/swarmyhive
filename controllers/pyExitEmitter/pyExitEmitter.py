@@ -1,6 +1,7 @@
 """pyExitEmitter controller."""
 import sys
 from controller import Supervisor, Emitter
+import struct
 
 TIME_STEP = 256
 
@@ -10,12 +11,18 @@ emitter.setChannel(2)
 emitter.setRange(0.1)
 
 counter = 0
-noEntrance = (162,"exit")
+noEntrance = struct.pack('is',162,b'exit')
 
-while supervisor.step(TIME_STEP != -1):
+#print("Before loop")
+
+while supervisor.step(TIME_STEP) != -1:
+#    print("before the if")
     if(counter >= 16):
         emitter.send(noEntrance)
         counter = 0
-        print(counter)
+#        print(counter)
     else:
         counter+=1
+#        print(counter)
+        
+#print("after loop")
