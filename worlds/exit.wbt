@@ -250,7 +250,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.05
-        rotation -1.2061934201030101e-09 1.2061978507070156e-09 1 1.570799999999999
+        rotation -1.2064077412980642e-09 1.2064121726893167e-09 1 1.570799999999999
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -282,7 +282,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation -0.06 0 0.05
-        rotation -1.035274267586947e-09 1.0352780703686627e-09 1 1.570799999999999
+        rotation -1.0227585634586722e-09 1.0227623202675554e-09 1 1.570799999999999
         children [
           USE WHEEL
         ]
@@ -304,7 +304,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.05
-        rotation -5.726736994332719e-10 5.726758029850898e-10 1 1.5707999999999975
+        rotation -5.728885553449566e-10 5.728906596859859e-10 1 1.5707999999999975
         children [
           USE WHEEL
         ]
@@ -326,7 +326,7 @@ DEF Central Robot {
       ]
       endPoint Solid {
         translation -0.06 0 -0.05
-        rotation 7.536437638284632e-10 -7.53646532121715e-10 1 1.5707999999999995
+        rotation 7.79083417296738e-10 -7.790862790352263e-10 1 1.5707999999999995
         children [
           USE WHEEL
         ]
@@ -388,6 +388,7 @@ DEF Exit Robot {
     DEF exitEmitter Emitter {
       name "exitEmitter"
       type "infra-red"
+      range 0.1
       channel 2
     }
     Solid {

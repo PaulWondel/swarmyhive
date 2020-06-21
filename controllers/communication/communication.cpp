@@ -90,7 +90,7 @@ int main() {
     }
     if(avoidObstacleCounter == distanceValue){
 
-      sendCoordinates(slave,emitter);
+      // sendCoordinates(slave,emitter);
 
       // Debug position print in commandline
       cout<<"Debug X: "<<position[0]<<endl;
@@ -122,6 +122,7 @@ int main() {
         leftSpeed = 0.0;
         rightSpeed = 0.0;
         cout<<"Reached exit: "<<stop<<endl;
+        sendCoordinates(slave,emitter);
       }
       receiver->nextPacket();
     }
@@ -132,8 +133,9 @@ int main() {
     wheels[3]->setVelocity(rightSpeed);
 
   }
-  delete receiver;
-  delete emitter;
-  delete robot;
+  receiver->disable();
+  // delete receiver;
+  // delete emitter;
+  // delete robot;
   return 0;  // EXIT_SUCCESS
 }
