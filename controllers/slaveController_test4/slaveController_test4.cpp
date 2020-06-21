@@ -2,6 +2,8 @@
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/Compass.hpp>
+#include <webots/Receiver.hpp>
+#include <webots/Emitter.hpp>
 //#include <webots/Robot.hpp>
 //#include <webots/Emitter.hpp>
 #include <cmath>
@@ -54,6 +56,8 @@ struct Walls
 Compass *compass;
 Supervisor *supervisor;
 DistanceSensor *ds[4];
+Emitter *emitter;
+// Receiver *receiver;
 
 /*####### INITIALIZERS AND VARIABLES ########*/
 
@@ -92,12 +96,21 @@ double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
 Walls visitedWalls[15][15] = {{false}};
 
+// for exit Signal
+const int exitTag = 162;
+
 // struct Coordinates slave;
 // struct CoordinateWalls test;
 
 // where we've been, where we haven't been too and correctpath
 
 /*####### METHODS ########*/
+
+// For sending messages
+void sendCoordinates(Coordinates message, Emitter *device){
+  device->send(&message,sizeof(message));
+  return;
+}
 
 //set coordinate values for transport
 Coordinates structTransport(double xCoord, double zCoord)
@@ -735,6 +748,7 @@ void updateValues()
       {
       }
     }
+    sendCoordinates(currentCoord,emitter);
   }
   else if (isBackTracking)
   {
@@ -757,22 +771,22 @@ void setup()    //RUN SETUP ONCE FOR INITIALIZATION
     wheels[i]->setVelocity(5.0);
   }
 
-  // Emitter Setup
-  // Emitter *emitter;
-  // emitter=supervisor->getEmitter("emitter");
-
-  // emitter->setChannel(1);
-
   robot_node = supervisor->getFromDef("botJr4");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
   compass = supervisor->getCompass("compass");
   compass->enable(TIME_STEP);
+  // receiver=supervisor->getReceiver("receiver");
+  // receiver->enable(TIME_STEP);
+  // receiver->setChannel(2); 
+  emitter=supervisor->getEmitter("emitter");
+  emitter->setChannel(1);
 }
 
 int main()
 {
   supervisor = new Supervisor();
+  
   setup();
 
   while (supervisor->step(TIME_STEP) != -1)

@@ -1,0 +1,26 @@
+#VRML_OBJ R2020a utf8
+DEF Exit Robot {
+  translation 0.629002 1e-06 -0.128623
+  children [
+    DEF exitEmitter Emitter {
+      name "exitEmitter"
+      type "infra-red"
+      range 0.1
+      channel 2
+    }
+    Solid {
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Plane {
+            size 0.25 0.25
+          }
+        }
+      ]
+    }
+  ]
+  name "robot(2)"
+  controller "exitEmitter"
+  supervisor TRUE
+}
