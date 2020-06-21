@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position 0.997279671127707 3.748469918317008 1.0000035012621833
+  orientation 1 -2.1766060587688444e-14 -1.4829829703369683e-14 4.812388980384704
+  position 1.5969887791256812 5.607064673240465 1.5494031463998992
 }
 TexturedBackground {
 }
@@ -12,652 +12,229 @@ TexturedBackgroundLight {
 RectangleArena {
   translation 1 0 1
   floorSize 2 2
-  floorTileSize 0.25 0.25
+  floorTileSize 0.266667 0.266667
 }
-DEF WALLS Solid {
-  translation 0.998692 -3.33067e-16 0.974056
-  rotation 0 1 0 -1.5708
-  scale 0.5 0.5 0.5
+Solid {
   children [
     Wall {
-      translation -1.825 0 1.75
-      name "wall(4)"
-      size 0.25 0.25 0.01
+      translation 1.26669 1.97065e-15 0.533094
+      size 0.133333 0.1 0.266667
     }
     Wall {
-      translation -1.57367 1.77636e-14 1.49864
-      name "wall(8)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.91977 1.90959e-14 1.49272
+      translation 0.199952 1.97065e-15 0.399287
       name "wall(9)"
-      size 0.25 0.25 0.01
+      size 0.133333 0.1 0.266667
     }
     Wall {
-      translation 0.419283 1.55432e-14 1.49549
-      rotation 0.7071067811865475 0 0.7071067811865475 0
-      name "wall(13)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.673703 1.68755e-14 1.24967
-      name "wall(14)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.5546 4.13004e-14 1.24504
-      name "wall(5)"
-      size 1 0.25 0.01
-    }
-    Wall {
-      translation -0.575078 -3.86357e-14 -1.25352
-      name "wall(55)"
-      size 0.75 0.25 0.01
-    }
-    Wall {
-      translation -0.33389 -3.86357e-14 -0.499579
-      name "wall(41)"
-      size 0.75 0.25 0.01
-    }
-    Wall {
-      translation 0.424789 -3.86357e-14 0.494215
-      name "wall(27)"
-      size 0.75 0.25 0.01
-    }
-    Wall {
-      translation 1.67321 -3.86357e-14 0.242985
-      name "wall(25)"
-      size 0.75 0.25 0.01
-    }
-    Wall {
-      translation -0.826441 -3.86357e-14 0.74692
-      name "wall(35)"
-      size 0.75 0.25 0.01
-    }
-    Wall {
-      translation -1.3235 -3.86357e-14 -0.255808
-      name "wall(65)"
-      size 0.75 0.25 0.01
-    }
-    Wall {
-      translation -1.20505 -4.48531e-14 -0.749702
-      name "wall(77)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.949671 -1.55432e-14 -1.25158
-      name "wall(79)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.94806 -1.86518e-14 0.501321
-      name "wall(73)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -1.44613 -4.30767e-14 -1.75197
-      name "wall(74)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.700044 5.77315e-14 -0.254185
-      name "wall(82)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.704552 5.77315e-14 0.992991
-      name "wall(88)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation 1.29672 5.59551e-14 -1.2479
-      name "wall(113)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.20145 5.77315e-14 -1.5062
-      name "wall(92)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.19799 5.77315e-14 0.000621478
-      name "wall(95)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation 0.0531844 5.77315e-14 0.241739
-      name "wall(90)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -0.199761 5.77315e-14 1.74619
-      name "wall(102)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation 1.80114 5.5067e-14 -0.250686
-      name "wall(123)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation 0.546657 4.9738e-14 1.49901
-      name "wall(124)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation 1.30111 5.68434e-14 0.991297
-      name "wall(116)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation -1.19942 -4.35208e-14 0.250513
-      name "wall(68)"
-      size 0.01 0.25 0.5
-    }
-    Wall {
-      translation 1.30162 -2.53133e-14 -0.386317
-      name "wall(114)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation 1.5467 -2.62015e-14 -0.131538
-      name "wall(120)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation 1.05552 -2.84219e-14 0.366292
-      name "wall(111)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation 0.790146 -2.48692e-14 0.87059
-      name "wall(109)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation -0.196492 -2.70896e-14 0.876381
-      name "wall(89)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation -1.19362 -2.70896e-14 1.12551
-      name "wall(78)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation 0.0499821 -2.93101e-14 -0.874377
-      name "wall(94)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation -0.946467 -2.93101e-14 -0.380742
-      name "wall(72)"
-      size 0.01 0.25 0.75
-    }
-    Wall {
-      translation -1.45345 -4.39649e-14 1.62668
-      name "wall(80)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.94857 1.15463e-14 1.61765
-      name "wall(71)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -1.70468 -4.30767e-14 1.12565
-      name "wall(69)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.444995 -5.77323e-15 -0.376604
-      name "wall(86)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.289211 -5.77323e-15 -0.628211
-      name "wall(100)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.29171 7.10536e-15 1.62211
-      name "wall(81)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.29171 7.10536e-15 1.62211
-      name "wall(118)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.79074 7.9935e-15 1.62578
-      name "wall(122)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.55232 -1.68755e-14 1.87794
-      name "wall(119)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.55104 -1.50991e-14 0.87272
-      name "wall(117)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.05236 -9.32594e-15 1.36498
-      name "wall(110)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.297876 -4.88505e-15 1.11716
-      name "wall(101)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.04521 -6.03962e-14 -0.876898
-      name "wall(112)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 1.30454 -2.93099e-14 0.373863
-      name "wall(115)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.806638 4.44083e-15 -0.133105
-      name "wall(108)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.793424 4.44083e-15 -0.627358
-      name "wall(107)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.802149 3.10856e-15 -1.12189
-      name "wall(106)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.547961 3.10856e-15 -0.870048
-      name "wall(105)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.538938 7.10536e-15 -0.376557
-      name "wall(104)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.299614 -5.77323e-15 -0.125236
-      name "wall(99)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.290749 -5.77323e-15 -1.621
-      name "wall(98)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.0381682 -5.77323e-15 -1.87547
-      name "wall(93)"
-      size 0.01 0.25 0.25
-      appearance Roughcast {
-        colorOverride 1 0 0
-        textureTransform TextureTransform {
-          scale 1 2.4
-        }
-      }
-    }
-    Wall {
-      translation -0.202235 -5.77323e-15 -0.874139
-      name "wall(91)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.450379 -5.77323e-15 0.121735
-      name "wall(87)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation 0.0514139 -5.77323e-15 1.87108
-      name "wall(97)"
-      size 0.01 0.25 0.25
-      appearance Roughcast {
-        colorOverride 0 1 0
-        textureTransform TextureTransform {
-          scale 1 2.4
-        }
-      }
-    }
-    Wall {
-      translation 0.056638 -5.77323e-15 0.877696
-      name "wall(96)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.455209 -5.77323e-15 0.631251
-      name "wall(85)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.455064 -5.77323e-15 -1.37999
-      name "wall(84)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.695261 -2.66461e-15 -0.877797
-      name "wall(83)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -1.45498 -5.63994e-14 -0.635162
-      name "wall(75)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -0.944728 -6.75017e-14 -1.86554
-      name "wall(76)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -1.19999 -6.97221e-14 -1.37856
-      name "wall(67)"
-      size 0.01 0.25 0.25
-    }
-    Wall {
-      translation -1.70112 -4.26326e-14 0.116906
-      name "wall(66)"
-      size 0.01 0.25 1.25
-    }
-    Wall {
-      translation -1.69706 -4.26326e-14 -1.25395
-      name "wall(70)"
-      size 0.01 0.25 1
-    }
-    Wall {
-      translation 1.54787 -1.7053e-13 -1.25389
-      name "wall(121)"
-      size 0.01 0.25 1
-    }
-    Wall {
-      translation 0.548484 -1.7053e-13 0.499202
-      name "wall(103)"
-      size 0.01 0.25 1
-    }
-    Wall {
-      translation -1.45307 -1.03917e-13 0.49853
-      name "wall(23)"
-      size 0.01 0.25 1
-    }
-    Wall {
-      translation -0.319375 -3.5083e-14 0.995391
-      name "wall(17)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.421936 -3.5083e-14 0.998703
-      name "wall(18)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.924069 -3.5083e-14 0.99732
-      name "wall(19)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.1764 -3.59712e-14 0.746777
-      name "wall(28)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.923619 -3.59712e-14 0.248442
-      name "wall(29)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.42825 -3.59712e-14 0.243899
-      name "wall(21)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.67674 -3.5083e-14 0.985414
-      name "wall(16)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.576584 -3.5083e-14 0.505214
-      name "wall(24)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.92545 -3.5083e-14 -1.003
-      name "wall(48)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.67974 -3.5083e-14 -0.501602
-      name "wall(38)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.17329 -3.5083e-14 -0.0122896
-      name "wall(34)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.411018 -3.4861e-14 -0.498775
-      name "wall(40)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.675258 -3.46389e-14 -0.00273165
-      name "wall(33)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.173135 -3.5083e-14 -0.0055552
-      name "wall(32)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -1.8296 -3.5083e-14 -0.508818
-      name "wall(44)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.82423 -3.5083e-14 -0.756158
-      name "wall(42)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.327271 -3.5083e-14 -0.756781
-      name "wall(45)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.92139 -3.5083e-14 -1.49715
-      name "wall(58)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 1.66993 -3.5083e-14 -1.25024
-      name "wall(57)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.422632 -3.5083e-14 -0.98637
-      name "wall(51)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.068194 -3.5083e-14 -0.992639
-      name "wall(52)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.573272 -3.5083e-14 -0.999635
-      name "wall(60)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.825916 -3.5083e-14 -1.49694
-      name "wall(64)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -1.32609 -3.5083e-14 -1.7427
-      name "wall(62)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -0.0748418 -3.5083e-14 -1.75045
-      name "wall(50)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.662972 -3.5083e-14 -0.74917
-      name "wall(46)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.165463 -3.5083e-14 -0.75026
-      name "wall(43)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -1.57254 -3.5083e-14 -0.753763
-      name "wall(36)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation 0.178602 -3.5083e-14 -0.24558
-      name "wall(31)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -1.07544 -3.5083e-14 1.00737
-      name "wall(15)"
-      size 0.25 0.25 0.01
-    }
-    Wall {
-      translation -1.82675 -3.5083e-14 0.9992
+      translation 0.133323 3.74701e-15 0.199634
+      rotation 0 1 0 1.5708
       name "wall(6)"
-      size 0.25 0.25 0.01
+      size 0.133333 0.1 0.266667
     }
     Wall {
-      translation -1.44731 -8.88176e-15 1.24369
-      name "wall(11)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 0.0471296 -8.88176e-15 1.24509
-      name "wall(12)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation -0.693679 -8.88176e-15 1.24634
-      name "wall(10)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 1.8037 -1.0214e-14 0.750636
-      name "wall(26)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 1.04981 3.19745e-14 -1.003
-      name "wall(49)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 1.5463 3.19745e-14 -0.758553
-      name "wall(47)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 1.0516 3.19745e-14 -0.507495
-      name "wall(39)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 0.787918 3.19745e-14 -0.250063
-      name "wall(37)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 1.55471 3.19745e-14 0.500988
-      name "wall(22)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation -1.19278 -1.55431e-14 -0.994413
-      name "wall(54)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation -1.44475 -1.55431e-14 -1.2538
-      name "wall(63)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation -0.698732 -1.55431e-14 -1.74234
-      name "wall(53)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 0.0470803 -1.55431e-14 0.754673
-      name "wall(20)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 1.54535 -8.43767e-15 1.50194
-      rotation 0 -1 0 0.00654498
-      name "wall(1)"
-      size 0.5 0.25 0.01
-    }
-    Wall {
-      translation 0.675 6.66134e-16 1.74774
-      name "wall(59)"
-      size 1.25 0.25 0.01
-    }
-    Wall {
-      translation 0.676351 -1.11022e-15 -1.49408
-      name "wall(61)"
-      size 1.25 0.25 0.01
-    }
-    Wall {
-      translation 1.17556 -1.11022e-15 -1.74536
-      name "wall(3)"
-      size 1.25 0.25 0.01
-    }
-    Wall {
-      translation -0.95 6.66134e-16 1.74552
-      name "wall(30)"
-      size 1 0.25 0.01
-    }
-    Wall {
-      translation -0.705703 6.66134e-16 0.25362
-      name "wall(56)"
-      size 1 0.25 0.01
-    }
-    Wall {
-      translation 0.540191 6.66134e-16 -1.25335
+      translation 0.466928 3.63599e-15 1.46677
+      rotation 0 -1 0 -5.307179586466759e-06
       name "wall(7)"
-      size 1 0.25 0.01
+      size 0.133333 0.1 0.266667
     }
     Wall {
-      translation -0.451882 -5.10703e-15 1.49554
+      translation 0.200703 3.63599e-15 0.803503
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(21)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.199767 3.63599e-15 1.73239
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(23)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.733257 3.63599e-15 1.3333
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(25)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.733471 4.1911e-15 1.73264
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(26)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.466224 3.85803e-15 0.800599
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(18)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.86686 -2.41751e-14 1.7999
+      rotation 0 1 0 1.5708
+      name "wall(15)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.133637 4.46865e-15 0.733015
+      rotation 0 1 0 1.5708
+      name "wall(17)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.666594 4.56926e-15 1.53321
+      rotation 0 1 0 1.5708
+      name "wall(22)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.533563 4.56926e-15 1.79969
+      rotation 0 1 0 1.5708
+      name "wall(27)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.132649 4.57967e-15 1.53355
+      rotation 0 1 0 1.5708
+      name "wall(24)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.26637 4.41314e-15 1.26691
+      rotation 0 1 0 1.5708
+      name "wall(20)"
+      size 0.133333 0.1 0.533333
+    }
+    Wall {
+      translation 1.26673 3.58048e-15 1.13299
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(16)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.86711 3.58048e-15 0.999286
+      rotation 0 1 0 1.5708
+      name "wall(36)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.86703 3.74701e-15 0.732688
+      rotation 0 1 0 1.5708
+      name "wall(14)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.86648 3.74701e-15 0.466375
+      rotation 0 1 0 1.5708
+      name "wall(13)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.399656 3.74701e-15 0.466528
+      rotation 0 1 0 1.5708
+      name "wall(12)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.999697 2.19269e-15 0.466264
+      rotation 0 1 0 1.5708
+      name "wall(8)"
+      size 0.133333 0.1 0.666665
+    }
+    Wall {
+      translation 0.467368 2.19269e-15 1.00047
+      rotation 0 1 0 1.5708
+      name "wall(19)"
+      size 0.133333 0.1 0.666665
+    }
+    Wall {
+      translation 0.999732 2.08444e-14 1.73225
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(34)"
+      size 0.133333 0.1 0.533333
+    }
+    Wall {
+      translation 1.20012 2.06224e-14 1.00007
+      rotation 0 1 0 1.5708
+      name "wall(35)"
+      size 0.133333 0.1 0.533333
+    }
+    Wall {
+      translation 1.46678 -6.13397e-15 1.26659
+      rotation 0 1 0 1.5708
+      name "wall(29)"
+      size 0.1333 0.1 1.06664
+    }
+    Wall {
+      translation 1.20027 4.68028e-15 1.53313
+      rotation 0 1 0 1.5708
+      name "wall(28)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.73257 4.56926e-15 1.53329
+      rotation 0 1 0 1.5708
+      name "wall(33)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.46646 4.56926e-15 1.79987
+      rotation 0 1 0 1.5708
+      name "wall(30)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.26673 4.84681e-15 1.86664
+      rotation 0 1 0 -3.1415853071795863
+      name "wall(31)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.53356 4.7913e-15 1.59972
+      rotation 0 1 0 -3.1415853071795863
+      name "wall(32)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.866661 2.25653e-14 0.732339
+      rotation 0 1 0 1.5708
+      name "wall(10)"
+      size 0.133333 0.1 0.933333
+    }
+    Wall {
+      translation 1.53344 1.76803e-14 0.60042
+      rotation 0 -1 0 -5.307179586466759e-06
+      name "wall(11)"
+      size 0.133333 0.1 0.933333
+    }
+    Wall {
+      translation 0.466716 1.97065e-15 0.133017
+      name "wall(1)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 0.733087 1.97065e-15 0.132689
       name "wall(2)"
-      size 1 0.25 0.01
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.00048 -9.35362e-15 0.132886
+      name "wall(3)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.79832 -1.63757e-15 0.26553
+      name "wall(5)"
+      size 0.133333 0.1 0.266667
+    }
+    Wall {
+      translation 1.26702 1.91514e-15 0.132869
+      name "wall(4)"
+      size 0.133333 0.1 0.266667
     }
   ]
 }
 DEF botJr Robot {
-  translation 0.0625 0.0107904 0.0651401
-  rotation -0.9999982509735892 0.00030228874095728604 -0.0018457170097090235 -9.828853916434797e-06
+  translation 0.1774088525086539 0.010797435182212763 0.058193892821533276
+  rotation 4.8860033095066345e-06 0.9999999999739027 -5.321812258437297e-06 1.6545397612196366
   children [
     DEF compass Compass {
     }
@@ -757,7 +334,7 @@ DEF botJr Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.8047065475753
+        position 1249.613618776915
         anchor 0.0141 -0.0048 0.007
       }
       device [
@@ -766,8 +343,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.0047999900083028875 0.006999996310712731
-        rotation -0.6042744276492135 0.6042766472770972 0.5193285565465914 2.183614423232583
+        translation 0.014100000000000001 -0.004799991243424082 0.007000006063598761
+        rotation 0.34866890267418627 -0.3486701834088682 -0.8699764936534808 4.573544485364312
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -784,11 +361,13 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity 0.05978967423855117 3.6350648036540893e-09 -0.005018625133145638
+        angularVelocity -0.8364582965544756 -9.862404408130876e-07 -9.964957993853332
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.9247072200894
+        position 1234.7336194503296
         anchor -0.0141 -0.0048 0.007
       }
       device [
@@ -797,8 +376,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302882 0.006999996310712743
-        rotation -0.6697022385459698 0.6697046985040568 -0.3209276063041437 3.7626788369202604
+        translation -0.014100000000000001 -0.004799991243424095 0.00700000606359878
+        rotation 0.7069152115813142 -0.706917808230528 -0.02319689723847956 3.187977958991352
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -816,11 +395,13 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity 0.05978967944621325 -1.699685601155085e-09 -0.005018812167498122
+        angularVelocity -0.8364582982380728 -9.876295922102061e-07 -9.964957993962836
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.924708265951
+        position 1234.7336204998294
         anchor 0.0141 -0.0048 -0.0075
       }
       device [
@@ -829,8 +410,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.00479999000830268 -0.007500003689286709
-        rotation -0.6697023310997269 0.6697047910581533 -0.32092722002558016 3.762678136504363
+        translation 0.014100000000000001 -0.004799991243424448 -0.007499993936400708
+        rotation 0.7069152054917062 -0.7069178021408962 -0.023197268393139046 3.187978700898721
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -848,11 +429,13 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity 0.05978981339073762 4.4310122289105914e-08 -0.005018692563566285
+        angularVelocity -0.8364582971858207 -9.867692201295105e-07 -9.964957995538093
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.804708038688
+        position 1249.6136202737787
         anchor -0.0141 -0.0048 -0.0075
       }
       device [
@@ -861,8 +444,8 @@ DEF botJr Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302673 -0.0075000036892866875
-        rotation -0.6042741818422467 0.604276401469219 0.5193291285748323 2.1836135221914774
+        translation -0.014100000000000001 -0.00479999124342447 -0.007499993936400679
+        rotation 0.34866833071433995 -0.3486696114469206 -0.8699769521144392 4.573545007273715
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -880,6 +463,8 @@ DEF botJr Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity 0.05978982479849521 3.872579566537577e-08 -0.005018869279561637
+        angularVelocity -0.8364582986539488 -9.87754465064877e-07 -9.964957995729382
       }
     }
     DEF BODY Shape {
@@ -898,10 +483,12 @@ DEF botJr Robot {
   }
   controller "slaveController_test"
   supervisor TRUE
+  linearVelocity 0.059789350314625414 -2.520820221736196e-07 -0.005018718549414851
+  angularVelocity -2.0251556184026963e-07 -1.6298992378299071e-06 -2.507912363513519e-06
 }
 DEF botJr2 Robot {
-  translation 1.9425 0.0107915 0.05514
-  rotation -0.9999982509735892 0.00030228874095728604 -0.0018457170097090235 -9.828853916434797e-06
+  translation 1.9358000000863598 0.01079746881578836 0.18913230071291218
+  rotation -0.9999941785238499 0.003279671187880661 -0.0009416343825017016 -1.0710551799245132e-05
   children [
     DEF compass Compass {
     }
@@ -1001,7 +588,7 @@ DEF botJr2 Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.8047065475753
+        position 1249.6447065475634
         anchor 0.0141 -0.0048 0.007
       }
       device [
@@ -1010,8 +597,8 @@ DEF botJr2 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.0047999900083028875 0.006999996310712731
-        rotation -0.6042744276492135 0.6042766472770972 0.5193285565465914 2.183614423232583
+        translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
+        rotation 0.3366694927226209 -0.33667072938092996 -0.879378458144163 4.584197930603932
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1028,11 +615,13 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -1.8659063745315547e-09 -1.82451668536398e-09 0.06000000130141403
+        angularVelocity 9.999999998232662 -3.0692397581267114e-08 1.985555163253101e-07
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.9247072200894
+        position 1234.764707220075
         anchor -0.0141 -0.0048 0.007
       }
       device [
@@ -1041,8 +630,8 @@ DEF botJr2 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302882 0.006999996310712743
-        rotation -0.6697022385459698 0.6697046985040568 -0.3209276063041437 3.7626788369202604
+        translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
+        rotation 0.7066920092189696 -0.7066946050483138 -0.03419267906530905 3.2099511288302303
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1060,11 +649,13 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -1.86575093314907e-09 1.884716045103738e-09 0.05999999867674237
+        angularVelocity 9.999999998201222 -3.0825969009979856e-08 1.9848801530167388e-07
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.924708265951
+        position 1234.7647082659394
         anchor 0.0141 -0.0048 -0.0075
       }
       device [
@@ -1073,8 +664,8 @@ DEF botJr2 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.00479999000830268 -0.007500003689286709
-        rotation -0.6697023310997269 0.6697047910581533 -0.32092722002558016 3.762678136504363
+        translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
+        rotation 0.7066920002682439 -0.7066945960975537 -0.034193049050705374 3.209951867934184
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1092,11 +683,13 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -5.163209071974962e-10 -1.8498785003880203e-09 0.0600000013012606
+        angularVelocity 9.999999998232695 -3.0835857748809924e-08 1.984823791133849e-07
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.804708038688
+        position 1249.6447080386738
         anchor -0.0141 -0.0048 -0.0075
       }
       device [
@@ -1105,8 +698,8 @@ DEF botJr2 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302673 -0.0075000036892866875
-        rotation -0.6042741818422467 0.604276401469219 0.5193291285748323 2.1836135221914774
+        translation -0.014100000000000001 -0.00479999143612891 -0.007499993667152008
+        rotation 0.3366689114120114 -0.33667014806818524 -0.8793789032541078 4.584198432614911
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1124,6 +717,8 @@ DEF botJr2 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -5.164779008262682e-10 1.8593557025646275e-09 0.05999999867698861
+        angularVelocity 9.999999998201156 -3.070233085926786e-08 1.985502578159685e-07
       }
     }
     DEF BODY Shape {
@@ -1143,10 +738,12 @@ DEF botJr2 Robot {
   }
   controller "slaveController_test2"
   supervisor TRUE
+  linearVelocity -5.817068320542627e-10 2.381403581984352e-08 0.05999988784896178
+  angularVelocity -1.7830902478900196e-09 -1.38302767415648e-07 -1.341638121288931e-07
 }
 DEF botJr3 Robot {
-  translation 0.0725 0.0107736 1.94514
-  rotation -9.064999999890535e-09 0.9999999999879243 4.914419999940655e-06 -3.1415853071795863
+  translation 0.05652302544625241 0.010797468808597898 1.8257497869876724
+  rotation 5.023028775693389e-09 0.9999999999856607 -5.355240782985266e-06 -3.141585339366282
   children [
     DEF compass Compass {
     }
@@ -1246,7 +843,7 @@ DEF botJr3 Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.8047065475753
+        position 1249.6447065475634
         anchor 0.0141 -0.0048 0.007
       }
       device [
@@ -1255,8 +852,8 @@ DEF botJr3 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.0047999900083028875 0.006999996310712731
-        rotation -0.6042744276492135 0.6042766472770972 0.5193285565465914 2.183614423232583
+        translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
+        rotation 0.3366694927226209 -0.33667072938092996 -0.879378458144163 4.584197930603932
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1273,11 +870,13 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -4.390951371136139e-07 -1.7687791006639368e-09 -0.06000000130017752
+        angularVelocity -9.999999998025967 -3.06924543968278e-08 7.329494995660137e-05
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.9247072200894
+        position 1234.7647072200753
         anchor -0.0141 -0.0048 0.007
       }
       device [
@@ -1286,8 +885,8 @@ DEF botJr3 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302882 0.006999996310712743
-        rotation -0.6697022385459698 0.6697046985040568 -0.3209276063041437 3.7626788369202604
+        translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
+        rotation 0.7066920092189678 -0.7066946050483119 -0.0341926790653895 3.209951128830391
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1305,11 +904,13 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -4.390952751782941e-07 1.940451175686947e-09 -0.059999998675505296
+        angularVelocity -9.999999997994408 -3.082609621400304e-08 7.329501810751483e-05
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.924708265951
+        position 1234.7647082659391
         anchor 0.0141 -0.0048 -0.0075
       }
       device [
@@ -1318,8 +919,8 @@ DEF botJr3 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.00479999000830268 -0.007500003689286709
-        rotation -0.6697023310997269 0.6697047910581533 -0.32092722002558016 3.762678136504363
+        translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
+        rotation 0.7066920002682456 -0.7066945960975556 -0.03419304905062494 3.209951867934023
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1337,11 +938,13 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -4.4044472300375037e-07 -1.793244666793205e-09 -0.06000000130001693
+        angularVelocity -9.999999998025915 -3.083617472612476e-08 7.329502341349628e-05
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.804708038688
+        position 1249.6447080386738
         anchor -0.0141 -0.0048 -0.0075
       }
       device [
@@ -1350,8 +953,8 @@ DEF botJr3 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302673 -0.0075000036892866875
-        rotation -0.6042741818422467 0.604276401469219 0.5193291285748323 2.1836135221914774
+        translation -0.014100000000000001 -0.00479999143612891 -0.007499993667152008
+        rotation 0.3366689114120114 -0.33667014806818524 -0.8793789032541078 4.584198432614911
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1369,6 +972,8 @@ DEF botJr3 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -4.4044454721760025e-07 1.9159862640200548e-09 -0.05999999867574469
+        angularVelocity -9.999999997994472 -3.070245872444687e-08 7.329495551271136e-05
       }
     }
     DEF BODY Shape {
@@ -1388,10 +993,12 @@ DEF botJr3 Robot {
   }
   controller "slaveController_test3"
   supervisor TRUE
+  linearVelocity -4.4037850089299617e-07 2.3870183972642424e-08 -0.0599998878480099
+  angularVelocity 1.7221448202232765e-09 -1.383027932182124e-07 1.3416364642730474e-07
 }
 DEF botJr4 Robot {
-  translation 1.92439 0.0107901 1.93672
-  rotation -4.92348999988109e-06 0.9999999999758484 4.9053499998815284e-06 -1.5707953071795862
+  translation 1.8119498933317195 0.010797468815225648 1.9410300121138446
+  rotation -5.350207347680799e-06 0.9999999999713214 -5.360283398890025e-06 -1.5707953476134546
   children [
     DEF compass Compass {
     }
@@ -1491,7 +1098,7 @@ DEF botJr4 Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.8047065475753
+        position 1249.644706547564
         anchor 0.0141 -0.0048 0.007
       }
       device [
@@ -1500,8 +1107,8 @@ DEF botJr4 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.0047999900083028875 0.006999996310712731
-        rotation -0.6042744276492135 0.6042766472770972 0.5193285565465914 2.183614423232583
+        translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
+        rotation 0.3366694927223551 -0.3366707293806641 -0.8793784581443668 4.584197930604162
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1518,11 +1125,13 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -0.06000000130156549 -1.8199047174613234e-09 5.8994098146328704e-08
+        angularVelocity 9.944776361227727e-06 -3.073899350538282e-08 9.999999998258623
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.9247072200894
+        position 1234.7647072200732
         anchor -0.0141 -0.0048 0.007
       }
       device [
@@ -1531,8 +1140,8 @@ DEF botJr4 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302882 0.006999996310712743
-        rotation -0.6697022385459698 0.6697046985040568 -0.3209276063041437 3.7626788369202604
+        translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
+        rotation 0.7066920092189852 -0.7066946050483297 -0.03419267906466558 3.209951128828945
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1550,11 +1159,13 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -0.05999999867688996 1.88846121368577e-09 5.8994227634399654e-08
+        angularVelocity 9.944844178021045e-06 -3.0872629907465716e-08 9.9999999982271
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1214.924708265951
+        position 1234.76470826594
         anchor 0.0141 -0.0048 -0.0075
       }
       device [
@@ -1563,8 +1174,8 @@ DEF botJr4 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014100000000000001 -0.00479999000830268 -0.007500003689286709
-        rotation -0.6697023310997269 0.6697047910581533 -0.32092722002558016 3.762678136504363
+        translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
+        rotation 0.7066920002682379 -0.7066945960975479 -0.034193049050946674 3.2099518679346657
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1582,11 +1193,13 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -0.06000000130142581 -1.8448175899981091e-09 6.034368370538318e-08
+        angularVelocity 9.944849481361393e-06 -3.08825890952281e-08 9.99999999825866
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1229.804708038688
+        position 1249.644708038672
         anchor -0.0141 -0.0048 -0.0075
       }
       device [
@@ -1595,8 +1208,8 @@ DEF botJr4 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.014100000000000001 -0.004799990008302673 -0.0075000036892866875
-        rotation -0.6042741818422467 0.604276401469219 0.5193291285748323 2.1836135221914774
+        translation -0.014100000000000001 -0.00479999143612891 -0.007499993667152008
+        rotation 0.3366689114127206 -0.33667014806889434 -0.8793789032535648 4.584198432614299
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1614,6 +1227,8 @@ DEF botJr4 Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
+        linearVelocity -0.0599999986771477 1.863543596506004e-09 6.034350006051422e-08
+        angularVelocity 9.944781482629703e-06 -3.0748963429163574e-08 9.999999998227128
       }
     }
     DEF BODY Shape {
@@ -1633,4 +1248,6 @@ DEF botJr4 Robot {
   }
   controller "slaveController_test4"
   supervisor TRUE
+  linearVelocity -0.05999988784926274 2.3818419039557583e-08 6.027801954529395e-08
+  angularVelocity 1.3413296687336054e-07 -1.3830140515881728e-07 -1.7523070479698124e-09
 }
