@@ -2,7 +2,6 @@
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/Compass.hpp>
-//#include <webots/Robot.hpp>
 //#include <webots/Emitter.hpp>
 #include <cmath>
 #include <stack>
@@ -198,6 +197,23 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
     if (backSensorData < 1000)
       _DOWN = true;
   }
+  
+  if (_UP)
+  {
+    visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
+  }
+  if (_DOWN)
+  {
+    visitedSquares[(int)xzCoords.xCoordinate - 1][(int)xzCoords.zCoordinate] = true;
+  }
+  if (_LEFT)
+  {
+    visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate - 1] = true;
+  }
+  if (_RIGHT)
+  {
+    visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate + 1] = true;
+  }
 
   //fills struct with detected walls
   if (!visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate])
@@ -250,7 +266,9 @@ bool intersectionCheck(double x, double z) //CHECKS FOR INTERSECTIONS
 bool intersectionCheckAvailablePaths(double x, double z) //CHECKS FOR AVAILABLE PATHS
 {
   int pathsFound = 4;
-  //Walls currentSpotWalls = visitedWalls[(int)x][(int)z];
+  cout << "===================================" << endl;
+  cout << "X : " << x << "            Z : " << z << endl;
+  cout << "===================================" << endl;
 
   if (visitedSquares[(int)x+1][(int)z] == true)
   {
@@ -506,11 +524,10 @@ void backTracking() //BACKTRACKING WHEN ENCOUNTERS A DEAD END
         cout << " " << endl;
 
         Walls currentWalls = visitedWalls[curX][curZ]; //current coordinates
-        if (currentWalls.up == false)
+        if (currentWalls.up == false)   //REDUNDANT INFO
         {
-          cout << "---------------------------------------------------------------------------no wall up" << endl;
-          //cout << "curr visisted is " << visitedSquares[curX][curZ] << endl;
-          //cout << "currX + 1 is " << visitedSquares[curX + 1][curZ] << endl;
+          //cout << "---------------------------------------------------------------------------no wall up" << endl;
+
           if (visitedSquares[curX + 1][curZ] == false) //if square above has not been visited
           {
             if (topStackReversedDirection == WEST)
@@ -592,14 +609,14 @@ void backTracking() //BACKTRACKING WHEN ENCOUNTERS A DEAD END
               }
             }
           }
-
         }
       }
       else //all paths have been charted
       { 
-        cout << "89736489172364817236481723648712364871236489172364891726348971263489712364897126 THE ELSE LOOP" << endl;
+        cout << "__________________________________WE ARE NOW IN THE ELSE LOOP__________________________________" << endl;
         cout << " x: " << topStackPair.xCoordinate << " z: " << topStackPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
         cout << " " << endl;
+        cout << " POP POP MODAFOKA" << endl;
         coordStack.pop();
       }
     }
@@ -617,7 +634,7 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
   int leftSensorData = ds[2]->getValue();
   movementDirection tempDirection;
 
-  if (frontSensorData < 525) //if front sensor triggered
+  if (frontSensorData < 550) //if front sensor triggered
   {
     botMovement(false);        //stop robot
     if (rightSensorData > 800) // if right path is open
@@ -680,31 +697,28 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
       }
       setRotationXYZ();
       rotation_field->setSFRotation(directionValue);
-      coordStack.push(CoordinateWalls{currentCoord, tempDirection, false});
-      if (!coordStack.empty())
-      {
-        cout << "TEST TURN LEFT" << endl;
-        cout << " x: " << coordStack.top().ptnPair.xCoordinate << " z: " << coordStack.top().ptnPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
-        cout << " " << endl;
-      }
+      //coordStack.push(CoordinateWalls{currentCoord, tempDirection, false});
+      // if (!coordStack.empty())
+      // {
+      //   cout << "TEST TURN LEFT" << endl;
+      //   cout << " x: " << coordStack.top().ptnPair.xCoordinate << " z: " << coordStack.top().ptnPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
+      //   cout << " " << endl;
+      // }
     }
     else //if dead end
     {
-      Walls tempWallLayout = visitedWalls[(int)coordStack.top().ptnPair.xCoordinate][(int)coordStack.top().ptnPair.zCoordinate]; //REFERENCE POINT
+      //Walls tempWallLayout = visitedWalls[(int)coordStack.top().ptnPair.xCoordinate][(int)coordStack.top().ptnPair.zCoordinate]; //REFERENCE POINT
       //compare vis walls at coord
-      if (tempWallLayout.up && tempWallLayout.down && tempWallLayout.left)
-      {
-        //checking for right wall
-        if (!tempWallLayout.right)
-        {
-          cout << ">>>>>>>>>>>>>>>>>>>>>RANDOM STACK PUSH?????" << endl;
-          coordStack.push(CoordinateWalls{currentCoord, EAST, true});
-        }
-      }
+      // if (tempWallLayout.up && tempWallLayout.down && tempWallLayout.left)
+      // {
+      //   //checking for right wall
+      //   if (!tempWallLayout.right)
+      //   {
+      //     cout << ">>>>>>>>>>>>>>>>>>>>>RANDOM STACK PUSH?????" << endl;
+      //     coordStack.push(CoordinateWalls{currentCoord, EAST, true});
+      //   }
+      // }
       setRotationXYZ();
-      // directionValue[3] += 3.1415;
-      // rotation_field->setSFRotation(directionValue);
-      // botMovement(false);
       isBackTracking = true;
       backTracking();
     }
