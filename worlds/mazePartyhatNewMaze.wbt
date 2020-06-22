@@ -3,7 +3,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.9999938650549536 0.0024535490826325026 0.0024999898709216818 4.69363284649951
-  position 1.0186681639766884 5.312096454277314 0.9183130523171653
+  position 1.018666971938972 5.299382822411353 0.9185514578737075
 }
 TexturedBackground {
 }
@@ -284,7 +284,7 @@ DEF Server Robot {
     }
   ]
   name "robot(5)"
-  controller "receiver"
+  controller "serverBrain"
   supervisor TRUE
 }
 DEF botJr Robot {
@@ -1260,6 +1260,6 @@ DEF botJr4 Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "slaveController_test4"
+  controller "slaveController_com"
   supervisor TRUE
 }
