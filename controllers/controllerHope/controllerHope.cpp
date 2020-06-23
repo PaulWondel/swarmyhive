@@ -101,7 +101,7 @@ double _botDirection;
 double directionValue[] = {0, 1, 0, 0};
 double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
-Walls visitedWalls[15][15] = {{false}};
+// Walls visitedWalls[15][15] = {{false}};
 Walls intersectionWalls = {{false}};
 
 // for exit Signal
@@ -114,11 +114,6 @@ const int exitTag = 162;
 //set coordinate values for transport
 
 // For sending messages
-void sendCoordinates(Coordinates message, Emitter *device){
-  device->send(&message,sizeof(message));
-  return;
-}
-
 void sendIntersectionInfo(CoordinateWalls intersectionInfo){
   emitter->send(&intersectionInfo,sizeof(intersectionInfo));
   return;
@@ -132,20 +127,6 @@ void sendPackageFuncton(sendPackage message){
   emitter->send(&message,sizeof(message));
   return;
 }
-
-//set coordinate values for transport
-// Coordinates structTransport(double xCoord, double zCoord)
-// {
-//   Coordinates transport = {(double)xCoord, (double)zCoord};
-//   return transport;
-// }
-
-// CoordinateWalls structTransport(double xCoord, double zCoord)
-// {
-//   CoordinateWalls transport = {(double)xCoord, (double)zCoord};
-//   return transport;
-// }
-
 
 //stops the bot when called or restarts movement
 void botMovement(bool status)
@@ -243,25 +224,25 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
 
   if (_UP)
   {
-  visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
+  // visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
     intersectionWalls.up = true;
     // cout<<"DEBUG: WALL 0"<<endl;
   }
   if (_DOWN)
   {
-    visitedSquares[(int)xzCoords.xCoordinate - 1][(int)xzCoords.zCoordinate] = true;
+    // visitedSquares[(int)xzCoords.xCoordinate - 1][(int)xzCoords.zCoordinate] = true;
     intersectionWalls.down = true;
     // cout<<"DEBUG: WALL 1"<<endl;
   }
   if (_LEFT)
   {
-    visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate - 1] = true;
+    // visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate - 1] = true;
     intersectionWalls.left = true;
     // cout<<"DEBUG: WALL 2"<<endl;
   }
   if (_RIGHT)
   {
-    visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate + 1] = true;
+    // visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate + 1] = true;
     intersectionWalls.right = true;
     // cout<<"DEBUG: WALL 3"<<endl;
   }
@@ -278,25 +259,30 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
   // to fix if it is an intersection ignore if loop depending which direction you're coming from
   //PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
   int pathsFound = 0;
+  int frontSensorData = ds[0]->getValue();
+  int rightSensorData = ds[1]->getValue();
+  int leftSensorData = ds[2]->getValue();
+  int backSensorData = ds[3]->getValue();
+
   cout << "checking if it is a intersection!: " <<endl;
-  if (visitedSquares[(int)x + 1][(int)z] == false && botHeading != SOUTH)
+  if (frontSensorData >= 1000)
   {
     pathsFound++;
   }
-  if (visitedSquares[(int)x - 1][(int)z] == false && botHeading != NORTH)
+  if (backSensorData >= 1000)
   {
     pathsFound++;
   }
-  if (visitedSquares[(int)x][(int)z + 1] == false && botHeading != WEST)
+  if (rightSensorData >= 1000)
   {
     pathsFound++;
   }
-  if (visitedSquares[(int)x][(int)z - 1] == false && botHeading != EAST)
+  if (leftSensorData >= 1000)
   {
     pathsFound++;
   }
 
-  if (pathsFound >= 2) //WHEN MORE THAN OR EQUAL TO 3 PATHS
+  if (pathsFound >= 3) //WHEN MORE THAN OR EQUAL TO 3 PATHS
   {
     cout <<"yes"<<endl;
     return true;
@@ -304,7 +290,7 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
   else
   {
     cout << "no "<<endl;
-    cout << "X : " << x << "            Z : " << z << endl;
+    // cout << "X : " << x << "            Z : " << z << endl;
     pathsFound = 0;
     return false;
   }
@@ -665,7 +651,6 @@ void exitSeeker() // SEARCH FOR EXIT
     cout<<"DEBUG: Robot stopped"<<endl;
     
     cout<<"Reached exit"<<endl;
-    sendCoordinates(currentCoord,emitter);
   }
   receiver->nextPacket();  
 }
@@ -697,37 +682,18 @@ void updateValues()
     {
       cout << " intersection found or whatever" << endl;
       CoordinateWalls xzDir = {currentCoord, setTrueDirection(), true};
-      // coordStack.push(xzDir);
-
-      // send info new intersection to server
-      // sendCoordinates(currentCoord,emitter);
-      // sendIntersectionInfo(xzDir);
-      // send values of the walls at the intersection
-      // sendWalls(intersectionWalls);
 
       struct sendPackage packageInfo = {xzDir,intersectionWalls};
       sendPackageFuncton(packageInfo);
 
-      cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;
-
-      // if (!coordStack.empty())
-      // {
-      //   cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;
-      // }      
+      cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;   
     }
     // resets the values of the struct of intersection Walls
     intersectionWalls = {false};
-  }  
-    // send coordinates to server
-    // sendCoordinates(currentCoord,emitter);
-    // if(receiver->getQueueLength()>0){
-    //   cout<<"DEBUG: got to exitSeeker()"<<endl;
-    //   exitSeeker();
-    // }
-  
+  }    
 }
 
-void setup() //RUN SETUP ONCE FOR INITIALIZATION
+void setup() // RUN SETUP ONCE FOR INITIALIZATION
 {
 
   for (int i = 0; i < 4; i++) //SENSOR INITIALIZERS
