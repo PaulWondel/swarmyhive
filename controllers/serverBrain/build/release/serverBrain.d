@@ -6,4 +6,5 @@ build/release/serverBrain.o: serverBrain.cpp \
  D:\Program\ Files\Webots/include/controller/cpp/webots/Robot.hpp \
  D:\Program\ Files\Webots/include/controller/cpp/webots/Receiver.hpp \
  D:\Program\ Files\Webots/include/controller/cpp/webots/Device.hpp \
- extra.hpp
+ extra.hpp \
+ D:\Program\ Files\Webots/include/controller/cpp/webots/Compass.hpp

@@ -2,7 +2,8 @@
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/Compass.hpp>
-//#include <webots/Emitter.hpp>
+#include <webots/Receiver.hpp>
+#include <webots/Emitter.hpp>
 #include <cmath>
 #include <stack>
 
@@ -47,11 +48,18 @@ struct Walls
   bool left;
 };
 
+struct exitSignal {
+  int tag;
+  char messageContent[];
+};
+
 /*####### NODES ########*/
 
 Compass *compass;
 Supervisor *supervisor;
 DistanceSensor *ds[4];
+Emitter *emitter;
+Receiver *receiver;
 
 /*####### INITIALIZERS AND VARIABLES ########*/
 
@@ -90,19 +98,39 @@ double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
 Walls visitedWalls[15][15] = {{false}};
 
-// struct Coordinates slave;
-// struct CoordinateWalls test;
+// for exit Signal
+const int exitTag = 162;
 
 // where we've been, where we haven't been too and correctpath
 
 /*####### METHODS ########*/
 
 //set coordinate values for transport
-Coordinates structTransport(double xCoord, double zCoord)
-{
-  Coordinates transport = {(double)xCoord, (double)zCoord};
-  return transport;
+
+// For sending messages
+void sendCoordinates(Coordinates message, Emitter *device){
+  device->send(&message,sizeof(message));
+  return;
 }
+
+void sendIntersectionInfo(CoordinateWalls intersectionInfo){
+  emitter->send(&intersectionInfo,sizeof(intersectionInfo));
+  return;
+}
+
+//set coordinate values for transport
+// Coordinates structTransport(double xCoord, double zCoord)
+// {
+//   Coordinates transport = {(double)xCoord, (double)zCoord};
+//   return transport;
+// }
+
+// CoordinateWalls structTransport(double xCoord, double zCoord)
+// {
+//   CoordinateWalls transport = {(double)xCoord, (double)zCoord};
+//   return transport;
+// }
+
 
 //stops the bot when called or restarts movement
 void botMovement(bool status)
@@ -197,7 +225,7 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
     if (backSensorData < 1000)
       _DOWN = true;
   }
-  
+
   if (_UP)
   {
     visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
@@ -215,13 +243,6 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
     visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate + 1] = true;
   }
 
-  //fills struct with detected walls
-  if (!visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate])
-  {
-    visitedWalls[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate] = {_UP, _RIGHT, _DOWN, _LEFT};
-  }
-  visitedWalls[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate] = {_UP, _RIGHT, _DOWN, _LEFT};
-
   //reset local variables for the next coordinate pair
   _UP = false;
   _RIGHT = false;
@@ -229,35 +250,38 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
   _LEFT = false;
 }
 
-bool intersectionCheck(double x, double z) //CHECKS FOR INTERSECTIONS
+bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECKS FOR INTERSECTIONS
 {
+  // to fix if it is an intersection ignore if loop depending which direction you're coming from
   //PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
   int pathsFound = 0;
-  Walls currentSpotWalls = visitedWalls[(int)x][(int)z];
+  cout << "checking if it is a intersection!: " <<endl;
+  if (visitedSquares[(int)x + 1][(int)z] == false && botHeading != SOUTH)
+  {
+    pathsFound++;
+  }
+  if (visitedSquares[(int)x - 1][(int)z] == false && botHeading != NORTH)
+  {
+    pathsFound++;
+  }
+  if (visitedSquares[(int)x][(int)z + 1] == false && botHeading != WEST)
+  {
+    pathsFound++;
+  }
+  if (visitedSquares[(int)x][(int)z - 1] == false && botHeading != EAST)
+  {
+    pathsFound++;
+  }
 
-  if (currentSpotWalls.up == false)
+  if (pathsFound >= 2) //WHEN MORE THAN OR EQUAL TO 3 PATHS
   {
-    pathsFound++;
-  }
-  if (currentSpotWalls.down == false)
-  {
-    pathsFound++;
-  }
-  if (currentSpotWalls.right == false)
-  {
-    pathsFound++;
-  }
-  if (currentSpotWalls.left == false)
-  {
-    pathsFound++;
-  }
-
-  if (pathsFound >= 3) //WHEN MORE THAN OR EQUAL TO 3 PATHS
-  {
+    cout <<"yes"<<endl;
     return true;
   }
   else
   {
+    cout << "no "<<endl;
+    cout << "X : " << x << "            Z : " << z << endl;
     pathsFound = 0;
     return false;
   }
@@ -270,22 +294,22 @@ bool intersectionCheckAvailablePaths(double x, double z) //CHECKS FOR AVAILABLE 
   cout << "X : " << x << "            Z : " << z << endl;
   cout << "===================================" << endl;
 
-  if (visitedSquares[(int)x+1][(int)z] == true)
+  if (visitedSquares[(int)x + 1][(int)z] == true)
   {
     cout << "JOKES ON YOU, PATH ABOVE YOU HAS BEEN CHECKED" << endl;
     pathsFound--;
   }
-  if (visitedSquares[(int)x-1][(int)z] == true)
+  if (visitedSquares[(int)x - 1][(int)z] == true)
   {
     cout << "JOKES ON YOU, PATH BELOW YOU HAS BEEN CHECKED" << endl;
     pathsFound--;
   }
-  if (visitedSquares[(int)x][(int)z+1] == true)
+  if (visitedSquares[(int)x][(int)z + 1] == true)
   {
     cout << "JOKES ON YOU, PATH TO YOUR RIGHT HAS BEEN CHECKED" << endl;
     pathsFound--;
   }
-  if (visitedSquares[(int)x][(int)z-1] == true)
+  if (visitedSquares[(int)x][(int)z - 1] == true)
   {
     cout << "JOKES ON YOU, PATH TO YOUR LEFT HAS BEEN CHECKED" << endl;
     pathsFound--;
@@ -294,7 +318,7 @@ bool intersectionCheckAvailablePaths(double x, double z) //CHECKS FOR AVAILABLE 
   if (pathsFound > 0) //WHEN MORE THAN 0 paths
   {
     cout << "PATHS ARE STILL AVAILABLE TO BE CHARTED" << endl;
-    return true;  //still paths available to be charted
+    return true; //still paths available to be charted
   }
   else
   {
@@ -489,142 +513,12 @@ void testTurnAfterBacktracking(movementDirection direction) //TAKES THE DIRECTIO
 
   //double tempx = round(((trans_values[0] - 0.0625) * 8));   //NOT USED
   //double tempz = round(((trans_values[2] - 0.0625) * 8));
-
+  cout << "pop? : " <<endl;
   coordStack.pop();
-
   setRotationXYZ();
   rotation_field->setSFRotation(directionValue);
   isBackTracking = false;
   botMovement(true);
-}
-
-void backTracking() //BACKTRACKING WHEN ENCOUNTERS A DEAD END
-{
-  if (!coordStack.empty())
-  {
-    Coordinates topStackPair = coordStack.top().ptnPair;
-    movementDirection topStackReversedDirection = reverseDirection(coordStack.top().direction);
-
-    testTurnBackTrack(topStackReversedDirection); // only 180 100% not the problem
-
-    int curX = (int)currentCoord.xCoordinate;
-    int curZ = (int)currentCoord.zCoordinate;
-
-    if (currentCoord.xCoordinate == topStackPair.xCoordinate && currentCoord.zCoordinate == topStackPair.zCoordinate) //if coords are exactly the same
-    {
-      if (coordStack.top().intersectionExists && intersectionCheckAvailablePaths(curX, curZ))//intersection exists
-      {
-        double halfSquare = 0.06665; //size of half a square
-        double upScaler = 7.5;       //upscale value
-        double scaledTransValueX = ((trans_values[0] - halfSquare) * upScaler);
-        double scaledTransValueZ = ((trans_values[2] - halfSquare) * upScaler);
-
-        //PROBLEM IS IN HERE, EVEN IF INTERSECTION FOUND DOES NOT TURN LEFT
-        cout << " x: " << topStackPair.xCoordinate << " z: " << topStackPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
-        cout << " " << endl;
-
-        Walls currentWalls = visitedWalls[curX][curZ]; //current coordinates
-        if (currentWalls.up == false)   //REDUNDANT INFO
-        {
-          //cout << "---------------------------------------------------------------------------no wall up" << endl;
-
-          if (visitedSquares[curX + 1][curZ] == false) //if square above has not been visited
-          {
-            if (topStackReversedDirection == WEST)
-            {
-              if (scaledTransValueZ <= topStackPair.zCoordinate)
-              {
-                curX = round(scaledTransValueX);
-                testTurnAfterBacktracking(NORTH);
-              }
-            }
-            if (topStackReversedDirection == EAST)
-            {
-              if (scaledTransValueZ >= topStackPair.zCoordinate)
-              {
-                curX = round(scaledTransValueX);
-                testTurnAfterBacktracking(NORTH);
-              }
-            }
-          }
-        }
-        if (currentWalls.down == false) //no wall below
-        {
-          if (visitedSquares[curX - 1][curZ] == false) //check if square below has been visited
-          {
-            if (topStackReversedDirection == WEST)
-            {
-              if (scaledTransValueZ <= topStackPair.zCoordinate)
-              {
-                testTurnAfterBacktracking(SOUTH);
-              }
-            }
-            if (topStackReversedDirection == EAST)
-            {
-              if (scaledTransValueZ >= topStackPair.zCoordinate)
-              {
-                testTurnAfterBacktracking(SOUTH);
-              }
-            }
-          }
-        }
-        if (currentWalls.left == false)
-        {
-          if (visitedSquares[curX][curZ - 1] == false)//check if square at lefthand has been visited
-          {
-            if (topStackReversedDirection == NORTH)
-            {
-              if (scaledTransValueX >= topStackPair.xCoordinate)
-              {
-                testTurnAfterBacktracking(WEST);
-              }
-            }
-            if (topStackReversedDirection == SOUTH)
-            {
-              if (scaledTransValueX <= (topStackPair.xCoordinate))
-              {
-                testTurnAfterBacktracking(WEST);
-              }
-            }
-          }
-        }
-        if (currentWalls.right == false)
-        {
-          if (visitedSquares[curX][curZ + 1] == false)  //check if square at righthand has been visited
-          {
-            cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@iT DoEsNt EnTeR ThIs If" << endl;
-            if (topStackReversedDirection == NORTH)
-            {
-              if (scaledTransValueX >= topStackPair.zCoordinate)
-              {
-                testTurnAfterBacktracking(EAST);
-              }
-            }
-            //cout<<"reversed direction : "<<topStackReversedDirection<<endl;
-            if (topStackReversedDirection == SOUTH)
-            {
-              if (scaledTransValueX <= (topStackPair.xCoordinate))
-              {
-                testTurnAfterBacktracking(EAST);
-              }
-            }
-          }
-        }
-      }
-      else //all paths have been charted
-      { 
-        cout << "__________________________________WE ARE NOW IN THE ELSE LOOP__________________________________" << endl;
-        cout << " x: " << topStackPair.xCoordinate << " z: " << topStackPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
-        cout << " " << endl;
-        cout << " POP POP MODAFOKA" << endl;
-        coordStack.pop();
-      }
-    }
-  }
-  else
-  {
-    isBackTracking = false;
-  }
 }
 
 void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
@@ -661,15 +555,8 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
         tempDirection = WEST;
         break;
       }
-      setRotationXYZ();                                                     //fix rotation values
-      rotation_field->setSFRotation(directionValue);                        //rotate bot
-      coordStack.push(CoordinateWalls{currentCoord, tempDirection, false}); //push data to stack
-      if (!coordStack.empty())                                              //print data
-      {
-        cout << "TEST TURN RIGHT" << endl;
-        cout << " x: " << coordStack.top().ptnPair.xCoordinate << " z: " << coordStack.top().ptnPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
-        cout << " " << endl;
-      }
+      setRotationXYZ();                              //fix rotation values
+      rotation_field->setSFRotation(directionValue); //rotate bot      
     }
     else if (leftSensorData > 800) //if left path is open
     {
@@ -697,30 +584,16 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
       }
       setRotationXYZ();
       rotation_field->setSFRotation(directionValue);
-      //coordStack.push(CoordinateWalls{currentCoord, tempDirection, false});
-      // if (!coordStack.empty())
-      // {
-      //   cout << "TEST TURN LEFT" << endl;
-      //   cout << " x: " << coordStack.top().ptnPair.xCoordinate << " z: " << coordStack.top().ptnPair.zCoordinate << " DIR: " << coordStack.top().direction << " INT: " << coordStack.top().intersectionExists << " ss: " << coordStack.size() << endl;
-      //   cout << " " << endl;
-      // }
     }
     else //if dead end
     {
-      //Walls tempWallLayout = visitedWalls[(int)coordStack.top().ptnPair.xCoordinate][(int)coordStack.top().ptnPair.zCoordinate]; //REFERENCE POINT
-      //compare vis walls at coord
-      // if (tempWallLayout.up && tempWallLayout.down && tempWallLayout.left)
-      // {
-      //   //checking for right wall
-      //   if (!tempWallLayout.right)
-      //   {
-      //     cout << ">>>>>>>>>>>>>>>>>>>>>RANDOM STACK PUSH?????" << endl;
-      //     coordStack.push(CoordinateWalls{currentCoord, EAST, true});
-      //   }
-      // }
+
       setRotationXYZ();
-      isBackTracking = true;
-      backTracking();
+      directionValue[3] = directionValue[3] + 3.1415;
+      rotation_field->setSFRotation(directionValue);
+      cout << " trying to 180: "<<endl;
+      // isBackTracking = true;
+      // backTracking();
     }
   }
   else //if path is clear, keep moving forward
@@ -754,13 +627,31 @@ movementDirection setTrueDirection() //COMPASS METHOD
   }
 }
 
+void exitSeeker() // SEARCH FOR EXIT
+{
+  cout<<"DEBUG: now in exitSeeker"<<endl;
+  struct exitSignal *message = (struct exitSignal*)receiver->getData();
+  char *messageReceived = (char*)message->messageContent;
+  cout<<"Message received: "<<messageReceived<<endl;
+  cout<<"Message tag: "<<message->tag<<endl;
+  // if exit is found, robot must stop
+  if(message->tag == exitTag){
+
+    cout<<"DEBUG: stoping robot"<<endl;
+    botMovement(false);
+    cout<<"DEBUG: Robot stopped"<<endl;
+    
+    cout<<"Reached exit"<<endl;
+    sendCoordinates(currentCoord,emitter);
+  }
+  receiver->nextPacket();  
+}
+
 //function that calls all other functions that needs to update per cycle
 void updateValues()
 {
-  if (!isBackTracking)
-  {
-    testTurn(setTrueDirection());
-  }
+
+  testTurn(setTrueDirection());
   onlyPositives(setTrueDirection());
 
   //sets struct to values coming from onlyPositives(botAngle);
@@ -773,27 +664,36 @@ void updateValues()
   }
 
   // only run the functions inside if the last location is different than the current location else ignore this and keeps moving
-  if (!isBackTracking && ((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate)))
+  if (((previousCoord.xCoordinate != currentCoord.xCoordinate) || (previousCoord.zCoordinate != currentCoord.zCoordinate)))
   {
     //saves the currentCoord in another struct to be compared later
     previousCoord = currentCoord;
     wallDetection(currentCoord, setTrueDirection());
 
-    if (intersectionCheck(xValue, zValue)) //here needs to check if its actually an intersection
+    if (intersectionCheck(xValue, zValue, setTrueDirection())) //here needs to check if its actually an intersection
     {
       cout << " intersection found or whatever" << endl;
       CoordinateWalls xzDir = {currentCoord, setTrueDirection(), true};
-      coordStack.push(xzDir);
+      // coordStack.push(xzDir);
 
-      if (!coordStack.empty())
-      {
-      }
+      // send info new intersection to server
+      // sendCoordinates(currentCoord,emitter);
+      sendIntersectionInfo(xzDir);
+      cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;
+
+      // if (!coordStack.empty())
+      // {
+      //   cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;
+      // }      
     }
-  }
-  else if (isBackTracking)
-  {
-    backTracking();
-  }
+  }  
+    // send coordinates to server
+    // sendCoordinates(currentCoord,emitter);
+    // if(receiver->getQueueLength()>0){
+    //   cout<<"DEBUG: got to exitSeeker()"<<endl;
+    //   exitSeeker();
+    // }
+  
 }
 
 void setup() //RUN SETUP ONCE FOR INITIALIZATION
@@ -812,17 +712,18 @@ void setup() //RUN SETUP ONCE FOR INITIALIZATION
     wheels[i]->setVelocity(5.0);
   }
 
-  // Emitter Setup
-  // Emitter *emitter;
-  // emitter=supervisor->getEmitter("emitter");
-
-  // emitter->setChannel(1);
-
   robot_node = supervisor->getFromDef("botJr");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
   compass = supervisor->getCompass("compass");
   compass->enable(TIME_STEP);
+  
+  receiver=supervisor->getReceiver("receiver");
+  receiver->enable(TIME_STEP);
+  receiver->setChannel(2); 
+  emitter=supervisor->getEmitter("emitter");
+  emitter->setChannel(1);
+  
 }
 
 int main()
@@ -838,6 +739,11 @@ int main()
     updateValues();
     setTrueDirection();
   }
+
+  
+  receiver->disable();
+  delete receiver;
+  delete emitter;
 
   delete supervisor;
   return 0;
