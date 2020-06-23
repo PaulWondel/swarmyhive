@@ -21,7 +21,6 @@ enum movementDirection //Struct used for declaring directions
   EAST,  // 1
   SOUTH, // 2
   WEST   // 3
-
 };
 
 struct Coordinates //Struct used for saving coordinates
@@ -46,6 +45,12 @@ struct Walls
   bool right;
   bool down;
   bool left;
+};
+
+struct sendPackage // save info in struct to send in a package
+{
+  CoordinateWalls botInfo;
+  Walls wallInfo;
 };
 
 struct exitSignal {
@@ -97,6 +102,7 @@ double directionValue[] = {0, 1, 0, 0};
 double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
 Walls visitedWalls[15][15] = {{false}};
+Walls intersectionWalls = {{false}};
 
 // for exit Signal
 const int exitTag = 162;
@@ -115,6 +121,15 @@ void sendCoordinates(Coordinates message, Emitter *device){
 
 void sendIntersectionInfo(CoordinateWalls intersectionInfo){
   emitter->send(&intersectionInfo,sizeof(intersectionInfo));
+  return;
+}
+
+void sendWalls(Walls message){
+  emitter->send(&message,sizeof(message));
+  return;
+}
+void sendPackageFuncton(sendPackage message){
+  emitter->send(&message,sizeof(message));
   return;
 }
 
@@ -228,19 +243,27 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
 
   if (_UP)
   {
-    visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
+  visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
+    intersectionWalls.up = true;
+    // cout<<"DEBUG: WALL 0"<<endl;
   }
   if (_DOWN)
   {
     visitedSquares[(int)xzCoords.xCoordinate - 1][(int)xzCoords.zCoordinate] = true;
+    intersectionWalls.down = true;
+    // cout<<"DEBUG: WALL 1"<<endl;
   }
   if (_LEFT)
   {
     visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate - 1] = true;
+    intersectionWalls.left = true;
+    // cout<<"DEBUG: WALL 2"<<endl;
   }
   if (_RIGHT)
   {
     visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate + 1] = true;
+    intersectionWalls.right = true;
+    // cout<<"DEBUG: WALL 3"<<endl;
   }
 
   //reset local variables for the next coordinate pair
@@ -678,7 +701,13 @@ void updateValues()
 
       // send info new intersection to server
       // sendCoordinates(currentCoord,emitter);
-      sendIntersectionInfo(xzDir);
+      // sendIntersectionInfo(xzDir);
+      // send values of the walls at the intersection
+      // sendWalls(intersectionWalls);
+
+      struct sendPackage packageInfo = {xzDir,intersectionWalls};
+      sendPackageFuncton(packageInfo);
+
       cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;
 
       // if (!coordStack.empty())
@@ -686,6 +715,8 @@ void updateValues()
       //   cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;
       // }      
     }
+    // resets the values of the struct of intersection Walls
+    intersectionWalls = {false};
   }  
     // send coordinates to server
     // sendCoordinates(currentCoord,emitter);

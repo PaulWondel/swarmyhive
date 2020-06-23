@@ -29,6 +29,12 @@ struct Walls // what walls are available at said coordinate true=wall
   bool left;
 };
 
+struct receivePackage // save info in struct to send in a package
+{
+  Intersection botInfo;
+  Walls wallInfo;
+};
+
 // Function to place coordinates into a struct
 Coordinates structTransport(double xCoord, double zCoord){
   Coordinates transport = {(double)xCoord,(double)zCoord};
