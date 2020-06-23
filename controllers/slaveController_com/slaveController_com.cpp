@@ -2,10 +2,10 @@
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/Compass.hpp>
+// ------------------------------------------------------------------------------
 #include <webots/Receiver.hpp>
 #include <webots/Emitter.hpp>
-//#include <webots/Robot.hpp>
-//#include <webots/Emitter.hpp>
+// ------------------------------------------------------------------------------
 #include <cmath>
 #include <stack>
 
@@ -49,15 +49,22 @@ struct Walls
   bool down;
   bool left;
 };
-
+// ------------------------------------------------------------------------------
+struct exitSignal {
+  int tag;
+  char messageContent[];
+};
+// ------------------------------------------------------------------------------
 
 /*####### NODES ########*/
 
 Compass *compass;
 Supervisor *supervisor;
 DistanceSensor *ds[4];
+// ------------------------------------------------------------------------------
 Emitter *emitter;
-// Receiver *receiver;
+Receiver *receiver;
+// ------------------------------------------------------------------------------
 
 /*####### INITIALIZERS AND VARIABLES ########*/
 
@@ -96,16 +103,16 @@ double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
 Walls visitedWalls[15][15] = {{false}};
 
+// ------------------------------------------------------------------------------
 // for exit Signal
 const int exitTag = 162;
-
-// struct Coordinates slave;
-// struct CoordinateWalls test;
+// ------------------------------------------------------------------------------
 
 // where we've been, where we haven't been too and correctpath
 
 /*####### METHODS ########*/
 
+// ------------------------------------------------------------------------------
 // For sending messages
 void sendCoordinates(Coordinates message, Emitter *device){
   device->send(&message,sizeof(message));
@@ -118,7 +125,7 @@ Coordinates structTransport(double xCoord, double zCoord)
   Coordinates transport = {(double)xCoord, (double)zCoord};
   return transport;
 }
-
+// ------------------------------------------------------------------------------
 //stops the bot when called or restarts movement
 void botMovement(bool status)
 {
@@ -358,6 +365,7 @@ void onlyPositives(movementDirection direction)   //NOT OUT OF BOUNDS
     }
   }
   botMovement(true);
+  // cout<<"DEBUG: botmovement to true"<<endl;
 }
 
 void testTurnBackTrack(movementDirection reverseDirection)
@@ -389,10 +397,12 @@ void testTurnBackTrack(movementDirection reverseDirection)
     rotation_field->setSFRotation(directionValue);
     setRotationXYZ();
     botMovement(true);
+    // cout<<"DEBUG: botmovement to true"<<endl;
   }
   else
   {
     botMovement(true);
+    // cout<<"DEBUG: botmovement to true"<<endl;
   }
 }
 
@@ -450,6 +460,7 @@ void testTurnAfterBacktracking(movementDirection direction) //TAKES THE DIRECTIO
   rotation_field->setSFRotation(directionValue);
   isBackTracking = false;
   botMovement(true);
+  // cout<<"DEBUG: botmovement to true"<<endl;
 }
 
 void backTracking() //BACKTRACKING WHEN ENCOUNTERS A DEAD END
@@ -684,6 +695,7 @@ void testTurn(movementDirection direction)  //TURNS TO SPECIFIED DIRECTION
   else
   {
     botMovement(true);
+    // cout<<"DEBUG: botmovement to true"<<endl;
   }
 }
 
@@ -711,7 +723,27 @@ movementDirection setTrueDirection()    //COMPASS METHOD
     return SOUTH;
   }
 }
+// ------------------------------------------------------------------------------
+void exitSeeker() // SEARCH FOR EXIT
+{
+  cout<<"DEBUG: now in exitSeeker"<<endl;
+  struct exitSignal *message = (struct exitSignal*)receiver->getData();
+  char *messageReceived = (char*)message->messageContent;
+  cout<<"Message received: "<<messageReceived<<endl;
+  cout<<"Message tag: "<<message->tag<<endl;
+  // if exit is found, robot must stop
+  if(message->tag == exitTag){
 
+    cout<<"DEBUG: stoping robot"<<endl;
+    botMovement(false);
+    cout<<"DEBUG: Robot stopped"<<endl;
+    
+    cout<<"Reached exit"<<endl;
+    sendCoordinates(currentCoord,emitter);
+  }
+  receiver->nextPacket();  
+}
+// ------------------------------------------------------------------------------
 //function that calls all other functions that needs to update per cycle
 void updateValues()
 {
@@ -748,13 +780,21 @@ void updateValues()
       {
       }
     }
+// ------------------------------------------------------------------------------
+    // send coordinates to server
     sendCoordinates(currentCoord,emitter);
+    if(receiver->getQueueLength()>0){
+      cout<<"DEBUG: got to exitSeeker()"<<endl;
+      exitSeeker();
+    }
+// ------------------------------------------------------------------------------
   }
   else if (isBackTracking)
   {
     backTracking();
   }
 }
+
 void setup()    //RUN SETUP ONCE FOR INITIALIZATION
 {
 
@@ -776,11 +816,13 @@ void setup()    //RUN SETUP ONCE FOR INITIALIZATION
   rotation_field = robot_node->getField("rotation");
   compass = supervisor->getCompass("compass");
   compass->enable(TIME_STEP);
-  // receiver=supervisor->getReceiver("receiver");
-  // receiver->enable(TIME_STEP);
-  // receiver->setChannel(2); 
+// ------------------------------------------------------------------------------
+  receiver=supervisor->getReceiver("receiver");
+  receiver->enable(TIME_STEP);
+  receiver->setChannel(2); 
   emitter=supervisor->getEmitter("emitter");
   emitter->setChannel(1);
+// ------------------------------------------------------------------------------
 }
 
 int main()
@@ -789,15 +831,26 @@ int main()
   
   setup();
 
-  while (supervisor->step(TIME_STEP) != -1)
+while (supervisor->step(TIME_STEP) != -1)
   {
     trans_values = trans_field->getSFVec3f();
     rotationValues = rotation_field->getSFRotation();
     compassDirection = compass->getValues();
     updateValues();
     setTrueDirection();
+// ------------------------------------------------------------------------------
+    // if(receiver->getQueueLength()>0){
+    //   exitSeeker();
+    // }
+    // cout<<(receiver->getQueueLength())<<endl;
+// ------------------------------------------------------------------------------
   }
 
+// ------------------------------------------------------------------------------
+  receiver->disable();
+  delete receiver;
+  delete emitter;
+// ------------------------------------------------------------------------------  
   delete supervisor;
   return 0;
 }

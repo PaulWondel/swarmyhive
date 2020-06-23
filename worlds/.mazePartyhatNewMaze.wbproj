@@ -7,4 +7,4 @@ centralWidgetVisible: 1
 selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
-textFiles: 0 "controllers/slaveController_test4/slaveController_test4.cpp" "controllers/serverBrain/serverBrain.cpp" "controllers/slaveController_com/slaveController_com.cpp"
+textFiles: 1 "controllers/serverBrain/serverBrain.cpp" "controllers/slaveController_com/slaveController_com.cpp"

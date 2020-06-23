@@ -28,7 +28,7 @@ int main(){
 
   while (supervisor->step(TIME_STEP) != -1) {
     // delay loop for sending message
-    if (timer >= 16){
+    if (timer >= 4){
       sendMessage(noEntrance,emitter);
       timer=0;
     }
