@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.5795716693978532 0.5733479850462981 0.5791103246141751 4.183463745022809
-  position 1.7825779104787403 2.4175619617397532 0.7254777724692412
+  orientation 0.5924475345629543 0.5464159630748227 0.5919759404632009 4.142437733577727
+  position 0.9148638236515836 3.367727733074257 1.011451493249587
 }
 TexturedBackground {
 }
@@ -233,8 +233,8 @@ Solid {
   ]
 }
 DEF botJr Robot {
-  translation 1.65201 0.01 0.449752
-  rotation 0 -1 0 -5.307179586466759e-06
+  translation 0.06665 0.01 0.06665
+  rotation 0 -1 0 -1.5708
   children [
     DEF compass Compass {
     }
@@ -375,7 +375,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991243424095 0.00700000606359878
-        rotation 0.7069152115813142 -0.706917808230528 -0.023196897238479623 3.187977958991352
+        rotation 0.7069152115813142 -0.706917808230528 -0.02319689723847967 3.187977958991352
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -473,7 +473,7 @@ DEF botJr Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "slaveController_test"
+  controller "controllerHope"
   supervisor TRUE
 }
 DEF botJr2 Robot {
@@ -651,7 +651,7 @@ DEF botJr2 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
-        rotation 0.7066920002682436 -0.7066945960975539 -0.034193049050705526 3.209951867934184
+        rotation 0.7066920002682435 -0.7066945960975538 -0.034193049050705616 3.209951867934184
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -863,7 +863,7 @@ DEF botJr3 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
-        rotation 0.7066920092189679 -0.7066946050483118 -0.03419267906538966 3.209951128830391
+        rotation 0.7066920092189679 -0.7066946050483118 -0.03419267906538976 3.209951128830391
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
