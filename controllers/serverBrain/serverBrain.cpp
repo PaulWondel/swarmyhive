@@ -2,9 +2,10 @@
 
 #include <webots/Supervisor.hpp>
 #include <webots/Receiver.hpp>
+#include <webots/Emitter.hpp>
+#include <webots/Compass.hpp>
 #include "extra.hpp"
 #include <vector>
-#include <webots/Compass.hpp>
 
 #define TIME_STEP 256
 
@@ -17,14 +18,19 @@ double tempX;
 double tempZ;
 
 /*####### NODES ########*/
-Receiver *receiver;
 Supervisor *supervisor;
+Receiver *receiver;
+Emitter *emitter;
+
+// Communication Settings
+const int receiverChannel = -1; // set receiver channel
+const int emitterChannel = 1; // set emitter channel
 
 void wallSetter(double x, double z, Walls intersectionWall) // CHECKS FOR INTERSECTIONS
 {
   // to fix if it is an intersection ignore if loop depending which direction you're coming from
   // PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
-  cout << "SERVER DEBUG: checking if it is a intersection!: " << endl;
+  cout << "SERVER DEBUG: checking intersection" << endl;
   if (intersectionWall.up)
   {
     // it goes into this loop if path NORTH of it is blocked
@@ -55,6 +61,8 @@ void wallSetter(double x, double z, Walls intersectionWall) // CHECKS FOR INTERS
 movementDirection squareChecker(double x, double z, movementDirection botDirection) {
   if (botDirection == NORTH)
   {
+    // set SOUTH als visited
+    visitedSquares[(int)x - 1][(int)z] = true;
     if (visitedSquares[(int)x + 1][(int)z] == false)
     {
       // go NORTH
@@ -73,6 +81,8 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
   }
   if (botDirection == SOUTH)
   {
+    // set NORTH to visited
+    visitedSquares[(int)x + 1][(int)z] = true;
     if (visitedSquares[(int)x - 1][(int)z] == false)
     {
       // go SOUTH
@@ -91,6 +101,8 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
   }
   if (botDirection == EAST)
   {
+    // set WEST to visited
+    visitedSquares[(int)x][(int)z - 1] = true;
     if (visitedSquares[(int)x][(int)z + 1] == false)
     {
       // go EAST
@@ -109,6 +121,8 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
   }
   if (botDirection == WEST)
   {
+    // set EAST to visited
+    visitedSquares[(int)x][(int)z + 1] = true;    
     if (visitedSquares[(int)x][(int)z - 1] == false)
     {
       // go WEST
@@ -126,7 +140,7 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
     }     
   }
   cout<<"SERVER DEBUG: return NORTH eventhough direction selected"<<endl;
-  return NORTH;
+  return botDirection;
 }
 
 void setup()
@@ -134,7 +148,10 @@ void setup()
   supervisor = new Supervisor();
   receiver = supervisor->getReceiver("receiver");
   receiver->enable(TIME_STEP);
-  receiver->setChannel(-1);
+  receiver->setChannel(receiverChannel);
+  emitter = supervisor->getEmitter("emitter");
+  emitter->setChannel(emitterChannel);
+
 }
 
 void readDirection(movementDirection x)
@@ -153,7 +170,7 @@ void readDirection(movementDirection x)
       cout<<"SERVER DEBUG: GO direction WEST"<<endl;
       break;
     default:
-      cout<<"No direction"<<endl;
+      cout<<"SERVER DEBUG: ERROR"<<endl;
       break;
   }
 }
@@ -166,14 +183,16 @@ int main(int argc, char **argv)
   {
     if (receiver->getQueueLength() > 0)
     {
-      struct receivePackage *incomingPackage = (struct receivePackage *)receiver->getData();
-      struct receivePackage savedPackage = {incomingPackage->botInfo, incomingPackage->wallInfo};
+      receivePackage *incomingPackage = (struct receivePackage *)receiver->getData();
+      receivePackage savedPackage = *incomingPackage; // {incomingPackage->botInfo, incomingPackage->wallInfo};
       receiver->nextPacket();
       wallSetter(savedPackage.botInfo.ptnPair.xCoordinate, savedPackage.botInfo.ptnPair.zCoordinate, savedPackage.wallInfo);
       // if square already visited send info back to bot
-      readDirection(
-        squareChecker(savedPackage.botInfo.ptnPair.xCoordinate, savedPackage.botInfo.ptnPair.zCoordinate, savedPackage.botInfo.direction)
-      );
+      movementDirection giveDirection = squareChecker(savedPackage.botInfo.ptnPair.xCoordinate, savedPackage.botInfo.ptnPair.zCoordinate, savedPackage.botInfo.direction);
+      // readDirection(giveDirection);
+      cout<<giveDirection<<endl;
+      emitter->send(&giveDirection, sizeof(giveDirection));
+      cout<<"SERVER DEBUG: MESSAGE SENT"<<endl;
     }
   }
   receiver->disable();

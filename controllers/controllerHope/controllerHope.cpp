@@ -53,7 +53,8 @@ struct sendPackage // save info in struct to send in a package
   Walls wallInfo;
 };
 
-struct exitSignal {
+struct exitSignal
+{
   int tag;
   char messageContent[];
 };
@@ -101,30 +102,33 @@ double _botDirection;
 double directionValue[] = {0, 1, 0, 0};
 double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
-// Walls visitedWalls[15][15] = {{false}};
 Walls intersectionWalls = {{false}};
 
 // for exit Signal
 const int exitTag = 162;
 
-// where we've been, where we haven't been too and correctpath
+// Communication Settings
+const int channel = 1; // set emitter/receiver channel, every bot has it's own channel
 
 /*####### METHODS ########*/
 
 //set coordinate values for transport
 
 // For sending messages
-void sendIntersectionInfo(CoordinateWalls intersectionInfo){
-  emitter->send(&intersectionInfo,sizeof(intersectionInfo));
+void sendIntersectionInfo(CoordinateWalls intersectionInfo)
+{
+  emitter->send(&intersectionInfo, sizeof(intersectionInfo));
   return;
 }
 
-void sendWalls(Walls message){
-  emitter->send(&message,sizeof(message));
+void sendWalls(Walls message)
+{
+  emitter->send(&message, sizeof(message));
   return;
 }
-void sendPackageFuncton(sendPackage message){
-  emitter->send(&message,sizeof(message));
+void sendPackageFuncton(sendPackage message)
+{
+  emitter->send(&message, sizeof(message));
   return;
 }
 
@@ -224,27 +228,27 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
 
   if (_UP)
   {
-  // visitedSquares[(int)xzCoords.xCoordinate + 1][(int)xzCoords.zCoordinate] = true;
+    // sees wall en sets value to true
     intersectionWalls.up = true;
-    // cout<<"DEBUG: WALL 0"<<endl;
+    // cout<<"ROBOT DEBUG: WALL 0"<<endl;
   }
   if (_DOWN)
   {
-    // visitedSquares[(int)xzCoords.xCoordinate - 1][(int)xzCoords.zCoordinate] = true;
+    // sees wall en sets value to true
     intersectionWalls.down = true;
-    // cout<<"DEBUG: WALL 1"<<endl;
+    // cout<<"ROBOT DEBUG: WALL 1"<<endl;
   }
   if (_LEFT)
   {
-    // visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate - 1] = true;
+    // sees wall en sets value to true
     intersectionWalls.left = true;
-    // cout<<"DEBUG: WALL 2"<<endl;
+    // cout<<"ROBOT DEBUG: WALL 2"<<endl;
   }
   if (_RIGHT)
   {
-    // visitedSquares[(int)xzCoords.xCoordinate][(int)xzCoords.zCoordinate + 1] = true;
+    // sees wall en sets value to true
     intersectionWalls.right = true;
-    // cout<<"DEBUG: WALL 3"<<endl;
+    // cout<<"ROBOT DEBUG: WALL 3"<<endl;
   }
 
   //reset local variables for the next coordinate pair
@@ -264,7 +268,7 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
   int leftSensorData = ds[2]->getValue();
   int backSensorData = ds[3]->getValue();
 
-  cout << "checking if it is a intersection!: " <<endl;
+  cout << "ROBOT DEBUG: is it at intersection?" << endl;
   if (frontSensorData >= 1000)
   {
     pathsFound++;
@@ -284,55 +288,16 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
 
   if (pathsFound >= 3) //WHEN MORE THAN OR EQUAL TO 3 PATHS
   {
-    cout <<"yes"<<endl;
+    cout << "ROBOT DEBUG: YES" << endl;
+    botMovement(false);
     return true;
   }
   else
   {
-    cout << "no "<<endl;
+    cout << "ROBOT DEBUG: NO" << endl;
     // cout << "X : " << x << "            Z : " << z << endl;
     pathsFound = 0;
-    return false;
-  }
-}
-
-bool intersectionCheckAvailablePaths(double x, double z) //CHECKS FOR AVAILABLE PATHS
-{
-  int pathsFound = 4;
-  cout << "===================================" << endl;
-  cout << "X : " << x << "            Z : " << z << endl;
-  cout << "===================================" << endl;
-
-  if (visitedSquares[(int)x + 1][(int)z] == true)
-  {
-    cout << "JOKES ON YOU, PATH ABOVE YOU HAS BEEN CHECKED" << endl;
-    pathsFound--;
-  }
-  if (visitedSquares[(int)x - 1][(int)z] == true)
-  {
-    cout << "JOKES ON YOU, PATH BELOW YOU HAS BEEN CHECKED" << endl;
-    pathsFound--;
-  }
-  if (visitedSquares[(int)x][(int)z + 1] == true)
-  {
-    cout << "JOKES ON YOU, PATH TO YOUR RIGHT HAS BEEN CHECKED" << endl;
-    pathsFound--;
-  }
-  if (visitedSquares[(int)x][(int)z - 1] == true)
-  {
-    cout << "JOKES ON YOU, PATH TO YOUR LEFT HAS BEEN CHECKED" << endl;
-    pathsFound--;
-  }
-
-  if (pathsFound > 0) //WHEN MORE THAN 0 paths
-  {
-    cout << "PATHS ARE STILL AVAILABLE TO BE CHARTED" << endl;
-    return true; //still paths available to be charted
-  }
-  else
-  {
-    cout << "GO FUCK YOURSELF" << endl;
-    pathsFound = 4;
+    botMovement(true);
     return false;
   }
 }
@@ -435,7 +400,7 @@ void onlyPositives(movementDirection direction) //NOT OUT OF BOUNDS
       }
     }
   }
-  botMovement(true);
+  // botMovement(true);
 }
 
 void testTurnBackTrack(movementDirection reverseDirection)
@@ -467,11 +432,11 @@ void testTurnBackTrack(movementDirection reverseDirection)
     setRotationXYZ();
     rotation_field->setSFRotation(directionValue);
 
-    botMovement(true);
+    // botMovement(true);
   }
   else
   {
-    botMovement(true);
+    // botMovement(true);
   }
 }
 
@@ -522,12 +487,12 @@ void testTurnAfterBacktracking(movementDirection direction) //TAKES THE DIRECTIO
 
   //double tempx = round(((trans_values[0] - 0.0625) * 8));   //NOT USED
   //double tempz = round(((trans_values[2] - 0.0625) * 8));
-  cout << "pop? : " <<endl;
+  cout << "ROBOT DEBUG: pop?" << endl;
   coordStack.pop();
   setRotationXYZ();
   rotation_field->setSFRotation(directionValue);
   isBackTracking = false;
-  botMovement(true);
+  // botMovement(true);
 }
 
 void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
@@ -565,7 +530,7 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
         break;
       }
       setRotationXYZ();                              //fix rotation values
-      rotation_field->setSFRotation(directionValue); //rotate bot      
+      rotation_field->setSFRotation(directionValue); //rotate bot
     }
     else if (leftSensorData > 800) //if left path is open
     {
@@ -594,20 +559,18 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
       setRotationXYZ();
       rotation_field->setSFRotation(directionValue);
     }
-    else //if dead end
+    else // if dead end
     {
 
       setRotationXYZ();
       directionValue[3] = directionValue[3] + 3.1415;
       rotation_field->setSFRotation(directionValue);
-      cout << " trying to 180: "<<endl;
-      // isBackTracking = true;
-      // backTracking();
+      cout << "ROBOT DEBUG: turning 180" << endl;
     }
   }
-  else //if path is clear, keep moving forward
+  else // if path is clear, keep moving forward
   {
-    botMovement(true);
+    // botMovement(true);
   }
 }
 
@@ -636,23 +599,70 @@ movementDirection setTrueDirection() //COMPASS METHOD
   }
 }
 
-void exitSeeker() // SEARCH FOR EXIT
+// SEARCH FOR EXIT
+void exitSeeker()
 {
-  cout<<"DEBUG: now in exitSeeker"<<endl;
-  struct exitSignal *message = (struct exitSignal*)receiver->getData();
-  char *messageReceived = (char*)message->messageContent;
-  cout<<"Message received: "<<messageReceived<<endl;
-  cout<<"Message tag: "<<message->tag<<endl;
+  cout << "ROBOT DEBUG: now in exitSeeker" << endl;
+  struct exitSignal *message = (struct exitSignal *)receiver->getData();
+  char *messageReceived = (char *)message->messageContent;
+  cout << "ROBOT DEBUG: Message received: " << messageReceived << endl;
+  cout << "ROBOT DEBUG: Message tag: " << message->tag << endl;
   // if exit is found, robot must stop
-  if(message->tag == exitTag){
+  if (message->tag == exitTag)
+  {
 
-    cout<<"DEBUG: stoping robot"<<endl;
-    botMovement(false);
-    cout<<"DEBUG: Robot stopped"<<endl;
-    
-    cout<<"Reached exit"<<endl;
+    cout << "ROBOT DEBUG: stoping robot" << endl;
+    // botMovement(false);
+    cout << "ROBOT DEBUG: Robot stopped" << endl;
+
+    cout << "ROBOT DEBUG: Reached exit" << endl;
   }
-  receiver->nextPacket();  
+  receiver->nextPacket();
+}
+
+// set the direction of the robot to the direction that the server sends
+void directionFromServer(movementDirection direction)
+{
+  switch (direction) // change dir
+  {
+  case NORTH:
+    directionValue[3] = 1.5708;
+    break;
+
+  case SOUTH:
+    directionValue[3] = -1.5708;
+    break;
+
+  case WEST:
+    directionValue[3] = 3.1415;
+    break;
+
+  case EAST:
+    directionValue[3] = 0;
+    break;
+  }
+  setRotationXYZ();
+  rotation_field->setSFRotation(directionValue);
+}
+
+// Receives a message from the server and reacts to it.
+void receiveMessage()
+{
+  // cout << "ROBOT DEBUG: CHECKING FOR RESPONSE FROM SERVER" << endl;
+  if (receiver->getQueueLength() > 0)
+  {
+    movementDirection *message = (movementDirection *)receiver->getData();
+    movementDirection savedMessage = *message;
+    directionFromServer(savedMessage);
+    receiver->nextPacket();
+    cout << savedMessage << endl;
+    cout << "ROBOT DEBUG: MESSAGE RECEIVED FROM SERVER" << endl;
+    cout << "ROBOT DEBUG: START MOVING" << endl;
+  }
+  else
+  {
+    // cout << "ROBOT DEBUG: NO RESPONSE FROM SERVER" << endl;
+  }
 }
 
 //function that calls all other functions that needs to update per cycle
@@ -661,14 +671,15 @@ void updateValues()
 
   testTurn(setTrueDirection());
   onlyPositives(setTrueDirection());
+  botMovement(true);
 
   //sets struct to values coming from onlyPositives(botAngle);
   currentCoord = {xValue, zValue};
 
   if (!visitedSquares[(int)xValue][(int)zValue])
   {
+    // sets the square to visited
     visitedSquares[(int)xValue][(int)zValue] = true;
-    //cout << "Have i visited this square before at " << xValue << " & " << zValue << " = " << visitedSquares[(int)xValue][(int)zValue] << endl;
   }
 
   // only run the functions inside if the last location is different than the current location else ignore this and keeps moving
@@ -680,17 +691,24 @@ void updateValues()
 
     if (intersectionCheck(xValue, zValue, setTrueDirection())) //here needs to check if its actually an intersection
     {
-      cout << " intersection found or whatever" << endl;
+      // stop bot from moving at intersection
+      botMovement(false);
+      cout << "ROBOT DEBUG: intersection found or whatever" << endl;
       CoordinateWalls xzDir = {currentCoord, setTrueDirection(), true};
 
-      struct sendPackage packageInfo = {xzDir,intersectionWalls};
+      // Send info to the server
+      sendPackage packageInfo = {xzDir, intersectionWalls};
       sendPackageFuncton(packageInfo);
 
-      cout << "  x: " << xzDir.ptnPair.xCoordinate <<  "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction <<endl;   
+      // wait for info from the server
+      receiveMessage();
+
+      cout << "ROBOT DEBUG:"
+           << "  x: " << xzDir.ptnPair.xCoordinate << "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction << endl;
     }
     // resets the values of the struct of intersection Walls
     intersectionWalls = {false};
-  }    
+  }
 }
 
 void setup() // RUN SETUP ONCE FOR INITIALIZATION
@@ -714,13 +732,12 @@ void setup() // RUN SETUP ONCE FOR INITIALIZATION
   rotation_field = robot_node->getField("rotation");
   compass = supervisor->getCompass("compass");
   compass->enable(TIME_STEP);
-  
-  receiver=supervisor->getReceiver("receiver");
+
+  receiver = supervisor->getReceiver("receiver");
   receiver->enable(TIME_STEP);
-  receiver->setChannel(2); 
-  emitter=supervisor->getEmitter("emitter");
-  emitter->setChannel(1);
-  
+  receiver->setChannel(channel);
+  emitter = supervisor->getEmitter("emitter");
+  emitter->setChannel(channel);
 }
 
 int main()
@@ -733,11 +750,11 @@ int main()
     trans_values = trans_field->getSFVec3f();
     rotationValues = rotation_field->getSFRotation();
     compassDirection = compass->getValues();
+    receiveMessage();
     updateValues();
     setTrueDirection();
   }
 
-  
   receiver->disable();
   delete receiver;
   delete emitter;
