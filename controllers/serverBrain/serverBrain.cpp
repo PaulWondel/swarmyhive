@@ -208,6 +208,8 @@ int main(int argc, char **argv)
       cout << "SERVER DEBUG: MESSAGE SENT TO BOTNR: " << savedPackage.botNr << endl;
 
       receiver->nextPacket();
+
+      // if coordinates have exit tag, print exit received
     }
   }
   receiver->disable();

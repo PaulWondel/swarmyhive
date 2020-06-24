@@ -61,7 +61,7 @@ struct sendPackage // save info in struct to send in a package
 {
   CoordinateWalls botInfo;
   Walls wallInfo;
-  const int botNr = 1; // sets the id number for the bot
+  const int botNr = 2; // sets the id number for the bot
 };
 
 struct exitSignal
@@ -121,7 +121,7 @@ const int exitTag = 162;
 bool run_state = true;
 
 // Communication Settings
-const int channel = 1; // set emitter/receiver channel, every bot has it's own channel
+const int channel = 2; // set emitter/receiver channel, every bot has it's own channel
 
 /*####### METHODS ########*/
 
@@ -737,7 +737,7 @@ void setup() // RUN SETUP ONCE FOR INITIALIZATION
     wheels[i]->setVelocity(5.0);
   }
 
-  robot_node = supervisor->getFromDef("botJr");
+  robot_node = supervisor->getFromDef("botJr2");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
 
