@@ -1,4 +1,4 @@
-build/release/controllerHope.o: controllerHope.cpp \
+build/release/slaveController_com.o: slaveController_com.cpp \
  D:\Program\ Files\Webots/include/controller/cpp/webots/DistanceSensor.hpp \
  D:\Program\ Files\Webots/include/controller/cpp/webots/Device.hpp \
  D:/Program\ Files/Webots/include/controller/c/webots/types.h \
