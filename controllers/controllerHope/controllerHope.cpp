@@ -1,3 +1,8 @@
+// This robot has 1 emitters and 2 receivers:
+// Emitter *emitter;
+// Receiver *receiver;
+// Receiver *exitReceiver;
+
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Supervisor.hpp>
@@ -51,6 +56,7 @@ struct sendPackage // save info in struct to send in a package
 {
   CoordinateWalls botInfo;
   Walls wallInfo;
+  const int botNr = 1; // sets the id number for the bot
 };
 
 struct exitSignal
@@ -66,6 +72,7 @@ Supervisor *supervisor;
 DistanceSensor *ds[4];
 Emitter *emitter;
 Receiver *receiver;
+Receiver *exitReceiver;
 
 /*####### INITIALIZERS AND VARIABLES ########*/
 
@@ -106,6 +113,7 @@ Walls intersectionWalls = {{false}};
 
 // for exit Signal
 const int exitTag = 162;
+bool run_state = true;
 
 // Communication Settings
 const int channel = 1; // set emitter/receiver channel, every bot has it's own channel
@@ -268,7 +276,7 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
   int leftSensorData = ds[2]->getValue();
   int backSensorData = ds[3]->getValue();
 
-  cout << "ROBOT DEBUG: is it at intersection?" << endl;
+  // cout << "ROBOT DEBUG: is it at intersection?" << endl;
   if (frontSensorData >= 1000)
   {
     pathsFound++;
@@ -288,13 +296,13 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
 
   if (pathsFound >= 3) //WHEN MORE THAN OR EQUAL TO 3 PATHS
   {
-    cout << "ROBOT DEBUG: YES" << endl;
+    // cout << "ROBOT DEBUG: YES" << endl;
     botMovement(false);
     return true;
   }
   else
   {
-    cout << "ROBOT DEBUG: NO" << endl;
+    // cout << "ROBOT DEBUG: NO" << endl;
     // cout << "X : " << x << "            Z : " << z << endl;
     pathsFound = 0;
     botMovement(true);
@@ -487,7 +495,7 @@ void testTurnAfterBacktracking(movementDirection direction) //TAKES THE DIRECTIO
 
   //double tempx = round(((trans_values[0] - 0.0625) * 8));   //NOT USED
   //double tempz = round(((trans_values[2] - 0.0625) * 8));
-  cout << "ROBOT DEBUG: pop?" << endl;
+  // cout << "ROBOT DEBUG: pop?" << endl;
   coordStack.pop();
   setRotationXYZ();
   rotation_field->setSFRotation(directionValue);
@@ -602,20 +610,16 @@ movementDirection setTrueDirection() //COMPASS METHOD
 // SEARCH FOR EXIT
 void exitSeeker()
 {
-  cout << "ROBOT DEBUG: now in exitSeeker" << endl;
-  struct exitSignal *message = (struct exitSignal *)receiver->getData();
-  char *messageReceived = (char *)message->messageContent;
-  cout << "ROBOT DEBUG: Message received: " << messageReceived << endl;
-  cout << "ROBOT DEBUG: Message tag: " << message->tag << endl;
-  // if exit is found, robot must stop
-  if (message->tag == exitTag)
+  if (exitReceiver->getQueueLength() > 0)
   {
-
-    cout << "ROBOT DEBUG: stoping robot" << endl;
-    // botMovement(false);
-    cout << "ROBOT DEBUG: Robot stopped" << endl;
-
-    cout << "ROBOT DEBUG: Reached exit" << endl;
+    exitSignal *exitMessage = (exitSignal *)exitReceiver->getData();
+    exitSignal messageReceived = *exitMessage;
+    if (messageReceived.tag == exitTag)
+    {
+      cout << "ROBOT DEBUG: EXIT FOUND" << endl;
+      run_state = false;
+      botMovement(false);
+    }
   }
   receiver->nextPacket();
 }
@@ -655,7 +659,7 @@ void receiveMessage()
     movementDirection savedMessage = *message;
     directionFromServer(savedMessage);
     receiver->nextPacket();
-    cout << savedMessage << endl;
+    // cout << savedMessage << endl;
     cout << "ROBOT DEBUG: MESSAGE RECEIVED FROM SERVER" << endl;
     cout << "ROBOT DEBUG: START MOVING" << endl;
   }
@@ -693,7 +697,7 @@ void updateValues()
     {
       // stop bot from moving at intersection
       botMovement(false);
-      cout << "ROBOT DEBUG: intersection found or whatever" << endl;
+      // cout << "ROBOT DEBUG: intersection found or whatever" << endl;
       CoordinateWalls xzDir = {currentCoord, setTrueDirection(), true};
 
       // Send info to the server
@@ -703,8 +707,8 @@ void updateValues()
       // wait for info from the server
       receiveMessage();
 
-      cout << "ROBOT DEBUG:"
-           << "  x: " << xzDir.ptnPair.xCoordinate << "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction << endl;
+      // cout << "ROBOT DEBUG:"
+          //  << "  x: " << xzDir.ptnPair.xCoordinate << "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction << endl;
     }
     // resets the values of the struct of intersection Walls
     intersectionWalls = {false};
@@ -730,12 +734,18 @@ void setup() // RUN SETUP ONCE FOR INITIALIZATION
   robot_node = supervisor->getFromDef("botJr");
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
+
   compass = supervisor->getCompass("compass");
   compass->enable(TIME_STEP);
+
+  exitReceiver = supervisor->getReceiver("exitReceiver");
+  exitReceiver->enable(TIME_STEP);
+  exitReceiver->setChannel(0);
 
   receiver = supervisor->getReceiver("receiver");
   receiver->enable(TIME_STEP);
   receiver->setChannel(channel);
+
   emitter = supervisor->getEmitter("emitter");
   emitter->setChannel(channel);
 }
@@ -745,7 +755,7 @@ int main()
   supervisor = new Supervisor();
   setup();
 
-  while (supervisor->step(TIME_STEP) != -1)
+  while (supervisor->step(TIME_STEP) != -1 && run_state == true)
   {
     trans_values = trans_field->getSFVec3f();
     rotationValues = rotation_field->getSFRotation();
@@ -753,12 +763,17 @@ int main()
     receiveMessage();
     updateValues();
     setTrueDirection();
+    exitSeeker();
   }
 
-  receiver->disable();
-  delete receiver;
-  delete emitter;
+  botMovement(false);
 
+  receiver->disable();
+  exitReceiver->disable();
+  delete receiver;
+  delete exitReceiver;
+  delete emitter;
   delete supervisor;
-  return 0;
+
+  return EXIT_SUCCESS;
 }

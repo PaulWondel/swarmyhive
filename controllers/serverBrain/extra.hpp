@@ -33,6 +33,7 @@ struct receivePackage // save info in struct to send in a package
 {
   Intersection botInfo;
   Walls wallInfo;
+  const int botNr;
 };
 
 // Function to place coordinates into a struct

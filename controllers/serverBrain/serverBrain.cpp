@@ -24,7 +24,7 @@ Emitter *emitter;
 
 // Communication Settings
 const int receiverChannel = -1; // set receiver channel
-const int emitterChannel = 1; // set emitter channel
+const int emitterChannel = 1;   // set emitter channel
 
 void wallSetter(double x, double z, Walls intersectionWall) // CHECKS FOR INTERSECTIONS
 {
@@ -58,7 +58,8 @@ void wallSetter(double x, double z, Walls intersectionWall) // CHECKS FOR INTERS
 }
 
 // checking if a square has already been visited and tells which way the bot should be going to. It returns a direction
-movementDirection squareChecker(double x, double z, movementDirection botDirection) {
+movementDirection squareChecker(double x, double z, movementDirection botDirection)
+{
   if (botDirection == NORTH)
   {
     // set SOUTH als visited
@@ -86,7 +87,7 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
     if (visitedSquares[(int)x - 1][(int)z] == false)
     {
       // go SOUTH
-      return  SOUTH;
+      return SOUTH;
     }
     else if (visitedSquares[(int)x][(int)z - 1] == false)
     {
@@ -97,7 +98,7 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
     {
       // go EAST
       return EAST;
-    }    
+    }
   }
   if (botDirection == EAST)
   {
@@ -117,12 +118,12 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
     {
       // go NORTH
       return NORTH;
-    }    
+    }
   }
   if (botDirection == WEST)
   {
     // set EAST to visited
-    visitedSquares[(int)x][(int)z + 1] = true;    
+    visitedSquares[(int)x][(int)z + 1] = true;
     if (visitedSquares[(int)x][(int)z - 1] == false)
     {
       // go WEST
@@ -137,9 +138,9 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
     {
       // go SOUTH
       return SOUTH;
-    }     
+    }
   }
-  cout<<"SERVER DEBUG: return NORTH eventhough direction selected"<<endl;
+  cout << "SERVER DEBUG: return NORTH eventhough direction selected" << endl;
   return botDirection;
 }
 
@@ -151,28 +152,35 @@ void setup()
   receiver->setChannel(receiverChannel);
   emitter = supervisor->getEmitter("emitter");
   emitter->setChannel(emitterChannel);
-
 }
 
+// DEBUG FUNCTION: READ DIRECTION THAT IS SEND TO BOT
 void readDirection(movementDirection x)
 {
-  switch (x){
-    case 0:
-      cout<<"SERVER DEBUG: GO direction NORTH"<<endl;
-      break;
-    case 1:
-      cout<<"SERVER DEBUG: GO direction EAST"<<endl;
-      break;
-    case 2:
-      cout<<"SERVER DEBUG: GO direction SOUTH"<<endl;
-      break;
-    case 3:
-      cout<<"SERVER DEBUG: GO direction WEST"<<endl;
-      break;
-    default:
-      cout<<"SERVER DEBUG: ERROR"<<endl;
-      break;
+  switch (x)
+  {
+  case 0:
+    cout << "SERVER DEBUG: GO direction NORTH" << endl;
+    break;
+  case 1:
+    cout << "SERVER DEBUG: GO direction EAST" << endl;
+    break;
+  case 2:
+    cout << "SERVER DEBUG: GO direction SOUTH" << endl;
+    break;
+  case 3:
+    cout << "SERVER DEBUG: GO direction WEST" << endl;
+    break;
+  default:
+    cout << "SERVER DEBUG: ERROR" << endl;
+    break;
   }
+}
+
+void emitterChannelSetter(int channel)
+{
+  emitter->setChannel(channel);
+  return;
 }
 
 int main(int argc, char **argv)
@@ -183,20 +191,27 @@ int main(int argc, char **argv)
   {
     if (receiver->getQueueLength() > 0)
     {
-      receivePackage *incomingPackage = (struct receivePackage *)receiver->getData();
-      receivePackage savedPackage = *incomingPackage; // {incomingPackage->botInfo, incomingPackage->wallInfo};
-      receiver->nextPacket();
+      receivePackage *incomingPackage = (receivePackage *)receiver->getData();
+      receivePackage savedPackage = *incomingPackage;
+
       wallSetter(savedPackage.botInfo.ptnPair.xCoordinate, savedPackage.botInfo.ptnPair.zCoordinate, savedPackage.wallInfo);
+
       // if square already visited send info back to bot
       movementDirection giveDirection = squareChecker(savedPackage.botInfo.ptnPair.xCoordinate, savedPackage.botInfo.ptnPair.zCoordinate, savedPackage.botInfo.direction);
-      // readDirection(giveDirection);
-      cout<<giveDirection<<endl;
+
+      // debug function
+      readDirection(giveDirection);
+
+      // send direction to bot
+      emitterChannelSetter(savedPackage.botNr);
       emitter->send(&giveDirection, sizeof(giveDirection));
-      cout<<"SERVER DEBUG: MESSAGE SENT"<<endl;
+      cout << "SERVER DEBUG: MESSAGE SENT TO BOTNR: " << savedPackage.botNr << endl;
+
+      receiver->nextPacket();
     }
   }
   receiver->disable();
   delete receiver;
   delete supervisor;
-  return 0;
+  return EXIT_SUCCESS;
 }
