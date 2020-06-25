@@ -11,3 +11,4 @@ controllers/communication/build/
 controllers/receiver/build
 controllers/GPS4wheeler/build/release
 controllers/my_controller/build/release/my_controller.d
+textures/

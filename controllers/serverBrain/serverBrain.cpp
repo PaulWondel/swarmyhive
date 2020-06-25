@@ -35,32 +35,30 @@ struct exitSignal
 
 void wallSetter(double x, double z, Walls intersectionWall) // CHECKS FOR INTERSECTIONS
 {
-  // to fix if it is an intersection ignore if loop depending which direction you're coming from
-  // PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
   cout << "SERVER DEBUG: CHECKING INTERSECTION" << endl;
   if (intersectionWall.up)
   {
     // it goes into this loop if path NORTH of it is blocked
     visitedSquares[(int)x + 1][(int)z] = true;
-    cout << "SERVER DEBUG: NORTH WALL TRUE" << endl;
+    // cout << "SERVER DEBUG: NORTH WALL TRUE" << endl;
   }
   if (intersectionWall.down)
   {
     // it goes into this loop if path SOUTH of it is blocked
     visitedSquares[(int)x - 1][(int)z] = true;
-    cout << "SERVER DEBUG: SOUTH WALL TRUE" << endl;
+    // cout << "SERVER DEBUG: SOUTH WALL TRUE" << endl;
   }
   if (intersectionWall.right)
   {
     // it goes into this loop if path EAST of it is blocked
     visitedSquares[(int)x][(int)z + 1] = true;
-    cout << "SERVER DEBUG: EAST WALL TRUE" << endl;
+    // cout << "SERVER DEBUG: EAST WALL TRUE" << endl;
   }
   if (intersectionWall.left)
   {
     // it goes into this loop if path WEST of it is blocked
     visitedSquares[(int)x][(int)z - 1] = true;
-    cout << "SERVER DEBUG: WEST WALL TRUE" << endl;
+    // cout << "SERVER DEBUG: WEST WALL TRUE" << endl;
   }
 }
 
@@ -147,7 +145,7 @@ movementDirection squareChecker(double x, double z, movementDirection botDirecti
       return SOUTH;
     }
   }
-  cout << "SERVER DEBUG: return NORTH eventhough direction selected" << endl;
+  // cout << "SERVER DEBUG: return NORTH eventhough direction selected" << endl;
   return botDirection;
 }
 

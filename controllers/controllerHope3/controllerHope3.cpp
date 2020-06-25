@@ -107,21 +107,10 @@ double rightSpeed1;
 double leftSpeed2;
 double rightSpeed2;
 bool status = true;
-bool setStartCoordsOnce = true;
-bool isBackTracking = false;
-bool initialPop = true;
-bool isVisited;
-Coordinates previousCoord; //= {0, 0};
-Coordinates currentCoord;  // {0,0};
-stack<CoordinateWalls> coordStack;
-double UP = 1.5708;     // 90 degrees
-double RIGHT = 0.0;     // 0 degrees
-double DOWN = -1.5708;  // 270/-90 degrees
-double LEFT = 3.1415;   // 180 degrees
-double margin = 0.7854; // 45 degrees
-double _botDirection;
+Coordinates previousCoord;
+Coordinates currentCoord;
 double directionValue[] = {0, 1, 0, 0};
-double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
+double trans_center_values[] = {0.06665, 0.02, 0.06665};
 bool visitedSquares[15][15] = {{false}};
 Walls intersectionWalls = {{false}};
 int *stopper;
@@ -276,15 +265,12 @@ void wallDetection(Coordinates xzCoords, movementDirection direction)
 
 bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECKS FOR INTERSECTIONS
 {
-  // to fix if it is an intersection ignore if loop depending which direction you're coming from
-  //PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
   int pathsFound = 0;
   int frontSensorData = ds[0]->getValue();
   int rightSensorData = ds[1]->getValue();
   int leftSensorData = ds[2]->getValue();
   int backSensorData = ds[3]->getValue();
 
-  // cout << "ROBOT DEBUG: is it at intersection?" << endl;
   if (frontSensorData >= 1000)
   {
     pathsFound++;
@@ -318,20 +304,6 @@ bool intersectionCheck(double x, double z, movementDirection botHeading) //CHECK
   }
 }
 
-void getStartingCoordinates(double x, double z, bool state, movementDirection direction) //USED TO SET STARTING COORDINATES OF BOT
-{
-
-  Coordinates startCoord = {x, z};
-
-  if (state)
-  {
-    previousCoord = startCoord;
-    currentCoord = startCoord;
-    wallDetection(startCoord, direction);
-    state = false;
-  }
-}
-
 void onlyPositives(movementDirection direction) //NOT OUT OF BOUNDS
 {
   // checks if it is out of bounds or not (0.0625 sets it to the middle of a square and *8 scales it up)
@@ -339,14 +311,6 @@ void onlyPositives(movementDirection direction) //NOT OUT OF BOUNDS
   double upScaler = 7.5;       //upscale value
   double scaledTransValueX = ((trans_values[0] - halfSquare) * upScaler);
   double scaledTransValueZ = ((trans_values[2] - halfSquare) * upScaler);
-
-  if (setStartCoordsOnce)
-  {
-    double tempx = round(((trans_values[0] - halfSquare) * upScaler));
-    double tempz = round(((trans_values[2] - halfSquare) * upScaler));
-    getStartingCoordinates(tempx, tempz, setStartCoordsOnce, direction);
-    setStartCoordsOnce = false;
-  }
 
   //NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3
 
@@ -419,98 +383,6 @@ void onlyPositives(movementDirection direction) //NOT OUT OF BOUNDS
   // botMovement(true);
 }
 
-void testTurnBackTrack(movementDirection reverseDirection)
-{
-  int frontSensorData = ds[0]->getValue();
-
-  if (frontSensorData < 500)
-  {
-    switch (reverseDirection)
-    {
-    case EAST:
-      directionValue[3] = 0;
-      break;
-
-    case WEST:
-      directionValue[3] = 3.1415;
-      break;
-
-    case NORTH:
-      directionValue[3] = 1.5708;
-      break;
-
-    case SOUTH:
-      directionValue[3] = -1.5708;
-      break;
-    }
-    botMovement(false);
-
-    setRotationXYZ();
-    rotation_field->setSFRotation(directionValue);
-
-    // botMovement(true);
-  }
-  else
-  {
-    // botMovement(true);
-  }
-}
-
-movementDirection reverseDirection(movementDirection topStackDirection) //TAKES INCOMING DIRECTION AND SETS IT TO OPPOSITE. USED IN BACKTRACKING METHODS
-{
-  switch (topStackDirection)
-  {
-  case WEST:
-    return EAST;
-    break;
-
-  case EAST:
-    return WEST;
-    break;
-
-  case NORTH:
-    return SOUTH;
-    break;
-
-  case SOUTH:
-    return NORTH;
-    break;
-  }
-  return SOUTH;
-}
-
-void testTurnAfterBacktracking(movementDirection direction) //TAKES THE DIRECTION OF THE PREVIOUS COORD
-{
-  botMovement(false); //stops bot movement
-  switch (direction)
-  {
-  case EAST:
-    directionValue[3] = 0;
-    break;
-
-  case WEST:
-    directionValue[3] = 3.1415;
-    break;
-
-  case NORTH:
-    directionValue[3] = 1.5708;
-    break;
-
-  case SOUTH:
-    directionValue[3] = -1.5708;
-    break;
-  }
-
-  //double tempx = round(((trans_values[0] - 0.0625) * 8));   //NOT USED
-  //double tempz = round(((trans_values[2] - 0.0625) * 8));
-  // cout << "ROBOT DEBUG: pop?" << endl;
-  coordStack.pop();
-  setRotationXYZ();
-  rotation_field->setSFRotation(directionValue);
-  isBackTracking = false;
-  // botMovement(true);
-}
-
 void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
 {
   int frontSensorData = ds[0]->getValue();
@@ -545,8 +417,8 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
         tempDirection = WEST;
         break;
       }
-      setRotationXYZ();                              //fix rotation values
-      rotation_field->setSFRotation(directionValue); //rotate bot
+      setRotationXYZ();                              // set rotation values
+      rotation_field->setSFRotation(directionValue); // rotate bot
     }
     else if (leftSensorData > 800) //if left path is open
     {
@@ -577,16 +449,11 @@ void testTurn(movementDirection direction) //TURNS TO SPECIFIED DIRECTION
     }
     else // if dead end
     {
-
       setRotationXYZ();
       directionValue[3] = directionValue[3] + 3.1415;
       rotation_field->setSFRotation(directionValue);
-      cout << "ROBOT DEBUG: turning 180" << endl;
+      // cout << "ROBOT DEBUG: turning 180" << endl;
     }
-  }
-  else // if path is clear, keep moving forward
-  {
-    // botMovement(true);
   }
 }
 
@@ -670,7 +537,6 @@ void receiveMessage()
     movementDirection savedMessage = *message;
     directionFromServer(savedMessage);
     receiver->nextPacket();
-    // cout << savedMessage << endl;
     cout << "ROBOT DEBUG: MESSAGE RECEIVED FROM SERVER" << endl;
     cout << "ROBOT DEBUG: START MOVING" << endl;
   }
