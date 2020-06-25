@@ -25,35 +25,42 @@ Emitter *emitter;
 // Communication Settings
 const int receiverChannel = -1; // set receiver channel
 const int emitterChannel = 1;   // set emitter channel
+const int exitTag = 300;
+
+struct exitSignal
+{
+  int tag;
+  char messageContent[];
+};
 
 void wallSetter(double x, double z, Walls intersectionWall) // CHECKS FOR INTERSECTIONS
 {
   // to fix if it is an intersection ignore if loop depending which direction you're coming from
   // PROBLEM HERE MAKE IT CHECK SENSORS TO DETERMINE INTERSECTION AND NOT X,
-  cout << "SERVER DEBUG: checking intersection" << endl;
+  cout << "SERVER DEBUG: CHECKING INTERSECTION" << endl;
   if (intersectionWall.up)
   {
     // it goes into this loop if path NORTH of it is blocked
     visitedSquares[(int)x + 1][(int)z] = true;
-    cout << "SERVER DEBUG: NORTH wall set to true" << endl;
+    cout << "SERVER DEBUG: NORTH WALL TRUE" << endl;
   }
   if (intersectionWall.down)
   {
     // it goes into this loop if path SOUTH of it is blocked
     visitedSquares[(int)x - 1][(int)z] = true;
-    cout << "SERVER DEBUG: SOUTH wall set to true" << endl;
+    cout << "SERVER DEBUG: SOUTH WALL TRUE" << endl;
   }
   if (intersectionWall.right)
   {
     // it goes into this loop if path EAST of it is blocked
     visitedSquares[(int)x][(int)z + 1] = true;
-    cout << "SERVER DEBUG: EAST wall set to true" << endl;
+    cout << "SERVER DEBUG: EAST WALL TRUE" << endl;
   }
   if (intersectionWall.left)
   {
     // it goes into this loop if path WEST of it is blocked
     visitedSquares[(int)x][(int)z - 1] = true;
-    cout << "SERVER DEBUG: WEST wall set to true" << endl;
+    cout << "SERVER DEBUG: WEST WALL TRUE" << endl;
   }
 }
 
@@ -200,16 +207,21 @@ int main(int argc, char **argv)
       movementDirection giveDirection = squareChecker(savedPackage.botInfo.ptnPair.xCoordinate, savedPackage.botInfo.ptnPair.zCoordinate, savedPackage.botInfo.direction);
 
       // debug function
-      readDirection(giveDirection);
+      // readDirection(giveDirection);
 
       // send direction to bot
       emitterChannelSetter(savedPackage.botNr);
       emitter->send(&giveDirection, sizeof(giveDirection));
       cout << "SERVER DEBUG: MESSAGE SENT TO BOTNR: " << savedPackage.botNr << endl;
 
+      if (savedPackage.exit == true)
+      {
+        cout << "SERVER DEBUG: EXIT FOUND: STOP ALL BOTS" << endl;
+        emitter->setChannel(-1);
+        int stopper = 1;
+        emitter->send(&stopper, sizeof(stopper));
+      }
       receiver->nextPacket();
-
-      // if coordinates have exit tag, print exit received
     }
   }
   receiver->disable();

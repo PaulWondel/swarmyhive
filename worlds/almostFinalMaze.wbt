@@ -262,7 +262,7 @@ DEF Server Robot {
   translation 0.97194 0.15 -0.256874
   children [
     DEF emitter Emitter {
-      channel 2
+      channel 4
     }
     DEF receiver Receiver {
       channel -1
@@ -288,8 +288,8 @@ DEF Server Robot {
   supervisor TRUE
 }
 DEF botJr Robot {
-  translation 1.92741 0.0107799 0.598189
-  rotation 4.8860033095066345e-06 0.9999999999739027 -5.321812258437297e-06 1.5708
+  translation 1.93677 0.0107799 0.600654
+  rotation 4.886003309506635e-06 0.9999999999739027 -5.3218122584372975e-06 1.5708
   children [
     DEF exitReceiver Receiver {
       name "exitReceiver"
@@ -437,7 +437,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991243424095 0.007000006063598781
-        rotation 0.7069152115813139 -0.7069178082305283 -0.023196897238479678 3.187977958991352
+        rotation 0.7069152115813139 -0.7069178082305283 -0.0231968972384797 3.187977958991352
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -501,7 +501,7 @@ DEF botJr Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991243424471 -0.007499993936400678
-        rotation 0.34866833071434006 -0.34866961144692044 -0.8699769521144392 4.573545007273717
+        rotation 0.34866833071434 -0.34866961144692044 -0.8699769521144393 4.573545007273717
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -539,8 +539,8 @@ DEF botJr Robot {
   supervisor TRUE
 }
 DEF botJr2 Robot {
-  translation 1.93646 0.0108067 0.3318
-  rotation -0.9999941785238499 0.003279671187880661 -0.0009416343825017016 -1.0710551799245132e-05
+  translation 1.94007 0.0108067 0.324563
+  rotation 0.9999941785238499 -0.0032796711878806607 0.0009416343825017016 1.0710566582133861e-05
   children [
     DEF exitReceiver Receiver {
       name "exitReceiver"
@@ -720,7 +720,7 @@ DEF botJr2 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
-        rotation 0.7066920002682435 -0.7066945960975538 -0.034193049050705776 3.209951867934184
+        rotation 0.7066920002682435 -0.7066945960975538 -0.0341930490507058 3.209951867934184
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -909,7 +909,7 @@ DEF botJr3 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
-        rotation 0.336669492722621 -0.33667072938093 -0.879378458144163 4.584197930603933
+        rotation 0.33666949272262103 -0.33667072938093 -0.879378458144163 4.584197930603933
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -940,7 +940,7 @@ DEF botJr3 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991436128549 0.007000006332847504
-        rotation 0.7066920092189692 -0.7066946050483142 -0.03419267906530899 3.2099511288302307
+        rotation 0.7066920092189694 -0.7066946050483144 -0.03419267906530896 3.2099511288302307
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -972,7 +972,7 @@ DEF botJr3 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128895 -0.007499993667152026
-        rotation 0.7066920002682435 -0.7066945960975538 -0.034193049050705804 3.209951867934184
+        rotation 0.7066920002682435 -0.7066945960975538 -0.034193049050705825 3.209951867934184
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1161,7 +1161,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128541 0.007000006332847494
-        rotation 0.33666949272262126 -0.33667072938093 -0.8793784581441629 4.584197930603934
+        rotation 0.3366694927226213 -0.33667072938093 -0.879378458144163 4.584197930603934
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1192,7 +1192,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.004799991436128548 0.007000006332847504
-        rotation 0.7066920092189695 -0.706694605048314 -0.03419267906530898 3.2099511288302303
+        rotation 0.7066920092189694 -0.706694605048314 -0.034192679065308956 3.2099511288302303
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1224,7 +1224,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation 0.014100000000000001 -0.004799991436128896 -0.007499993667152026
-        rotation 0.7066920002682435 -0.7066945960975538 -0.034193049050705734 3.2099518679341843
+        rotation 0.7066920002682435 -0.7066945960975538 -0.034193049050705755 3.2099518679341843
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -1256,7 +1256,7 @@ DEF botJr4 Robot {
       ]
       endPoint Solid {
         translation -0.014100000000000001 -0.00479999143612891 -0.007499993667152008
-        rotation 0.3366689114120112 -0.3366701480681851 -0.879378903254108 4.584198432614912
+        rotation 0.3366689114120114 -0.3366701480681851 -0.8793789032541078 4.584198432614912
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {

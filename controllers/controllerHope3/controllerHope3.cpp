@@ -5,7 +5,7 @@
 
 // to change:
 // const int botNr
-// const int channel 
+// const int channel
 // robot_node = supervisor->getFromDef
 
 #include <webots/DistanceSensor.hpp>
@@ -22,6 +22,14 @@
 
 using namespace webots;
 using namespace std;
+
+// Communication Settings
+const int channel = 3; // set emitter/receiver channel, every bot has it's own channel
+const string botName = "botJr3";
+const int botID = 3;
+// for exit Signal
+const int exitTag = 162;
+bool run_state = true;
 
 /*####### STRUCTS ########*/
 
@@ -61,7 +69,8 @@ struct sendPackage // save info in struct to send in a package
 {
   CoordinateWalls botInfo;
   Walls wallInfo;
-  const int botNr = 3; // sets the id number for the bot
+  const int botNr = botID; // sets the id number for the bot
+  bool exit = false;
 };
 
 struct exitSignal
@@ -115,13 +124,7 @@ double directionValue[] = {0, 1, 0, 0};
 double trans_center_values[] = {0.0625, 0.02, 0.0625}; // center of (0,0)
 bool visitedSquares[15][15] = {{false}};
 Walls intersectionWalls = {{false}};
-
-// for exit Signal
-const int exitTag = 162;
-bool run_state = true;
-
-// Communication Settings
-const int channel = 3; // set emitter/receiver channel, every bot has it's own channel
+int *stopper;
 
 /*####### METHODS ########*/
 
@@ -621,10 +624,12 @@ void exitSeeker()
     exitSignal messageReceived = *exitMessage;
     if (messageReceived.tag == exitTag)
     {
-      cout << "ROBOT DEBUG: EXIT FOUND" << endl;
+      CoordinateWalls xzDirExit = {currentCoord, setTrueDirection(), true};
+      sendPackage exitInfo = {xzDirExit, intersectionWalls, botID, true};
+      sendPackageFuncton(exitInfo);
+      cout << "ROBOT DEBUG: EXIT FOUND BOTNR: " << exitInfo.botNr << endl;
       run_state = false;
       botMovement(false);
-      // send exit coordinates
     }
   }
   receiver->nextPacket();
@@ -714,7 +719,7 @@ void updateValues()
       receiveMessage();
 
       // cout << "ROBOT DEBUG:"
-          //  << "  x: " << xzDir.ptnPair.xCoordinate << "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction << endl;
+      //  << "  x: " << xzDir.ptnPair.xCoordinate << "  z: " << xzDir.ptnPair.zCoordinate << "  Dir:   " << xzDir.direction << endl;
     }
     // resets the values of the struct of intersection Walls
     intersectionWalls = {false};
@@ -737,7 +742,7 @@ void setup() // RUN SETUP ONCE FOR INITIALIZATION
     wheels[i]->setVelocity(5.0);
   }
 
-  robot_node = supervisor->getFromDef("botJr3");
+  robot_node = supervisor->getFromDef(botName);
   trans_field = robot_node->getField("translation");
   rotation_field = robot_node->getField("rotation");
 
@@ -756,6 +761,21 @@ void setup() // RUN SETUP ONCE FOR INITIALIZATION
   emitter->setChannel(channel);
 }
 
+void kill()
+{
+  if (exitReceiver->getQueueLength() > 0)
+  {
+    stopper = (int *)receiver->getData();
+    int checker = *stopper;
+    if (checker == 1)
+    {
+      cout << "ROBOT DEBUG: STOPPING BOT" << endl;
+      botMovement(false);
+      run_state = false;
+    }
+  }
+}
+
 int main()
 {
   supervisor = new Supervisor();
@@ -763,6 +783,7 @@ int main()
 
   while (supervisor->step(TIME_STEP) != -1 && run_state == true)
   {
+    kill();
     trans_values = trans_field->getSFVec3f();
     rotationValues = rotation_field->getSFRotation();
     compassDirection = compass->getValues();

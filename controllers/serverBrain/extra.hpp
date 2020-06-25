@@ -34,6 +34,7 @@ struct receivePackage // save info in struct to send in a package
   Intersection botInfo;
   Walls wallInfo;
   const int botNr;
+  bool exit;
 };
 
 // Function to place coordinates into a struct
